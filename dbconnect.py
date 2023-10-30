@@ -12,6 +12,8 @@ def mysqlconnect():
         db='projet_python_ars',
     )
 
+    
+
     #Change the name of the table as per requirement
 
     cur = conn.cursor()
