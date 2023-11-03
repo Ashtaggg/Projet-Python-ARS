@@ -33,14 +33,14 @@ def mysqlconnect():
     conn.close()
 
 
-
+cuicui = tk.Tk()
+cuicui.title("Cuicui")
+cuicui.geometry("1920x1080")  
+cuicui.mainloop() 
 
 
 # Driver Code
 
 if __name__ == "__main__":
     mysqlconnect()
-    cuicui = tk.Tk()
-    cuicui.title("Cuicui")
-    cuicui.geometry("1920x1080")  
-    cuicui.mainloop() 
+    
