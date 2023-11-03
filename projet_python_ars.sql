@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 30 oct. 2023 à 17:48
--- Version du serveur : 8.0.27
--- Version de PHP : 7.4.26
+-- Généré le : ven. 03 nov. 2023 à 10:42
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -120,7 +120,23 @@ CREATE TABLE IF NOT EXISTS `flight` (
   `TicketPrice` decimal(10,2) NOT NULL,
   `SeatsAvailable` int NOT NULL,
   PRIMARY KEY (`FlightID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `flight`
+--
+
+INSERT INTO `flight` (`FlightID`, `DepartureCity`, `ArrivalCity`, `DepartureTime`, `ArrivalTime`, `TicketPrice`, `SeatsAvailable`) VALUES
+(1, 'Paris', 'Berlin', '2023-11-05 08:00:00', '2023-11-05 10:30:00', '150.00', 120),
+(2, 'Madrid', 'Lisbon', '2023-11-06 10:30:00', '2023-11-06 12:00:00', '120.00', 100),
+(3, 'Rome', 'Amsterdam', '2023-11-07 09:15:00', '2023-11-07 11:45:00', '180.00', 90),
+(4, 'London', 'Barcelona', '2023-11-08 11:45:00', '2023-11-08 14:15:00', '200.00', 80),
+(5, 'Berlin', 'Paris', '2023-11-09 07:30:00', '2023-11-09 09:00:00', '140.00', 110),
+(6, 'Lisbon', 'Madrid', '2023-11-10 13:00:00', '2023-11-10 15:30:00', '130.00', 95),
+(7, 'Amsterdam', 'Rome', '2023-11-11 12:45:00', '2023-11-11 15:15:00', '170.00', 75),
+(8, 'Barcelona', 'London', '2023-11-12 14:20:00', '2023-11-12 16:50:00', '190.00', 85),
+(9, 'Paris', 'Amsterdam', '2023-11-13 16:30:00', '2023-11-13 18:45:00', '160.00', 70),
+(10, 'Rome', 'Paris', '2023-11-14 15:10:00', '2023-11-14 17:30:00', '170.00', 60);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
