@@ -11,12 +11,12 @@ def go_register():
 
 
 def login_page():
-    Cuicui = tk.Label(cuicui, text="Cuicui Airline", font = ('broadway' , 30))     # Crée un libellé (label)
+    Cuicui = tk.Label(cuicui, text="Cuicui Airline", font = ('broadway' , 30))
 
     Title = tk.Label(text="Login",font = ('broadway' , 15))
 
     Register = tk.Label(text="Not Registered?",font = ('broadway' , 10))
-    register = tk.Button(     # Crée un bouton
+    register = tk.Button(
         cuicui,
         text = "Register",
         bg = "white",
@@ -31,7 +31,7 @@ def login_page():
     Password = tk.Label(text="Password :",fon = ('broadway' , 10))
     password = tk.Entry(fg = "black", bg = "white", width = 50, show = "*")
 
-    login = tk.Button(     # Crée un bouton
+    login = tk.Button(
         cuicui,
         text = "Sign up",
         bg = "black",
