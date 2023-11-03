@@ -2,9 +2,11 @@ import pymysql
 from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
 from dbconnect import cuicui
 import tkinter as tk
+import effacer
 import login
 
 def go_login():
+    effacer.effacer_page()
     login.login_page()
 
 
@@ -14,12 +16,12 @@ def register_page():
 
     Title = tk.Label(text="Create new account",font = ('broadway' , 15))
 
-    Login = tk.Label(text="Already Registered? Login",font = ('broadway' , 10))
+    Login = tk.Label(text="Already Registered?",font = ('broadway' , 10))
     login = tk.Button(     # Crée un bouton
         cuicui,
         text = "Login",
-        bg = "black",
-        fg = "white",
+        bg = "white",
+        fg = "black",
         font  =('broadway' , 10),
         command = go_login)
 
@@ -38,7 +40,7 @@ def register_page():
     Date = tk.Label(text="Date of birth :",font = ('broadway' , 10))
     date = tk.Entry(fg = "black", bg = "white", width = 50)
 
-    bouton = tk.Button(     # Crée un bouton
+    singup = tk.Button(     # Crée un bouton
         cuicui,
         text = "Sign up",
         bg = "black",
@@ -70,7 +72,7 @@ def register_page():
     Date.pack()
     date.pack()
 
-    bouton.pack()
+    singup.pack()
 
 
 
