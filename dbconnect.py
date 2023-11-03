@@ -1,4 +1,6 @@
 import pymysql
+import tkinter as tk
+
 
 
 def mysqlconnect():
@@ -38,3 +40,5 @@ def mysqlconnect():
 
 if __name__ == "__main__":
     mysqlconnect()
+    cuicui = tk.Tk()
+    cuicui.title("Cuicui")
