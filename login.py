@@ -15,6 +15,17 @@ def go_register():
 
 
 
+def toggle_password_visibility(password, passwordButton):
+    current_show_value = password.cget("show")
+    if current_show_value == "*":
+        password.config(show="")
+        passwordButton.config(text="Hide")
+    else:
+        password.config(show="*")
+        passwordButton.config(text="Show")
+
+
+
 
 def verify_login(Email, Password, verify):
     conn = pymysql.connect(
@@ -77,6 +88,12 @@ def login_page():
 
     Password = tk.Label(text="Password :",fon = ('broadway' , 10))
     password = tk.Entry(fg = "black", bg = "white", width = 50, show = "*")
+    passwordButton = tk.Button(
+        text = "Show",
+        bg = "white",
+        fg = "black",
+        font = ('broadway' , 10),
+        command = lambda: toggle_password_visibility(password, passwordButton))
 
     verify = tk.Label(text = "",font = ('broadway' , 10))
 
@@ -102,6 +119,7 @@ def login_page():
 
     Password.pack()
     password.pack()
+    passwordButton.pack()
 
     login.pack()
 
