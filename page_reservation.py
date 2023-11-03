@@ -1,12 +1,34 @@
+import pymysql
+from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
 import tkinter as tk
-from tkinter import ttk
+#from tkinter import ttk
 
+conn = pymysql.connect(
+    host='localhost',
+    user='root',
+    password='',
+    db='projet_python_ars',
+)
+cur = conn.cursor()
+
+# Exécuter une requête SQL pour sélectionner les données de la table Flight
+cur.execute("SELECT * FROM Flight")
+
+# Récupérer toutes les lignes de résultats
+rows = cur.fetchall()
+
+# Fermer le curseur et la connexion à la base de données
+cur.close()
+conn.close()
+
+flights = []
+for row in rows:
+    flights.append(row)
+
+for i in flights:
+    print(i)
 # Liste de vols fictifs     A AFFICHER AVEC LA BDD
-flights = [
-    {"id": 1, "departure": "New York", "arrival": "Los Angeles", "price": 300},
-    {"id": 2, "departure": "Chicago", "arrival": "Miami", "price": 250},
-    {"id": 3, "departure": "San Francisco", "arrival": "Las Vegas", "price": 150},
-]
+#flights = [{"id": 1, "departure": "New York", "arrival": "Los Angeles", "price": 300},{"id": 2, "departure": "Chicago", "arrival": "Miami", "price": 250},{"id": 3, "departure": "San Francisco", "arrival": "Las Vegas", "price": 150},]
 
 # Fonction pour gérer la réservation
 def make_reservation():
