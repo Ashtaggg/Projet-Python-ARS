@@ -1,7 +1,7 @@
 import pymysql
 import tkinter as tk
-from initialization import cuicui
 from PIL import Image, ImageTk
+from initialization import cuicui
 
 class FlightReservationApp:
     def __init__(self, root):
@@ -42,11 +42,12 @@ class FlightReservationApp:
 
     def create_widgets(self):
         # Charger l'image de fond avec PIL (Pillow)
-        bg_image = Image.open("avion.jpg")
+        bg_image = Image.open("./photos/avion.jpg")
         bg_photo = ImageTk.PhotoImage(bg_image)
 
         # Créer un canevas pour afficher l'image de fond
-        canvas = tk.Canvas(self.root, width=bg_image.width, height=bg_image.height)
+        canvas = tk.Canvas(cuicui, width=bg_image.width, height=bg_image.height)
+
         canvas.pack()
         canvas.create_image(0, 0, anchor=tk.NW, image=bg_photo)
         canvas.image = bg_photo
@@ -80,6 +81,5 @@ class FlightReservationApp:
         self.submit_button.pack()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = FlightReservationApp(root)
-    root.mainloop()
+    app = FlightReservationApp(cuicui)
+    cuicui.mainloop()
