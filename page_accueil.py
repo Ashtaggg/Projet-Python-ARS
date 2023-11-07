@@ -1,6 +1,4 @@
-import pymysql
-from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
-from dbconnect import cuicui
+from initialization import cuicui
 import tkinter as tk
 from PIL import Image, ImageTk
 

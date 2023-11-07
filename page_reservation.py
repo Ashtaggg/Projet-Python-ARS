@@ -1,5 +1,6 @@
 import pymysql
 import tkinter as tk
+from initialization import cuicui
 from PIL import Image, ImageTk
 
 class FlightReservationApp:

@@ -1,5 +1,5 @@
 import hashlib
-from dbconnect import cuicui
+from initialization import cuicui
 import tkinter as tk
 import effacer
 import register
