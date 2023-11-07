@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="532564f9-2451-494f-a5d7-965d044be769" name="Changes" comment="photo" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PATH_TO_GIT" value="https://github.com/Ashtaggg/Projet-Python-ARS.git" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Kant1R12&quot;,
+      &quot;author&quot;: &quot;Ashtaggg&quot;
+    },
+    {
+      &quot;state&quot;: &quot;OPEN&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="a636777f-ff3e-4f9d-b181-d1fc85df3f74" />
+        <option name="url" value="https://github.com/Ashtaggg/Projet-Python-ARS.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2XZokVwnlWbrdhvFn4AVW1ZJPIG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/quent/OneDrive/Bureau/ECE/ING3/Python/Projet Python/P2/Projet-Python-ARS-main/page_reservation.py&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;
+    ]
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="532564f9-2451-494f-a5d7-965d044be769" name="Changes" comment="" />
+      <created>1698846107563</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698846107563</updated>
+      <workItem from="1698846108732" duration="13264000" />
+      <workItem from="1699108620014" duration="736000" />
+      <workItem from="1699109367041" duration="1589000" />
+      <workItem from="1699353699126" duration="202000" />
+      <workItem from="1699353968875" duration="932000" />
+      <workItem from="1699363004728" duration="809000" />
+      <workItem from="1699363922589" duration="3706000" />
+      <workItem from="1699368049764" duration="2293000" />
+      <workItem from="1699370640824" duration="9000" />
+    </task>
+    <task id="LOCAL-00001" summary="page_reservation.py">
+      <option name="closed" value="true" />
+      <created>1698953012903</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698953012903</updated>
+    </task>
+    <task id="LOCAL-00002" summary="test.py">
+      <option name="closed" value="true" />
+      <created>1698953094741</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698953094741</updated>
+    </task>
+    <task id="LOCAL-00003" summary="test.py">
+      <option name="closed" value="true" />
+      <created>1699008053716</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699008053716</updated>
+    </task>
+    <task id="LOCAL-00004" summary="bdd">
+      <option name="closed" value="true" />
+      <created>1699008208780</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1699008208780</updated>
+    </task>
+    <task id="LOCAL-00005" summary="accueil">
+      <option name="closed" value="true" />
+      <created>1699011146463</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699011146463</updated>
+    </task>
+    <task id="LOCAL-00006" summary="page ac">
+      <option name="closed" value="true" />
+      <created>1699013282868</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1699013282868</updated>
+    </task>
+    <task id="LOCAL-00007" summary="photo">
+      <option name="closed" value="true" />
+      <created>1699013629697</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699013629697</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="page_reservation.py" />
+    <MESSAGE value="test.py" />
+    <MESSAGE value="bdd" />
+    <MESSAGE value="accueil" />
+    <MESSAGE value="page ac" />
+    <MESSAGE value="photo" />
+    <option name="LAST_COMMIT_MESSAGE" value="photo" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Projet_Python_ARS$login.coverage" NAME="login Coverage Results" MODIFIED="1699366597467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/OneDrive/Bureau/ECE/ING3/Python/Projet Python/P2/Projet-Python-ARS-main" />
+    <SUITE FILE_PATH="coverage/Projet_Python_ARS$dbconnect.coverage" NAME="dbconnect Coverage Results" MODIFIED="1698846124968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projet_Python_ARS$effacer.coverage" NAME="effacer Coverage Results" MODIFIED="1699368475517" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projet_Python_ARS$page_reservation.coverage" NAME="page_reservation Coverage Results" MODIFIED="1699367567968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/OneDrive/Bureau/ECE/ING3/Python/Projet Python/P2/Projet-Python-ARS-main" />
+    <SUITE FILE_PATH="coverage/Projet_Python_ARS$page_accueil.coverage" NAME="page_accueil Coverage Results" MODIFIED="1699368478337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projet_Python_ARS$register.coverage" NAME="register Coverage Results" MODIFIED="1699366613053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/OneDrive/Bureau/ECE/ING3/Python/Projet Python/P2/Projet-Python-ARS-main" />
+  </component>
+</project>
