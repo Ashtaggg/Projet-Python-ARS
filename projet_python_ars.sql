@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 03 nov. 2023 à 15:58
+-- Généré le : mar. 07 nov. 2023 à 14:36
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `Type` int NOT NULL COMMENT '0 -> Member\r\n1 -> Admin',
   `MembershipNumber` int DEFAULT NULL,
   PRIMARY KEY (`CustomerID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `customer`
