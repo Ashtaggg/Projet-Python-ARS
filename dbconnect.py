@@ -3,7 +3,22 @@ import tkinter as tk
 
 
 
-def mysqlconnect():
+
+cuicui = tk.Tk()
+cuicui.title("Cuicui")
+cuicui.geometry("1920x1080")
+
+
+
+
+
+
+
+
+
+
+
+def mysqlconnect(request):
 
     # To connect MySQL database. Change the database name as per requirement
 
@@ -20,7 +35,7 @@ def mysqlconnect():
 
     cur = conn.cursor()
 
-    cur.execute("select * from customer")
+    cur.execute(request)
 
     output = cur.fetchall()
 
@@ -33,13 +48,8 @@ def mysqlconnect():
     conn.close()
 
 
-cuicui = tk.Tk()
-cuicui.title("Cuicui")
-cuicui.geometry("1920x1080")  
 
 
-# Driver Code
 
-if __name__ == "__main__":
-    mysqlconnect()
+
     

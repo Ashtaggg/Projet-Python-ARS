@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 03 nov. 2023 à 10:57
+-- Généré le : ven. 03 nov. 2023 à 15:58
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -68,10 +68,19 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `Email` varchar(255) DEFAULT NULL,
   `Username` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
-  `Type` enum('Regular','Senior','Child','Guest') NOT NULL,
+  `Type` int NOT NULL COMMENT '0 -> Member\r\n1 -> Admin',
   `MembershipNumber` int DEFAULT NULL,
   PRIMARY KEY (`CustomerID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `customer`
+--
+
+INSERT INTO `customer` (`CustomerID`, `FirstName`, `LastName`, `Email`, `Username`, `Password`, `Type`, `MembershipNumber`) VALUES
+(3, 'Alexis', 'RAYNAL', 'alexis.raynal@edu.ece.fr', '0', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, 0),
+(4, 'Quentin', 'RICHARD', 'quentin.richard@edu.ece.fr', '0', 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481', 1, 0),
+(5, 'Anthony', 'SABBAGH', 'anthony.sabbagh@edu.ece.fr', '0', '53ed5a8fd89da4f9e6a3c18138c9f6af39d4ea33c8f4650f0f9d849d0651ce64', 1, 0);
 
 -- --------------------------------------------------------
 
