@@ -1,5 +1,6 @@
 import pymysql
 import tkinter as tk
+from PIL import Image, ImageTk
 
 class FlightReservationApp:
     def __init__(self, root):
@@ -39,25 +40,25 @@ class FlightReservationApp:
         self.submit_button.update_idletasks()
 
     def create_widgets(self):
-        # Créer un canevas pour afficher l'image d'arrière-plan
-        bg_image = tk.PhotoImage(file="background.jpg")
-        canvas = tk.Canvas(self.root, width=bg_image.width(), height=bg_image.height())
-        canvas.create_image(0, 0, anchor=tk.NW, image=bg_image)
-        canvas.pack()
+        # Charger l'image de fond avec PIL (Pillow)
+        bg_image = Image.open("avion.jpg")
+        bg_photo = ImageTk.PhotoImage(bg_image)
 
+        # Créer un canevas pour afficher l'image de fond
+        canvas = tk.Canvas(self.root, width=bg_image.width, height=bg_image.height)
+        canvas.pack()
+        canvas.create_image(0, 0, anchor=tk.NW, image=bg_photo)
+        canvas.image = bg_photo
+
+        # Créer un cadre pour le contenu
         center_frame = tk.Frame(canvas)
-        center_frame.pack(expand=True)
+        center_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         welcome_label = tk.Label(center_frame, text="Bienvenue sur notre site de réservation de vols", font=("broadway", 16))
         welcome_label.pack()
 
-        # Initialisez self.flight_var
         self.flight_var = tk.StringVar(center_frame)
         self.flight_var.set(self.flights[0][0])
-
-        # Ajoutez de l'espace entre les labels en utilisant padx
-        spacer_label = tk.Label(center_frame, text="", font=("broadway", 10), padx=10)
-        spacer_label.pack()
 
         flight_label = tk.Label(center_frame, text="Sélectionnez un vol :", font=("broadway", 14))
         flight_option = tk.OptionMenu(center_frame, self.flight_var, *[flight[0] for flight in self.flights])
