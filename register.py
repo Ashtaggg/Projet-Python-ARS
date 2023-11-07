@@ -1,10 +1,9 @@
-import pymysql
 import hashlib
-from dbconnect import mysqlconnect
 from dbconnect import cuicui
 import tkinter as tk
 import effacer
 import login
+import query
 
 
 
@@ -29,20 +28,10 @@ def toggle_password_visibility(password, passwordButton):
 
 
 def verify_register(Firstname, Name, Email, Username, Password, Type, MembershipNumber, verify):
-    conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="",
-        db='projet_python_ars',
-    )
 
-    request = "SELECT COUNT(*) FROM customer WHERE Email = %s;"
+    request = "SELECT COUNT(*) FROM customer WHERE Email = '" + str(Email) + "';"
 
-    cur = conn.cursor()
-    cur.execute(request, Email)
-    conn.commit()
-    output = cur.fetchall()
-    conn.close()
+    output = query.requestDataBase(request)
 
     if Firstname == "" or Name == "" or Email == "" or Password == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855":
         verify.config(text="Please complete all the fields")
@@ -50,25 +39,9 @@ def verify_register(Firstname, Name, Email, Username, Password, Type, Membership
         verify.config(text="Your email is not available")
     else:
         verify.config(text="")
-        register(Firstname, Name, Email, Username, Password, Type, MembershipNumber)
+        request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `Username`, `Password`, `Type`, `MembershipNumber`) VALUES('" + str(Firstname) + "', '" + str(Name) + "', '" + str(Email) + "', '" + str(Username) + "', '" + str(Password) + "', '" + str(Type) + "', '" + str(MembershipNumber) + "');"
+        query.requestDataBase(request)
 
-
-
-
-def register(Firstname, Name, Email, Username, Password, Type, MembershipNumber):
-    conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="",
-        db='projet_python_ars',
-    )
-
-    request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `Username`, `Password`, `Type`, `MembershipNumber`) VALUES(%s, %s, %s, %s, %s, %s, %s);"
-
-    cur = conn.cursor()
-    cur.execute(request, (Firstname, Name, Email, Username, Password, Type, MembershipNumber))
-    conn.commit()
-    conn.close()
 
 
 

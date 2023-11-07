@@ -1,83 +1,83 @@
 import pymysql
-from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
-from dbconnect import cuicui
 import tkinter as tk
-#from tkinter import ttk
 
-conn = pymysql.connect(
-    host='localhost',
-    user='root',
-    password='',
-    db='projet_python_ars',
-)
-cur = conn.cursor()
+class FlightReservationApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Réservation de vol / CuiCui Airline")
+        self.load_flights()
 
-# Exécuter une requête SQL pour sélectionner les données de la table Flight
-cur.execute("SELECT * FROM Flight")
+        self.create_widgets()
 
-# Récupérer toutes les lignes de résultats
-rows = cur.fetchall()
+    def load_flights(self):
+        conn = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='',
+            db='projet_python_ars',
+        )
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM Flight")
+        rows = cur.fetchall()
+        self.flights = rows
+        cur.close()
+        conn.close()
 
-# Fermer le curseur et la connexion à la base de données
-cur.close()
-conn.close()
+    def make_reservation(self):
+        flight_id = self.flight_var.get()
+        departure_date = self.departure_date_entry.get()
+        arrival_date = self.arrival_date_entry.get()
+        # Ajoutez ici le code pour enregistrer la réservation dans la base de données ou effectuer d'autres opérations.
 
-flights = []
-for row in rows:
-    flights.append(row)
+        # Animation : Changement de couleur et de texte
+        self.submit_button.config(text="Réservation en cours...", state="disabled")
+        self.submit_button.update_idletasks()
+        self.submit_button.after(2000, lambda: self.reset_button())
 
-for i in flights:
-    print(i)
-# Liste de vols fictifs     A AFFICHER AVEC LA BDD
-#flights = [{"id": 1, "departure": "New York", "arrival": "Los Angeles", "price": 300},{"id": 2, "departure": "Chicago", "arrival": "Miami", "price": 250},{"id": 3, "departure": "San Francisco", "arrival": "Las Vegas", "price": 150},]
+    def reset_button(self):
+        self.submit_button.config(text="Réserver", state="active")
+        self.submit_button.update_idletasks()
 
-# Fonction pour gérer la réservation
-def make_reservation():
-    flight_id = flight_var.get()
-    departure_date = departure_date_entry.get()
-    arrival_date = arrival_date_entry.get()
-    # Ajoutez ici le code pour enregistrer la réservation dans la base de données ou effectuer d'autres opérations.
+    def create_widgets(self):
+        # Créer un canevas pour afficher l'image d'arrière-plan
+        bg_image = tk.PhotoImage(file="background.jpg")
+        canvas = tk.Canvas(self.root, width=bg_image.width(), height=bg_image.height())
+        canvas.create_image(0, 0, anchor=tk.NW, image=bg_image)
+        canvas.pack()
 
-    # Animation : Changement de couleur et de texte
-    submit_button.config(text="Réservation en cours...", state="disabled")
-    submit_button.update_idletasks()
-    submit_button.after(2000, lambda: reset_button())
+        center_frame = tk.Frame(canvas)
+        center_frame.pack(expand=True)
 
-def reset_button():
-    submit_button.config(text="Réserver", state="active")
-    submit_button.update_idletasks()
+        welcome_label = tk.Label(center_frame, text="Bienvenue sur notre site de réservation de vols", font=("broadway", 16))
+        welcome_label.pack()
 
-# Créer une fenêtre
-root = tk.Tk()
-root.title("Réservation de vol")
+        # Initialisez self.flight_var
+        self.flight_var = tk.StringVar(center_frame)
+        self.flight_var.set(self.flights[0][0])
 
-# Libellé de bienvenue
-welcome_label = tk.Label(root, text="Bienvenue sur notre site de réservation de vols")
-welcome_label.pack()
+        # Ajoutez de l'espace entre les labels en utilisant padx
+        spacer_label = tk.Label(center_frame, text="", font=("broadway", 10), padx=10)
+        spacer_label.pack()
 
-# Menu déroulant pour la sélection de vol
-flight_var = tk.StringVar(root)
-flight_var.set(flights[0]["id"])
-flight_label = tk.Label(root, text="Sélectionnez un vol :")
-flight_option = tk.OptionMenu(root, flight_var, *[(flight["id"], f"{flight['departure']} - {flight['arrival']}") for flight in flights])
-flight_label.pack()
-flight_option.pack()
+        flight_label = tk.Label(center_frame, text="Sélectionnez un vol :", font=("broadway", 14))
+        flight_option = tk.OptionMenu(center_frame, self.flight_var, *[flight[0] for flight in self.flights])
+        flight_label.pack()
+        flight_option.pack()
 
-# Champ de saisie pour la date de départ
-departure_date_label = tk.Label(root, text="Date de départ :")
-departure_date_entry = tk.Entry(root)
-departure_date_label.pack()
-departure_date_entry.pack()
+        departure_date_label = tk.Label(center_frame, text="Date de départ :", font=("broadway", 14))
+        self.departure_date_entry = tk.Entry(center_frame)
+        departure_date_label.pack()
+        self.departure_date_entry.pack()
 
-# Champ de saisie pour la date d'arrivée
-arrival_date_label = tk.Label(root, text="Date d'arrivée :")
-arrival_date_entry = tk.Entry(root)
-arrival_date_label.pack()
-arrival_date_entry.pack()
+        arrival_date_label = tk.Label(center_frame, text="Date d'arrivée :", font=("broadway", 14))
+        self.arrival_date_entry = tk.Entry(center_frame)
+        arrival_date_label.pack()
+        self.arrival_date_entry.pack()
 
-# Bouton pour soumettre la réservation
-submit_button = tk.Button(root, text="Réserver", command=make_reservation)
-submit_button.pack()
+        self.submit_button = tk.Button(center_frame, text="Réserver", font=("broadway", 14), command=self.make_reservation)
+        self.submit_button.pack()
 
-# Exécutez la fenêtre
-root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = FlightReservationApp(root)
+    root.mainloop()
