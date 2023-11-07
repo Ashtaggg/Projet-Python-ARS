@@ -1,11 +1,9 @@
-import pymysql
 import hashlib
-from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
 from dbconnect import cuicui
 import tkinter as tk
 import effacer
 import register
-
+import query
 
 
 
@@ -28,42 +26,25 @@ def toggle_password_visibility(password, passwordButton):
 
 
 def verify_login(Email, Password, verify):
-    conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="",
-        db='projet_python_ars',
-    )
 
-    request = "SELECT COUNT(*) FROM customer WHERE Email = %s;"
+    request = "SELECT COUNT(*) FROM customer WHERE Email = '" + str(Email) + "';"
 
-    cur = conn.cursor()
-    cur.execute(request, Email)
-    conn.commit()
-    output = cur.fetchall()
+    output = query.requestDataBase(request)
 
     if Email == "" or Password == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855":
         verify.config(text="Please complete all the fields")
     elif output[0][0] == 0:
         verify.config(text="Your email is not available")
     elif output[0][0] != 0:
-        request = "SELECT CustomerID FROM customer WHERE Email = %s;"
-        cur = conn.cursor()
-        cur.execute(request, Email)
-        conn.commit()
-        output = cur.fetchall()
+        request = "SELECT CustomerID FROM customer WHERE Email = '" + str(Email) + "';"
+        output = query.requestDataBase(request)
 
-        request = "SELECT Password FROM customer WHERE CustomerID = %s;"
-        cur = conn.cursor()
-        cur.execute(request, output[0][0])
-        conn.commit()
-        output = cur.fetchall()
+        request = "SELECT Password FROM customer WHERE CustomerID = '" + str(output[0][0]) + "';"
+        output = query.requestDataBase(request)
         if output[0][0] == Password:
             verify.config(text="Bienvenue")
         else:
             verify.config(text="Your password is not available")
-        
-    conn.close()
 
     
 
