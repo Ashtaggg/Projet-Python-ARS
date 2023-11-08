@@ -1,6 +1,7 @@
 import hashlib
 import initialization
 import tkinter as tk
+from tkcalendar import DateEntry
 import effacer
 import login
 import query
@@ -52,64 +53,79 @@ def register_page():
 
     canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
     canvas.place(x=0, y=0)
-    canvas.create_line(0, 75, 1920, 75, width=5, fill="black")
+    canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
 
-    Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font = ('broadway' , 30))
-    Cuicui.place(x=50, y=0)
+    Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font = ('Helvetica' , 30, 'bold'), fg="white", bg="black")
+    Cuicui.place(x=50, y=15)
 
-    Title = tk.Label(text = "Create new account",font = ('broadway' , 20))
-    Title.place(x=610, y=y0+50)
+    Title = tk.Label(text = "Create new account",font = ('Helvetica' , 30, 'bold'))
+    Title.place(x=570, y=y0+25)
 
-    Login = tk.Label(text = "Already Registered ? Login",font = ('broadway' , 10))
+    Login = tk.Label(text = "Already Registered ? Login",font = ('Helvetica' , 12, 'bold'))
     Login.place(x=665, y=y0+100)
     Login.bind("<Button-1>", go_login)
     
 
-    Name = tk.Label(text = "Name :",font = ('broadway' , 10))
-    Name.place(x=600, y=y0+180)
+    Firstname = tk.Label(text = "Firstname :",font = ('Helvetica' , 10, 'bold'))
+    Firstname.place(x=610, y=y0+180)
 
-    name = tk.Entry(fg = "black", bg = "white", width = 50)
-    name.place(x=600, y=y0+200)
+    firstname_frame = tk.Frame(initialization.cuicui)
+    firstname_frame.place(x=610, y=y0+200)
 
-
-
-    Firstname = tk.Label(text = "Firstname :",font = ('broadway' , 10))
-    Firstname.place(x=600, y=y0+230)
-
-    firstname = tk.Entry(fg = "black", bg = "white", width = 50)
-    firstname.place(x=600, y=y0+250)
+    firstname = tk.Entry(firstname_frame, fg="black", bg="white", width=50)
+    firstname.pack(ipady=5)
 
 
 
-    Email = tk.Label(text = "Email :",font = ('broadway' , 10))
-    Email.place(x=600, y=y0+280)
+    Name = tk.Label(text = "Name :",font = ('Helvetica' , 10, 'bold'))
+    Name.place(x=610, y=y0+250)
 
-    email = tk.Entry(fg = "black", bg = "white", width = 50)
-    email.place(x=600, y=y0+300)
+    name_frame = tk.Frame(initialization.cuicui)
+    name_frame.place(x=610, y=y0+270)
+
+    name = tk.Entry(name_frame, fg="black", bg="white", width=50)
+    name.pack(ipady=5)
 
 
 
-    Password = tk.Label(text="Password :",font = ('broadway' , 10))
-    Password.place(x=600, y=y0+330)
+    Email = tk.Label(text = "Email :",font = ('Helvetica' , 10, 'bold'))
+    Email.place(x=610, y=y0+320)
 
-    password = tk.Entry(fg = "black", bg = "white", width = 50, show = "*")
-    password.place(x=600, y=y0+350)
+    email_frame = tk.Frame(initialization.cuicui)
+    email_frame.place(x=610, y=y0+340)
+
+    email = tk.Entry(email_frame, fg="black", bg="white", width=50)
+    email.pack(ipady=5)
+
+
+
+    Password = tk.Label(text="Password :", font = ('Helvetica' , 10, 'bold'))
+    Password.place(x=610, y=y0+390)
+
+    password_frame = tk.Frame(initialization.cuicui)
+    password_frame.place(x=610, y=y0+410)
+
+    password = tk.Entry(password_frame, fg="black", bg="white", width=50)
+    password.pack(ipady=5)
     
     passwordButton = tk.Button(
         text = "Show",
         bg = "white",
         fg = "black",
-        font = ('broadway' , 10),
+        font = ('Helvetica' , 10, 'bold'),
         command = lambda: toggle_password_visibility(password, passwordButton))
-    passwordButton.place(x=910, y=y0+345)
+    passwordButton.place(x=920, y=y0+410)
     
 
 
-    Date = tk.Label(text = "Date of birth : (yyyy-mm-dd)",font = ('broadway' , 10))
-    Date.place(x=600, y=y0+380)
+    Date = tk.Label(text = "Date of birth :",font = ('Helvetica' , 10, 'bold'))
+    Date.place(x=610, y=y0+460)
 
-    date = tk.Entry(fg = "black", bg = "white", width = 50)
-    date.place(x=600, y=y0+400)
+    date_frame = tk.Frame(initialization.cuicui)
+    date_frame.place(x=610, y=y0+480)
+
+    date = DateEntry(date_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=40, font = ('Helvetica' , 10, 'bold'))
+    date.pack(ipady=5)
 
 
 
@@ -118,13 +134,13 @@ def register_page():
     text  ="Sign up",
     bg = "black",
     fg = "white",
-    font = ('broadway', 10),
+    font = ('Helvetica', 10, 'bold'),
     command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, 0, verify))
-    signup.place(x=730, y=y0+450)
+    signup.place(x=740, y=y0+530)
 
 
-    verify = tk.Label(text = "",font = ('broadway' , 10))
-    verify.place(x=800, y=y0+452)
+    verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'))
+    verify.place(x=810, y=y0+532)
 
 
 

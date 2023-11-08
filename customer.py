@@ -19,7 +19,25 @@ def customer_page():
 
     canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
     canvas.place(x=0, y=0)
-    canvas.create_line(0, 75, 1920, 75, width=5, fill="black")
+    canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
 
-    Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font = ('broadway' , 30))
-    Cuicui.place(x=50, y=0)
+    Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font = ('Helvetica' , 30, 'bold'), fg="white", bg="black")
+    Cuicui.place(x=50, y=15)
+
+
+
+
+    
+
+
+
+
+    initialization.cuicui.mainloop() 
+
+
+
+
+
+
+if __name__ == "__main__":
+    customer_page()
