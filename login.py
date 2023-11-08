@@ -76,7 +76,7 @@ def verify_login(Email, Password, verify):
         output = query.requestDataBase(request)
         if output[0][0] == Password:
             effacer.effacer_page()
-            page_reservation.FlightReservationApp(cuicui)
+            page_reservation.FlightReservationApp(initialization.cuicui)
             completeMember(Email, Password)
         else:
             verify.config(text="Your password is not available")
