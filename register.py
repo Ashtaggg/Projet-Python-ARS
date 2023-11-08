@@ -1,14 +1,15 @@
 import hashlib
-from initialization import cuicui
+import initialization
 import tkinter as tk
 import effacer
 import login
 import query
+import customer
 
 
 
 
-def go_login():
+def go_login(temp):
     effacer.effacer_page()
     login.login_page()
 
@@ -27,7 +28,7 @@ def toggle_password_visibility(password, passwordButton):
 
 
 
-def verify_register(Firstname, Name, Email, Username, Password, Type, MembershipNumber, verify):
+def verify_register(Firstname, Name, Email, BirthDate, Password, Type, MembershipNumber, verify):
 
     request = "SELECT COUNT(*) FROM customer WHERE Email = '" + str(Email) + "';"
 
@@ -39,7 +40,7 @@ def verify_register(Firstname, Name, Email, Username, Password, Type, Membership
         verify.config(text="Your email is not available")
     else:
         verify.config(text="")
-        request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `Username`, `Password`, `Type`, `MembershipNumber`) VALUES('" + str(Firstname) + "', '" + str(Name) + "', '" + str(Email) + "', '" + str(Username) + "', '" + str(Password) + "', '" + str(Type) + "', '" + str(MembershipNumber) + "');"
+        request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `BirthDate`, `Password`, `Type`, `MembershipNumber`) VALUES('" + str(Firstname) + "', '" + str(Name) + "', '" + str(Email) + "', '" + str(BirthDate) + "', '" + str(Password) + "', '" + str(Type) + "', '" + str(MembershipNumber) + "');"
         query.requestDataBase(request)
 
 
@@ -47,84 +48,87 @@ def verify_register(Firstname, Name, Email, Username, Password, Type, Membership
 
 
 def register_page():
+    y0 = 125
 
-    Cuicui = tk.Label(cuicui, text="Cuicui Airline", font = ('broadway' , 30))
+    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+    canvas.place(x=0, y=0)
+    canvas.create_line(0, 75, 1920, 75, width=5, fill="black")
 
-    Title = tk.Label(text = "Create new account",font = ('broadway' , 15))
+    Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font = ('broadway' , 30))
+    Cuicui.place(x=50, y=0)
 
-    Login = tk.Label(text = "Already Registered?",font = ('broadway' , 10))
-    login = tk.Button(
-        cuicui,
-        text = "Login",
-        bg = "white",
-        fg = "black",
-        font = ('broadway' , 10),
-        command = go_login)
+    Title = tk.Label(text = "Create new account",font = ('broadway' , 20))
+    Title.place(x=610, y=y0+50)
+
+    Login = tk.Label(text = "Already Registered ? Login",font = ('broadway' , 10))
+    Login.place(x=665, y=y0+100)
+    Login.bind("<Button-1>", go_login)
+    
 
     Name = tk.Label(text = "Name :",font = ('broadway' , 10))
+    Name.place(x=600, y=y0+180)
+
     name = tk.Entry(fg = "black", bg = "white", width = 50)
+    name.place(x=600, y=y0+200)
+
+
 
     Firstname = tk.Label(text = "Firstname :",font = ('broadway' , 10))
+    Firstname.place(x=600, y=y0+230)
+
     firstname = tk.Entry(fg = "black", bg = "white", width = 50)
+    firstname.place(x=600, y=y0+250)
+
+
 
     Email = tk.Label(text = "Email :",font = ('broadway' , 10))
+    Email.place(x=600, y=y0+280)
+
     email = tk.Entry(fg = "black", bg = "white", width = 50)
+    email.place(x=600, y=y0+300)
+
+
 
     Password = tk.Label(text="Password :",font = ('broadway' , 10))
+    Password.place(x=600, y=y0+330)
+
     password = tk.Entry(fg = "black", bg = "white", width = 50, show = "*")
+    password.place(x=600, y=y0+350)
+    
     passwordButton = tk.Button(
         text = "Show",
         bg = "white",
         fg = "black",
         font = ('broadway' , 10),
         command = lambda: toggle_password_visibility(password, passwordButton))
+    passwordButton.place(x=910, y=y0+345)
     
 
 
-    Date = tk.Label(text = "Date of birth :",font = ('broadway' , 10))
+    Date = tk.Label(text = "Date of birth : (yyyy-mm-dd)",font = ('broadway' , 10))
+    Date.place(x=600, y=y0+380)
+
     date = tk.Entry(fg = "black", bg = "white", width = 50)
+    date.place(x=600, y=y0+400)
 
-
-    verify = tk.Label(text = "",font = ('broadway' , 10))
 
 
     signup = tk.Button(
-    cuicui,
+    initialization.cuicui,
     text  ="Sign up",
     bg = "black",
     fg = "white",
     font = ('broadway', 10),
-    command = lambda: verify_register(firstname.get(), name.get(), email.get(), 0, hashlib.sha256(password.get().encode()).hexdigest(), 0, 0, verify))
+    command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, 0, verify))
+    signup.place(x=730, y=y0+450)
 
 
-    Cuicui.pack()
+    verify = tk.Label(text = "",font = ('broadway' , 10))
+    verify.place(x=800, y=y0+452)
 
-    Title.pack()
 
-    Login.pack()
-    login.pack()
 
-    Name.pack()
-    name.pack()
-
-    Firstname.pack()
-    firstname.pack()
-
-    Email.pack()
-    email.pack()
-
-    Password.pack()
-    password.pack()
-    passwordButton.pack()
-
-    Date.pack()
-    date.pack()
-
-    signup.pack()
-
-    verify.pack()
-
-    cuicui.mainloop() 
+    initialization.cuicui.mainloop() 
 
 
 
