@@ -6,11 +6,24 @@ from initialization import cuicui  # Importe la variable "cuicui" d'un fichier "
 # Définition de la classe principale de l'application.
 class FlightReservationApp:
     def __init__(self, root):
-        self.root = root  # Stocke la fenêtre racine de l'application.
-        self.root.title("Réservation de vol / CuiCui Airline")  # Définit le titre de la fenêtre.
+        self.root = root
+        self.root.title("Réservation de vol / CuiCui Airline")
 
-        self.load_flights()  # Appelle la méthode pour charger les vols depuis la base de données.
-        self.create_widgets()  # Appelle la méthode pour créer les éléments de l'interface graphique.
+        # Obtient les dimensions de l'écran
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        # Calcul de la taille initiale de la fenêtre
+        initial_width = int(screen_width * 0.8)
+        initial_height = int(screen_height * 0.8)
+
+        # Définit la taille initiale et limite la taille maximale et minimale
+        self.root.geometry(f"{initial_width}x{initial_height}+{int((screen_width - initial_width) / 2)}+{int((screen_height - initial_height) / 2)}")
+        self.root.minsize(int(screen_width * 0.5), int(screen_height * 0.5))
+        self.root.maxsize(screen_width, screen_height)
+
+        self.load_flights()
+        self.create_widgets()
 
     # Méthode pour charger les informations des vols depuis la base de données.
     def load_flights(self):
