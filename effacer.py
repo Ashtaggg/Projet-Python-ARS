@@ -1,5 +1,5 @@
 import tkinter as tk
-from dbconnect import cuicui
+from initialization import cuicui
 
 def effacer_page():
     for widget in cuicui.winfo_children():

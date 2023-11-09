@@ -1,6 +1,6 @@
 import pymysql
-from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
-from dbconnect import cuicui
+#from dbconnect import mysqlconnect  # Importez la fonction depuis dbconnect.py
+import initialization
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
@@ -63,18 +63,18 @@ def reserver_vol():
 
 
 
-cuicui.title("Welcome Page")
+initialization.cuicui.title("Welcome Page")
 #HEADER
 
-header_frame = tk.Frame(cuicui, highlightbackground="black", highlightthickness=5)
+header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
 header_frame.pack(pady=20)
 
 # TITLE
-titre_label = tk.Label(cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
+titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
 titre_label.pack(pady=20)
 
 # CONTENT
-content_frame = tk.Frame(cuicui)
+content_frame = tk.Frame(initialization.cuicui)
 content_frame.pack()
 
 # DEPARTURE
@@ -113,5 +113,5 @@ reserver_bouton.grid(row=0, column=8, columnspan=2, pady=10)
 
 
 # Lance la boucle principale de l'application
-cuicui.mainloop()
+initialization.cuicui.mainloop()
 
