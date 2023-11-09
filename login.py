@@ -77,8 +77,13 @@ def verify_login(Email, Password, verify):
         if output[0][0] == Password:
             effacer.effacer_page()
             completeMember(Email, Password)
+
             #page_reservation.FlightReservationApp(initialization.cuicui)
-            customer.customer.customer_page(initialization.member)
+            if(initialization.member.Type == 0):
+                customer.customer.customer_page(initialization.member)
+            if(initialization.member.Type == 1):
+                customer.customer.customer_page(initialization.member)
+
         else:
             verify.config(text="Your password is not available")
 
