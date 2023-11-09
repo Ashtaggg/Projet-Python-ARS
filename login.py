@@ -76,8 +76,9 @@ def verify_login(Email, Password, verify):
         output = query.requestDataBase(request)
         if output[0][0] == Password:
             effacer.effacer_page()
-            page_reservation.FlightReservationApp(initialization.cuicui)
             completeMember(Email, Password)
+            #page_reservation.FlightReservationApp(initialization.cuicui)
+            customer.customer.customer_page(initialization.member)
         else:
             verify.config(text="Your password is not available")
 
@@ -121,7 +122,7 @@ def login_page():
     password_frame = tk.Frame(initialization.cuicui)
     password_frame.place(x=610, y=y0+270)
 
-    password = tk.Entry(password_frame, fg="black", bg="white", width=50)
+    password = tk.Entry(password_frame, fg="black", bg="white", width=50, show="*")
     password.pack(ipady=5)
 
 

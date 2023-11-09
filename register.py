@@ -105,7 +105,7 @@ def register_page():
     password_frame = tk.Frame(initialization.cuicui)
     password_frame.place(x=610, y=y0+410)
 
-    password = tk.Entry(password_frame, fg="black", bg="white", width=50)
+    password = tk.Entry(password_frame, fg="black", bg="white", width=50, show="*")
     password.pack(ipady=5)
     
     passwordButton = tk.Button(
