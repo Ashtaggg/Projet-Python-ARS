@@ -66,12 +66,22 @@ class CuicuiAirlinesApp():
         print(date[:10])
         request = f"SELECT DepartureCity, ArrivalCity, DepartureTime FROM flight WHERE DepartureCity ='{ville_depart}' AND ArrivalCity = '{ville_arrivee}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
         output = query.requestDataBase(request)
+
         return output
 
     def reserver_vol(self):
         ville_depart = str(self.aeroport_depart_combobox.get())
         ville_arrivee = str(self.aeroport_arrivee_combobox.get())
         date = str(self.date_select.get() + " 00:00:00")
+
+        #if (ville_depart == ''):
+            #ville_depart = 'EMPTY'
+        #if(ville_arrivee == ''):
+            #ville_arrivee = 'EPMTY'
+
+        if not ville_depart or not ville_arrivee:
+            print("Veuillez remplir tous les champs.")
+            return
 
         print("Ville de départ:", ville_depart)
         print("Ville d'arrivée:", ville_arrivee)
@@ -82,12 +92,17 @@ class CuicuiAirlinesApp():
         print("test",flights)
         # REMPLIR TOUT LES CHOIX DANS LA CLASSE ET LES AFFICHER
 
-        date = flights[0][2].strftime("%Y-%m-%d_%H:%M:%S")
-        flightsNewD, flightsNewA = flights[0][0], flights[0][1]
-        print(flightsNewD, flightsNewA, date)
+        if not flights:
+            print("PAS DE VOL A CETTE DATE")
+        else:
+            ## PAGE DEROULANTE
+            date = flights[0][2].strftime("%Y-%m-%d_%H:%M:%S")
+            flightsNewD, flightsNewA = flights[0][0], flights[0][1]
+            print(flightsNewD, flightsNewA, date)
 
-        # METTRE AFFICHAGE VOL ICI
-        CuicuiAirlinesApp.affichage_vol(self, flightsNewD, flightsNewA, date)
+            # METTRE AFFICHAGE VOL ICI
+            CuicuiAirlinesApp.affichage_vol(self, flightsNewD, flightsNewA, date)
+
 
 
     def affichage_vol(self, flightsNewD, flightsNewA, date):
