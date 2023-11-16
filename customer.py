@@ -133,13 +133,45 @@ class customer():
 
 
     def pastFlights(self, canvas, image):
+        TitleRight = tk.Label(text="Past flights",font = ('Helvetica' , 20, 'bold'))
+        TitleRight.place(x=1030, y=225)
+
+
         pastFlights = booking(0, 0, 0, 0, 0, 0)
         nbrBooking = booking.findNbrBooking(pastFlights, self.CustomerID)
-        request = "SELECT BookingID FROM booking WHERE CustomerID = '" + str(self.CustomerID) + "';"
-        output = query.requestDataBase(request)
+        if nbrBooking == 0:
+            noBooking = tk.Label(text = "No previous flights booked",font = ('Helvetica' , 11, 'bold'))
+            noBooking.place(x=1010, y=350)
+        else:
+            request = "SELECT BookingID FROM booking WHERE CustomerID = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
 
-        for i in range(nbrBooking):
-            booking.pastBookingShow(pastFlights, output[i][0], i, nbrBooking, canvas, image)
+
+            for i in range(nbrBooking):
+                booking.pastBookingShow(pastFlights, output[i][0], i, nbrBooking, canvas, image)
+
+
+
+    def createFlights(self):
+        TitleRight = tk.Label(text="Create Flights",font = ('Helvetica' , 20, 'bold'))
+        TitleRight.place(x=1020, y=225)
+
+
+
+        
+
+
+        
+    def adminOrNot(self, canvas, image2):
+        request = "SELECT Type FROM Customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
+        output = query.requestDataBase(request)
+        print(output[0][0])
+        if output[0][0] == 0:
+            customer.pastFlights(self, canvas, image2)
+        elif output[0][0] == 1:
+            customer.createFlights(self)
+
+
 
 
     def customer_page(self):
@@ -164,10 +196,6 @@ class customer():
         TitleLeft = tk.Label(text="General informations",font = ('Helvetica' , 20, 'bold'))
         TitleLeft.place(x=170, y=y0+320)
 
-        TitleRight = tk.Label(text="Past flights",font = ('Helvetica' , 20, 'bold'))
-        TitleRight.place(x=1030, y=y0+100)
-
-
 
         firstname = tk.Label(text=self.FirstName,font = ('Helvetica' , 12, 'bold'))
         firstname.place(x=170, y=y0+410)
@@ -191,8 +219,8 @@ class customer():
         image2 = image2.resize((20, 20))
         image2 = ImageTk.PhotoImage(image2)
 
-        customer.pastFlights(self, canvas, image2)
 
+        customer.adminOrNot(self, canvas, image2)
 
         initialization.cuicui.mainloop() 
 
