@@ -20,6 +20,14 @@ class CuicuiAirlinesApp():
         initialization.cuicui.title("Welcome Page")
 
         #CuicuiAirlinesApp.tri_vol(self) #Supprime les vols déja passé
+        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+        canvas.place(x=0, y=0)
+        canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
+        canvas.create_line(650, 220, 650, 800, width=2, fill="black")
+
+        Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",
+                          bg="black")
+        Cuicui.place(x=50, y=15)
 
         # HEADER
         self.header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
