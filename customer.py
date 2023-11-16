@@ -36,24 +36,18 @@ class flight():
         self.ArrivalTime = output[0][0]
 
 
-    def pastFlightsShow(self, FlightID, i):
+    def pastFlightsShow(self, FlightID, i, scroll_canva):
         flight.findAllFlight(self, FlightID)
 
+        scroll_canva.create_text(250, (i*150)+40, text = self.DepartureCity + "  >  " + self.ArrivalCity, font = ('Helvetica' , 14, 'bold'))
 
-        departureCity = tk.Label(text= self.DepartureCity + "  >  " + self.ArrivalCity,font = ('Helvetica' , 15, 'bold'))
-        departureCity.place(x=850, y=(i*150)+300)
+        scroll_canva.create_text(275, (i*150)+80, text = str(self.DepartureTime)[:16], font = ('Helvetica' , 10, 'bold'))
 
-        DepartureTime = tk.Label(text=self.DepartureTime,font = ('Helvetica' , 10, 'bold'))
-        DepartureTime.place(x=850, y=(i*150)+340)
+        scroll_canva.create_text(400, (i*150)+80, text = self.DepartureCity, font = ('Helvetica' , 10, 'bold'))
 
-        DepartureCity = tk.Label(text=self.DepartureCity,font = ('Helvetica' , 10, 'bold'))
-        DepartureCity.place(x=1000, y=(i*150)+340)
+        scroll_canva.create_text(275, (i*150)+100, text = str(self.ArrivalTime)[:16], font = ('Helvetica' , 10, 'bold'))
 
-        ArrivalTime = tk.Label(text=self.ArrivalTime,font = ('Helvetica' , 10, 'bold'))
-        ArrivalTime.place(x=850, y=(i*150)+360)
-
-        ArrivalCity = tk.Label(text=self.ArrivalCity,font = ('Helvetica' , 10, 'bold'))
-        ArrivalCity.place(x=1000, y=(i*150)+360)
+        scroll_canva.create_text(400, (i*150)+100, text = self.ArrivalCity, font = ('Helvetica' , 10, 'bold'))
 
 
 
@@ -98,20 +92,18 @@ class booking():
 
 
     
-    def pastBookingShow(self, BookingID, i, nbrBooking, canvas, image):
+    def pastBookingShow(self, BookingID, i, image, scroll_canva):
         booking.findAllBooking(self, BookingID)
         Flight = flight(0, 0, 0, 0, 0, 0, 0)
-        flight.pastFlightsShow(Flight, self.FlightID, i)
+        flight.pastFlightsShow(Flight, self.FlightID, i, scroll_canva)
         
-        canvas.create_image(1280, (i*150)+322, anchor=tk.NW, image=image)
+        scroll_canva.create_image(625, (i*150)+62, anchor=tk.NW, image=image)
         
-        NumberOfTickets = tk.Label(text = "x" + str(self.NumberOfTickets),font = ('Helvetica' , 10, 'bold'))
-        NumberOfTickets.place(x=1300, y=(i*150)+320)
+        scroll_canva.create_text(655, (i*150)+75, text = "x" + str(self.NumberOfTickets), font = ('Helvetica' , 10, 'bold'))
+        scroll_canva.create_text(650, (i*150)+105, text = str(self.TotalAmount*self.NumberOfTickets) + " €", font = ('Helvetica' , 10, 'bold'))
 
-        TotalAmount = tk.Label(text = str(self.TotalAmount*self.NumberOfTickets) + " €",font = ('Helvetica' , 10, 'bold'))
-        TotalAmount.place(x=1280, y=(i*150)+345)
-
-        canvas.create_line(750, (i*150)+420, 1400, (i*150)+420, width=1, fill="black")
+        if i != 0:
+            scroll_canva.create_line(75, (i*150)+0, 800, (i*150)+0, width=1, fill="black")
 
 
 
@@ -133,8 +125,8 @@ class customer():
 
 
     def pastFlights(self, canvas, image):
-        TitleRight = tk.Label(text="Past flights",font = ('Helvetica' , 20, 'bold'))
-        TitleRight.place(x=1030, y=225)
+        TitleRight = tk.Label(text="Past flights",font = ('Helvetica' , 22, 'bold'))
+        TitleRight.place(x=1030, y=200)
 
 
         pastFlights = booking(0, 0, 0, 0, 0, 0)
@@ -146,9 +138,27 @@ class customer():
             request = "SELECT BookingID FROM booking WHERE CustomerID = '" + str(self.CustomerID) + "';"
             output = query.requestDataBase(request)
 
+            
+            scroll_canva = tk.Canvas(canvas)
+            scroll_canva.config(highlightthickness=0, borderwidth=0)
+            scroll_canva.place(x=652, y=275, width=869, height=525)
+
+            yscrollbar = tk.Scrollbar(canvas, orient="vertical", command=scroll_canva.yview)
+            yscrollbar.place(x=1521, y=275, width=15, height=550)
+
+            scroll_canva.configure(yscrollcommand=yscrollbar.set)
+            scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
+
+            display_frame = tk.Frame(scroll_canva)
+            display_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+            scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
+
+
+
 
             for i in range(nbrBooking):
-                booking.pastBookingShow(pastFlights, output[i][0], i, nbrBooking, canvas, image)
+                booking.pastBookingShow(pastFlights, output[i][0], i, image, scroll_canva)
 
 
 
@@ -158,14 +168,13 @@ class customer():
 
 
 
-        
+
 
 
         
     def adminOrNot(self, canvas, image2):
         request = "SELECT Type FROM Customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
         output = query.requestDataBase(request)
-        print(output[0][0])
         if output[0][0] == 0:
             customer.pastFlights(self, canvas, image2)
         elif output[0][0] == 1:
