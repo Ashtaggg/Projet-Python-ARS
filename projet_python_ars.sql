@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 07 nov. 2023 à 14:36
+-- Généré le : jeu. 16 nov. 2023 à 13:19
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -52,7 +52,15 @@ CREATE TABLE IF NOT EXISTS `booking` (
   PRIMARY KEY (`BookingID`),
   KEY `CustomerID` (`CustomerID`),
   KEY `FlightID` (`FlightID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `booking`
+--
+
+INSERT INTO `booking` (`BookingID`, `CustomerID`, `FlightID`, `NumberOfTickets`, `TotalAmount`, `Timestamp`) VALUES
+(1, 3, 64, 1, '110.00', '2023-11-09 13:21:45'),
+(3, 3, 65, 2, '90.00', '2023-11-09 13:55:31');
 
 -- --------------------------------------------------------
 
@@ -66,21 +74,21 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `FirstName` varchar(255) NOT NULL,
   `LastName` varchar(255) NOT NULL,
   `Email` varchar(255) DEFAULT NULL,
-  `Username` varchar(255) NOT NULL,
+  `BirthDate` date NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Type` int NOT NULL COMMENT '0 -> Member\r\n1 -> Admin',
-  `MembershipNumber` int DEFAULT NULL,
+  `PhotoProfil` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT 'chemin vers la photo de profil',
   PRIMARY KEY (`CustomerID`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `customer`
 --
 
-INSERT INTO `customer` (`CustomerID`, `FirstName`, `LastName`, `Email`, `Username`, `Password`, `Type`, `MembershipNumber`) VALUES
-(3, 'Alexis', 'RAYNAL', 'alexis.raynal@edu.ece.fr', '0', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, 0),
-(4, 'Quentin', 'RICHARD', 'quentin.richard@edu.ece.fr', '0', 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481', 1, 0),
-(5, 'Anthony', 'SABBAGH', 'anthony.sabbagh@edu.ece.fr', '0', '53ed5a8fd89da4f9e6a3c18138c9f6af39d4ea33c8f4650f0f9d849d0651ce64', 1, 0);
+INSERT INTO `customer` (`CustomerID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Password`, `Type`, `PhotoProfil`) VALUES
+(3, 'Alexis', 'RAYNAL', 'alexis.raynal@edu.ece.fr', '2003-10-01', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, '0'),
+(4, 'Quentin', 'RICHARD', 'quentin.richard@edu.ece.fr', '0000-00-00', 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481', 1, '0'),
+(5, 'Anthony', 'SABBAGH', 'anthony.sabbagh@edu.ece.fr', '0000-00-00', '53ed5a8fd89da4f9e6a3c18138c9f6af39d4ea33c8f4650f0f9d849d0651ce64', 1, '0');
 
 -- --------------------------------------------------------
 

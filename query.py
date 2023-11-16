@@ -22,3 +22,4 @@ def requestDataBase(request):
     conn.close()
 
     return output
+
