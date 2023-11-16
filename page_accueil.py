@@ -1,65 +1,128 @@
 import tkinter as tk
+from tkinter import ttk
+from tkcalendar import DateEntry
 from PIL import Image, ImageTk
+import query
+import initialization
 
-class FlightReservationApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Bienvenue sur CuiCui Airline")
+class CuicuiAirlinesApp():
+    def __init__(self, FlightID, DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable):
+        self.FlightID = FlightID
+        self.DepartureCity = DepartureCity
+        self.ArrivalCity = ArrivalCity
+        self.DepartureTime = DepartureTime
+        self.ArrivalTime = ArrivalTime
+        self.TicketPrice = TicketPrice
+        self.SeatsAvailable = SeatsAvailable
 
-        self.create_widgets()
 
-    def create_widgets(self):
-        bg_image = Image.open("./photos/avion.jpg")
-        bg_photo = ImageTk.PhotoImage(bg_image)
+    def welcome_page(self):
+        initialization.cuicui.title("Welcome Page")
 
-        canvas = tk.Canvas(root, width=bg_image.width, height=bg_image.height)
-        canvas.pack()
-        canvas.create_image(0, 0, anchor=tk.NW, image=bg_photo)
-        canvas.image = bg_photo
+        #CuicuiAirlinesApp.tri_vol(self) #Supprime les vols déja passé
 
-        center_frame = tk.Frame(canvas)
-        center_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        # HEADER
+        self.header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
+        self.header_frame.pack(pady=20)
 
-        welcome_label = tk.Label(center_frame, text="Bienvenue sur CuiCui Airline", font=("broadway", 20, "underline"), fg="blue")
-        welcome_label.pack(pady=20)
+        # TITLE
+        self.titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
+        self.titre_label.pack(pady=20)
 
-        motivation_label = tk.Label(center_frame, text="Prêt à explorer le monde?", font=("broadway", 16), fg="green")
-        motivation_label.pack(pady=10)
+        # CONTENT
+        self.content_frame = tk.Frame(initialization.cuicui)
+        self.content_frame.pack()
 
-        login_label = tk.Label(center_frame, text="Connexion à votre compte", font=("broadway", 14, "underline"))
-        login_label.pack(pady=10)
+        # DEPARTURE
+        self.aeroport_depart_label = tk.Label(self.content_frame, text="Departure", font=("Broadway", 10))
+        self.aeroport_depart_label.grid(row=0, column=0, padx=10, pady=5)
+        self.cities = CuicuiAirlinesApp.get_cities(self)
+        self.aeroport_depart_combobox = ttk.Combobox(self.content_frame, values=self.cities)
+        self.aeroport_depart_combobox.grid(row=0, column=1, padx=10, pady=5)
 
-        # Bouton de connexion
-        login_button = tk.Button(center_frame, text="Connexion", font=("broadway", 12), command=self.login)
-        login_button.pack(pady=5)
+        # ARRIVAL
+        self.aeroport_arrivee_label = tk.Label(self.content_frame, text="Arrival", font=("Broadway", 10))
+        self.aeroport_arrivee_label.grid(row=0, column=2, padx=10, pady=5)
+        self.aeroport_arrivee_combobox = ttk.Combobox(self.content_frame, values=self.cities)
+        self.aeroport_arrivee_combobox.grid(row=0, column=3, padx=10, pady=5)
 
-        register_label = tk.Label(center_frame, text="Vous n'êtes pas encore client?", font=("broadway", 14, "underline"))
-        register_label.pack(pady=10)
+        # DATE
+        self.date_label = tk.Label(self.content_frame, text="Date", font=("Broadway", 10))
+        self.date_label.grid(row=0, column=4, padx=10, pady=5)
+        self.date_select = DateEntry(self.content_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=10, font=('Broadway', 10, 'bold'))
+        self.date_select.grid(row=0, column=5, padx=10, pady=5)
 
-        # Bouton d'inscription
-        register_button = tk.Button(center_frame, text="Inscrivez-vous", font=("broadway", 12), command=self.register)
-        register_button.pack(pady=5)
+        # FUNCTION RESERVATION
+        self.reserver_bouton = tk.Button(self.content_frame, text="Search", font=("Broadway", 10), command= lambda :CuicuiAirlinesApp.reserver_vol(self))
+        self.reserver_bouton.grid(row=0, column=8, columnspan=2, pady=10)
 
-        visit_label = tk.Label(center_frame, text="Visiter le site en tant qu'invité", font=("broadway", 14, "underline"))
-        visit_label.pack(pady=20)
+        initialization.cuicui.mainloop()
+    def get_cities(self):
+        request = "SELECT DISTINCT DepartureCity FROM flight"
+        cities = query.requestDataBase(request)
+        return cities
 
-        # Bouton de visite sans connexion (discret)
-        visit_button = tk.Button(center_frame, text="Visiter", font=("broadway", 12, "italic"), command=self.visit_as_guest)
-        visit_button.pack(pady=10)
+    def get_flights(self, ville_depart, ville_arrivee, date):
+        print(date[:10])
+        request = f"SELECT DepartureCity, ArrivalCity, DepartureTime FROM flight WHERE DepartureCity ='{ville_depart}' AND ArrivalCity = '{ville_arrivee}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
+        output = query.requestDataBase(request)
 
-    def login(self):
-        # Ajoutez ici le code pour gérer la connexion à un compte utilisateur.
-        pass
+        return output
 
-    def register(self):
-        # Ajoutez ici le code pour gérer le processus d'inscription.
-        pass
+    def reserver_vol(self):
+        ville_depart = str(self.aeroport_depart_combobox.get())
+        ville_arrivee = str(self.aeroport_arrivee_combobox.get())
+        date = str(self.date_select.get() + " 00:00:00")
 
-    def visit_as_guest(self):
-        # Ajoutez ici le code pour permettre aux utilisateurs de visiter le site sans connexion.
-        pass
+        #if (ville_depart == ''):
+            #ville_depart = 'EMPTY'
+        #if(ville_arrivee == ''):
+            #ville_arrivee = 'EPMTY'
+
+        if not ville_depart or not ville_arrivee:
+            print("Veuillez remplir tous les champs.")
+            return
+
+        print("Ville de départ:", ville_depart)
+        print("Ville d'arrivée:", ville_arrivee)
+        print("Date sélectionnée:", date)
+
+        # Récupérez les vols en fonction des sélections de l'utilisateur
+        flights = CuicuiAirlinesApp.get_flights(self, ville_depart, ville_arrivee, date)
+        print("test",flights)
+        # REMPLIR TOUT LES CHOIX DANS LA CLASSE ET LES AFFICHER
+
+        if not flights:
+            print("PAS DE VOL A CETTE DATE")
+        else:
+            ## PAGE DEROULANTE
+            date = flights[0][2].strftime("%Y-%m-%d_%H:%M:%S")
+            flightsNewD, flightsNewA = flights[0][0], flights[0][1]
+            print(flightsNewD, flightsNewA, date)
+
+            # METTRE AFFICHAGE VOL ICI
+            CuicuiAirlinesApp.affichage_vol(self, flightsNewD, flightsNewA, date)
+
+
+
+    def affichage_vol(self, flightsNewD, flightsNewA, date):
+        fly = flightsNewD + "-" + flightsNewA + "-" + date
+        combobox = ttk.Combobox(initialization.cuicui, values=fly, state="readonly",width=50, height=10)
+        combobox.pack(padx=10, pady=10)
+
+    def tri_vol(self):
+        count = "SELECT COUNT(*) FROM flight;"
+        nbDeVol = query.requestDataBase(count)
+        nbDeVol = nbDeVol[0][0]
+        print(nbDeVol)
+        if int(nbDeVol) > 0:
+            #delete = "DELETE FROM flight WHERE DepartureTime < NOW();"
+            #query.requestDataBase(delete)
+            print("fly were delete.")
+        else:
+            print("RAS.")
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = FlightReservationApp(root)
-    root.mainloop()
+    #app = ( )
+    CuicuiAirlinesApp.welcome_page(initialization.cuicui)
+    #initialization.cuicui.mainloop()
