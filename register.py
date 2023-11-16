@@ -29,7 +29,7 @@ def toggle_password_visibility(password, passwordButton):
 
 
 
-def verify_register(Firstname, Name, Email, BirthDate, Password, Type, MembershipNumber, verify):
+def verify_register(Firstname, Name, Email, BirthDate, Password, Type, PhotoProfil, verify):
 
     request = "SELECT COUNT(*) FROM customer WHERE Email = '" + str(Email) + "';"
 
@@ -41,7 +41,7 @@ def verify_register(Firstname, Name, Email, BirthDate, Password, Type, Membershi
         verify.config(text="Your email is not available")
     else:
         verify.config(text="")
-        request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `BirthDate`, `Password`, `Type`, `MembershipNumber`) VALUES('" + str(Firstname) + "', '" + str(Name) + "', '" + str(Email) + "', '" + str(BirthDate) + "', '" + str(Password) + "', '" + str(Type) + "', '" + str(MembershipNumber) + "');"
+        request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `BirthDate`, `Password`, `Type`, `PhotoProfil`) VALUES('" + str(Firstname) + "', '" + str(Name) + "', '" + str(Email) + "', '" + str(BirthDate) + "', '" + str(Password) + "', '" + str(Type) + "', '" + str(PhotoProfil) + "');"
         query.requestDataBase(request)
 
 

@@ -48,12 +48,12 @@ def completeMember(Email, Password):
     output = query.requestDataBase(request)
     Type = output[0][0]
 
-    request = "SELECT MembershipNumber FROM customer WHERE Email = '" + str(Email) + "';"
+    request = "SELECT PhotoProfil FROM customer WHERE Email = '" + str(Email) + "';"
     output = query.requestDataBase(request)
-    MembershipNumber = output[0][0]
+    PhotoProfil = output[0][0]
 
 
-    initialization.member = customer.customer(CustomerID, FirstName, LastName, Email, BirthDate, Password, Type, MembershipNumber)
+    initialization.member = customer.customer(CustomerID, FirstName, LastName, Email, BirthDate, Password, Type, PhotoProfil)
     
 
 

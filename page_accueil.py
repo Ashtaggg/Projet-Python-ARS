@@ -20,6 +20,14 @@ class CuicuiAirlinesApp():
         initialization.cuicui.title("Welcome Page")
 
         #CuicuiAirlinesApp.tri_vol(self) #Supprime les vols déja passé
+        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+        canvas.place(x=0, y=0)
+        canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
+        canvas.create_line(650, 220, 650, 800, width=2, fill="black")
+
+        Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",
+                          bg="black")
+        Cuicui.place(x=50, y=15)
 
         # HEADER
         self.header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
@@ -62,10 +70,32 @@ class CuicuiAirlinesApp():
         cities = query.requestDataBase(request)
         return cities
 
-    def get_flights(self, ville_depart, ville_arrivee, date):
+    def get_flights(self, departure_city, arrival_city, date):
         print(date[:10])
-        request = f"SELECT DepartureCity, ArrivalCity, DepartureTime FROM flight WHERE DepartureCity ='{ville_depart}' AND ArrivalCity = '{ville_arrivee}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
+        print("We are counting the number of fly from ",departure_city," to ",arrival_city," at the date ",date)
+        request = f"SELECT COUNT(*) FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
         output = query.requestDataBase(request)
+        result = output[0][0]
+        if(int(result) >= 1):
+            print("Fly is existing")
+            request = f"SELECT FlightID FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
+            output = query.requestDataBase(request)
+        elif (int(result) == 0):
+            print("Fly is not existing at this date ")
+            print("We are counting the number of fly from ", departure_city, " to ", arrival_city)
+            request = f"SELECT COUNT(*) FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}';"
+            output = query.requestDataBase(request)
+            result = output[0][0]
+
+            if(int(result) >= 1):
+                print("Fly existing")
+                request = f"SELECT FlightID FROM flight WHERE DepartureCity = '{departure_city}' AND ArrivalCity = '{arrival_city}';"
+                output = query.requestDataBase(request)
+
+
+            elif(int(result) == 0):
+                print("No fly from ",departure_city," for ", arrival_city," the ",date)
+        print(" <---------- RESULT ---------->",output)
 
         return output
 
@@ -73,11 +103,6 @@ class CuicuiAirlinesApp():
         ville_depart = str(self.aeroport_depart_combobox.get())
         ville_arrivee = str(self.aeroport_arrivee_combobox.get())
         date = str(self.date_select.get() + " 00:00:00")
-
-        #if (ville_depart == ''):
-            #ville_depart = 'EMPTY'
-        #if(ville_arrivee == ''):
-            #ville_arrivee = 'EPMTY'
 
         if not ville_depart or not ville_arrivee:
             print("Veuillez remplir tous les champs.")
@@ -94,14 +119,29 @@ class CuicuiAirlinesApp():
 
         if not flights:
             print("PAS DE VOL A CETTE DATE")
+
         else:
             ## PAGE DEROULANTE
-            date = flights[0][2].strftime("%Y-%m-%d_%H:%M:%S")
-            flightsNewD, flightsNewA = flights[0][0], flights[0][1]
-            print(flightsNewD, flightsNewA, date)
+            print("LISTE DES VOLS A CETTE DATE")
+
 
             # METTRE AFFICHAGE VOL ICI
-            CuicuiAirlinesApp.affichage_vol(self, flightsNewD, flightsNewA, date)
+
+            # AFFICHAGE IMAGE
+            self.image_display = tk.Label(initialization.cuicui)
+            self.image_display.pack()
+            self.image_display.place(x=750, y=250)
+
+            show_image_button = tk.Button(initialization.cuicui, command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
+            show_image_button.pack()
+
+    def show_image(self,city):
+        img = Image.open(f"photos/search_city/{city}.jpg")  # Assure-toi que le dossier est correctement spécifié
+        #img = img.resize(500, 500)  # Redimensionnement de l'image
+        photo = ImageTk.PhotoImage(img)
+
+        self.image_display.configure(image=photo)
+        self.image_display.image = photo  # Garde une référence à l'image pour l'affichage
 
 
 
@@ -116,8 +156,8 @@ class CuicuiAirlinesApp():
         nbDeVol = nbDeVol[0][0]
         print(nbDeVol)
         if int(nbDeVol) > 0:
-            #delete = "DELETE FROM flight WHERE DepartureTime < NOW();"
-            #query.requestDataBase(delete)
+            delete = "DELETE FROM flight WHERE DepartureTime < NOW();"
+            query.requestDataBase(delete)
             print("fly were delete.")
         else:
             print("RAS.")
