@@ -15,56 +15,46 @@ class CuicuiAirlinesApp():
         self.TicketPrice = TicketPrice
         self.SeatsAvailable = SeatsAvailable
 
-
     def welcome_page(self):
         initialization.cuicui.title("Welcome Page")
 
-        #CuicuiAirlinesApp.tri_vol(self) #Supprime les vols déja passé
         canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
         canvas.place(x=0, y=0)
         canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
         canvas.create_line(650, 220, 650, 800, width=2, fill="black")
 
-        Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",
-                          bg="black")
+        Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",bg="black")
         Cuicui.place(x=50, y=15)
 
-        # HEADER
-        self.header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
-        self.header_frame.pack(pady=20)
+        titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
+        titre_label.place(x=400, y=90)
 
-        # TITLE
-        self.titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
-        self.titre_label.pack(pady=20)
 
-        # CONTENT
-        self.content_frame = tk.Frame(initialization.cuicui)
-        self.content_frame.pack()
+        #DEPARTURE
+        aeroport_depart_label = tk.Label( text="Departure", font=("Broadway", 10))
+        aeroport_depart_label.place(x=200, y=150)
+        cities = CuicuiAirlinesApp.get_cities(self)
+        aeroport_depart_combobox = ttk.Combobox( values=cities)
+        aeroport_depart_combobox.place(x=300, y=150)
 
-        # DEPARTURE
-        self.aeroport_depart_label = tk.Label(self.content_frame, text="Departure", font=("Broadway", 10))
-        self.aeroport_depart_label.grid(row=0, column=0, padx=10, pady=5)
-        self.cities = CuicuiAirlinesApp.get_cities(self)
-        self.aeroport_depart_combobox = ttk.Combobox(self.content_frame, values=self.cities)
-        self.aeroport_depart_combobox.grid(row=0, column=1, padx=10, pady=5)
+        #ARRIVAL
+        aeroport_arrivee_label = tk.Label( text="Arrival", font=("Broadway", 10))
+        aeroport_arrivee_label.place(x=450, y=150)
+        aeroport_arrivee_combobox = ttk.Combobox( values=cities)
+        aeroport_arrivee_combobox.place(x=550, y=150)
 
-        # ARRIVAL
-        self.aeroport_arrivee_label = tk.Label(self.content_frame, text="Arrival", font=("Broadway", 10))
-        self.aeroport_arrivee_label.grid(row=0, column=2, padx=10, pady=5)
-        self.aeroport_arrivee_combobox = ttk.Combobox(self.content_frame, values=self.cities)
-        self.aeroport_arrivee_combobox.grid(row=0, column=3, padx=10, pady=5)
+        #DATE
+        date_label = tk.Label( text="Date", font=("Broadway", 10))
+        date_label.place(x=750, y=150)
+        date_select = DateEntry( date_pattern="yyyy-mm-dd", fg="black", bg="white", width=10,font=('Broadway', 10, 'bold'))
+        date_select.place(x=800, y=150)
 
-        # DATE
-        self.date_label = tk.Label(self.content_frame, text="Date", font=("Broadway", 10))
-        self.date_label.grid(row=0, column=4, padx=10, pady=5)
-        self.date_select = DateEntry(self.content_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=10, font=('Broadway', 10, 'bold'))
-        self.date_select.grid(row=0, column=5, padx=10, pady=5)
-
-        # FUNCTION RESERVATION
-        self.reserver_bouton = tk.Button(self.content_frame, text="Search", font=("Broadway", 10), command= lambda :CuicuiAirlinesApp.reserver_vol(self))
-        self.reserver_bouton.grid(row=0, column=8, columnspan=2, pady=10)
+        #SEARCH
+        reserver_bouton = tk.Button( text="Search", font=("Broadway", 10),command=lambda: CuicuiAirlinesApp.reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select))
+        reserver_bouton.place(x=950, y=150)
 
         initialization.cuicui.mainloop()
+
     def get_cities(self):
         request = "SELECT DISTINCT DepartureCity FROM flight"
         cities = query.requestDataBase(request)
@@ -99,10 +89,10 @@ class CuicuiAirlinesApp():
 
         return output
 
-    def reserver_vol(self):
-        ville_depart = str(self.aeroport_depart_combobox.get())
-        ville_arrivee = str(self.aeroport_arrivee_combobox.get())
-        date = str(self.date_select.get() + " 00:00:00")
+    def reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select):
+        ville_depart = str(aeroport_depart_combobox.get())
+        ville_arrivee = str(aeroport_arrivee_combobox.get())
+        date = str(date_select.get() + " 00:00:00")
 
         if not ville_depart or not ville_arrivee:
             print("Veuillez remplir tous les champs.")
@@ -130,10 +120,10 @@ class CuicuiAirlinesApp():
             # AFFICHAGE IMAGE
             self.image_display = tk.Label(initialization.cuicui)
             self.image_display.pack()
-            self.image_display.place(x=750, y=250)
+            self.image_display.place(x=700, y=250)
+            show_image = tk.Button(initialization.cuicui,command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
+            show_image.pack()
 
-            show_image_button = tk.Button(initialization.cuicui, command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
-            show_image_button.pack()
 
     def show_image(self,city):
         img = Image.open(f"photos/search_city/{city}.jpg")  # Assure-toi que le dossier est correctement spécifié
