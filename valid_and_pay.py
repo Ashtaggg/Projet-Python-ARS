@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import simpledialog, ttk, messagebox
 import pymysql
 from tkcalendar import DateEntry
 import initialization
@@ -46,24 +46,36 @@ def get_flights(ville_depart, ville_arrivee, date):
     finally:
         connection.close()
 
+# Liste pour stocker les détails de chaque passager
+passenger_details_list = []
+
 # Fonction pour afficher les détails du vol
-def reserver_vol():
+def reserver_vol(passenger_details):
     ville_depart = aeroport_depart_combobox.get()
     ville_arrivee = aeroport_arrivee_combobox.get()
     selected_date = date_select.get()
 
     flights = get_flights(ville_depart, ville_arrivee, selected_date)
 
-    for flight in flights:
-        print("Vol de", flight[0], "à", flight[1], "à", flight[2])
+    if flights:
+        for flight in flights:
+            print(f"Vol de {flight[0]} à {flight[1]} à {flight[2]} pour Passager {passenger_details['passenger_number']}")
 
-# Fonction pour le processus de paiement
-def process_payment():
+        passenger_details['flights'] = flights  # Stocke les détails du vol dans le dictionnaire du passager
+        return True  # Retourne que des vols ont été trouvés
+    else:
+        print("Aucun vol trouvé pour les critères spécifiés.")
+        return False  # Retourne qu'aucun vol n'a été trouvé
+
+# Fonction pour le processus de paiement pour un passager
+def process_payment(passenger_details):
     effacer.effacer_page()
 
-    initialization.cuicui.title("Processus de Paiement")
+    initialization.cuicui.title(f"Processus de Paiement - Passager {passenger_details['passenger_number']}")
 
-    payment_label = tk.Label(initialization.cuicui, text="Veuillez saisir les informations de paiement :", font=("Broadway", 14))
+    print(f"Type de membre pour Passager {passenger_details['passenger_number']}: {passenger_details['member_type']}")
+
+    payment_label = tk.Label(initialization.cuicui, text=f"Passager {passenger_details['passenger_number']}, veuillez saisir les informations de paiement en tant que {passenger_details['member_type']} :", font=("Broadway", 14))
     payment_label.pack()
 
     card_label = tk.Label(initialization.cuicui, text="Numéro de carte :", font=("Broadway", 12))
@@ -88,13 +100,37 @@ def process_payment():
         cvv = cvv_entry.get()
 
         if len(card_number) == 16 and len(expiry_date) == 5 and len(cvv) == 3:
-            messagebox.showinfo("Paiement réussi", "Votre paiement a été traité avec succès. Merci!")
-            
+            messagebox.showinfo("Paiement réussi", f"Paiement pour Passager {passenger_details['passenger_number']} traité avec succès. Merci!")
         else:
             messagebox.showerror("Erreur de paiement", "Veuillez vérifier vos informations de paiement.")
 
     pay_button = tk.Button(initialization.cuicui, text="Payer", font=("Broadway", 14), command=validate_payment)
     pay_button.pack()
+
+# Fonction pour le processus complet pour un nombre spécifié de passagers
+def process_for_passenger_count():
+    passenger_count = simpledialog.askinteger("Nombre de passagers", "Entrez le nombre de passagers:")
+    print(f"Demande de réservation pour {passenger_count} passagers.")
+
+    for passenger_number in range(1, passenger_count + 1):
+        passenger_details = {}  # Dictionnaire pour stocker les détails du passager
+        passenger_details['passenger_number'] = passenger_number
+
+        # Boucle de saisie pour garantir un type de membre valide
+        while True:
+            member_type = tk.simpledialog.askstring("Type de membre", f"Passager {passenger_number}: Êtes-vous un senior, un client régulier ou un enfant?")
+            if member_type.lower() in ['senior', 'regular', 'children']:
+                break
+            else:
+                messagebox.showerror("Erreur", "Veuillez entrer un type de membre valide (senior, regular, children).")
+
+        passenger_details['member_type'] = member_type
+
+        # Affiche le message en fonction du résultat de la réservation
+        if reserver_vol(passenger_details):
+            process_payment(passenger_details)
+        else:
+            print("Aucun vol n'a été réservé pour le passager ", passenger_number)
 
 # Crée la fenêtre principale
 initialization.cuicui.title("Welcome Page")
@@ -134,12 +170,8 @@ date_select = DateEntry(content_frame, date_pattern="yyyy-mm-dd", fg="black", bg
 date_select.grid(row=0, column=5, padx=10, pady=5)
 
 # Bouton pour rechercher les vols
-reserver_bouton = tk.Button(content_frame, text="Search", font=("Broadway", 10), command=reserver_vol)
+reserver_bouton = tk.Button(content_frame, text="Search", font=("Broadway", 10), command=process_for_passenger_count)
 reserver_bouton.grid(row=0, column=8, columnspan=2, pady=10)
-
-# Bouton pour afficher la page de paiement
-show_payment_button = tk.Button(content_frame, text="Show Payment", font=("Broadway", 10), command=process_payment)
-show_payment_button.grid(row=0, column=9, columnspan=2, pady=10)
 
 # Lance la boucle principale
 initialization.cuicui.mainloop()
