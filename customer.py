@@ -1,6 +1,8 @@
 import tkinter as tk
 import initialization
 from PIL import Image, ImageTk
+from tkcalendar import DateEntry
+from tkinter import simpledialog
 import query
 
 
@@ -160,13 +162,132 @@ class customer():
             for i in range(nbrBooking):
                 booking.pastBookingShow(pastFlights, output[i][0], i, image, scroll_canva)
 
+    
+    def verify_submit(DepartureCity, ArrivalCity, DepartureDay, DepartureHours, DepartureMin, ArrivalDay, ArrivalHours, ArrivalMin, TicketPrice, SeatsAvailable):
+        DepartureTime = str(DepartureDay) + " " + str(DepartureHours) +  ":" + str(DepartureMin) + ":00"
+        ArrivalTime = str(ArrivalDay) + " " + str(ArrivalHours) +  ":" + str(ArrivalMin) + ":00"
+        print("Départ", DepartureTime, "Arrival", ArrivalTime)
+
 
 
     def createFlights(self):
         TitleRight = tk.Label(text="Create Flights",font = ('Helvetica' , 20, 'bold'))
-        TitleRight.place(x=1020, y=225)
+        TitleRight.place(x=985, y=225)
 
 
+        departureCity = tk.Label(text = "Departure City :",font = ('Helvetica' , 10, 'bold'))
+        departureCity.place(x=725, y=300)
+
+        DepartureCity_frame = tk.Frame(initialization.cuicui)
+        DepartureCity_frame.place(x=725, y=320)
+
+        DepartureCity = tk.Entry(DepartureCity_frame, fg="black", bg="white", width=50)
+        DepartureCity.pack(ipady=5)
+
+
+        arrivalCity = tk.Label(text = "Arrival City :",font = ('Helvetica' , 10, 'bold'))
+        arrivalCity.place(x=1150, y=300)
+
+        ArrivalCity_frame = tk.Frame(initialization.cuicui)
+        ArrivalCity_frame.place(x=1150, y=320)
+
+        ArrivalCity = tk.Entry(ArrivalCity_frame, fg="black", bg="white", width=50)
+        ArrivalCity.pack(ipady=5)
+
+
+
+
+        departureDay = tk.Label(text = "Departure Day :",font = ('Helvetica' , 10, 'bold'))
+        departureDay.place(x=725, y=370)
+
+        DepartureDay_frame = tk.Frame(initialization.cuicui)
+        DepartureDay_frame.place(x=725, y=390)
+
+        DepartureDay = DateEntry(DepartureDay_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=18, font = ('Helvetica' , 10, 'bold'))
+        DepartureDay.pack(ipady=5)
+
+
+        departureHours = tk.Label(text = "Hours :",font = ('Helvetica' , 10, 'bold'))
+        departureHours.place(x=880, y=370)
+
+        DepartureHours_frame = tk.Frame(initialization.cuicui)
+        DepartureHours_frame.place(x=880, y=390)
+
+        DepartureHours = tk.ttk.Combobox(DepartureHours_frame, width=8, values=("00h","01h","02h","03h","04h","05h","06h","07h","08h","09h","10h","11h","12h","13h","14h","15h","16h","17h","18h","19h","20h","21h","22h","23h"))
+        DepartureHours.pack(ipady=5)
+
+
+        departureMin = tk.Label(text = "Minutes :",font = ('Helvetica' , 10, 'bold'))
+        departureMin.place(x=958, y=370)
+
+        DepartureMin_frame = tk.Frame(initialization.cuicui)
+        DepartureMin_frame.place(x=958, y=390)
+
+        DepartureMin = tk.ttk.Combobox(DepartureMin_frame, width=8, values=("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"))
+        DepartureMin.pack(ipady=5)
+
+
+
+        arrivalDay = tk.Label(text = "Arrival Day :",font = ('Helvetica' , 10, 'bold'))
+        arrivalDay.place(x=1150, y=370)
+
+        ArrivalDay_frame = tk.Frame(initialization.cuicui)
+        ArrivalDay_frame.place(x=1150, y=390)
+
+        ArrivalDay = DateEntry(ArrivalDay_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=18, font = ('Helvetica' , 10, 'bold'))
+        ArrivalDay.pack(ipady=5)
+        
+
+        arrivalHours = tk.Label(text = "Hours :",font = ('Helvetica' , 10, 'bold'))
+        arrivalHours.place(x=1305, y=370)
+
+        ArrivalHours_frame = tk.Frame(initialization.cuicui)
+        ArrivalHours_frame.place(x=1305, y=390)
+
+        ArrivalHours = tk.ttk.Combobox(ArrivalHours_frame, width=8, values=("00h","01h","02h","03h","04h","05h","06h","07h","08h","09h","10h","11h","12h","13h","14h","15h","16h","17h","18h","19h","20h","21h","22h","23h"))
+        ArrivalHours.pack(ipady=5)
+
+
+        arrivalMin = tk.Label(text = "Minutes :",font = ('Helvetica' , 10, 'bold'))
+        arrivalMin.place(x=1383, y=370)
+
+        ArrivalMin_frame = tk.Frame(initialization.cuicui)
+        ArrivalMin_frame.place(x=1383, y=390)
+
+        ArrivalMin = tk.ttk.Combobox(ArrivalMin_frame, width=8, values=("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"))
+        ArrivalMin.pack(ipady=5)
+        
+
+
+        ticketPrice = tk.Label(text = "Ticket Price :",font = ('Helvetica' , 10, 'bold'))
+        ticketPrice.place(x=725, y=450)
+
+        TicketPrice_frame = tk.Frame(initialization.cuicui)
+        TicketPrice_frame.place(x=725, y=470)
+
+        TicketPrice = tk.Entry(TicketPrice_frame, fg="black", bg="white", width=50)
+        TicketPrice.pack(ipady=5)
+
+
+        seatsAvailable = tk.Label(text = "Seats Available :",font = ('Helvetica' , 10, 'bold'))
+        seatsAvailable.place(x=1150, y=450)
+
+        SeatsAvailable_frame = tk.Frame(initialization.cuicui)
+        SeatsAvailable_frame.place(x=1150, y=470)
+
+        SeatsAvailable = tk.Entry(SeatsAvailable_frame, fg="black", bg="white", width=50)
+        SeatsAvailable.pack(ipady=5)
+
+
+        Submit = tk.Button(
+        initialization.cuicui,
+        text  ="Sign up",
+        bg = "black",
+        fg = "white",
+        font = ('Helvetica', 10, 'bold'),
+        command = lambda: customer.verify_submit(DepartureCity.get(), ArrivalCity.get(), DepartureDay.get(), DepartureHours.get()[:2], DepartureMin.get(), ArrivalDay.get(), ArrivalHours.get()[:2], ArrivalMin.get(), TicketPrice.get(), SeatsAvailable.get()))
+
+        Submit.place(x=1100, y=550)
 
 
 
