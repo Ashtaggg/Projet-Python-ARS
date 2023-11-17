@@ -34,6 +34,8 @@ class CuicuiAirlinesApp():
         aeroport_depart_label = tk.Label( text="Departure", font=("Broadway", 10))
         aeroport_depart_label.place(x=200, y=150)
         cities = CuicuiAirlinesApp.get_cities(self)
+        print("TEST 2 cities ",cities)
+
         aeroport_depart_combobox = ttk.Combobox( values=cities)
         aeroport_depart_combobox.place(x=300, y=150)
 
@@ -56,8 +58,13 @@ class CuicuiAirlinesApp():
         initialization.cuicui.mainloop()
 
     def get_cities(self):
+        cities=[]
         request = "SELECT DISTINCT DepartureCity FROM flight"
-        cities = query.requestDataBase(request)
+        citie = query.requestDataBase(request)
+        for i in range(len(citie)):
+            cities.append(citie[i][0])
+            print("TEST cities ",cities)
+
         return cities
 
     def get_flights(self, departure_city, arrival_city, date):
@@ -90,6 +97,7 @@ class CuicuiAirlinesApp():
         return output
 
     def reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select):
+        id_fly=[]
         ville_depart = str(aeroport_depart_combobox.get())
         ville_arrivee = str(aeroport_arrivee_combobox.get())
         date = str(date_select.get() + " 00:00:00")
@@ -104,28 +112,71 @@ class CuicuiAirlinesApp():
 
         # Récupérez les vols en fonction des sélections de l'utilisateur
         flights = CuicuiAirlinesApp.get_flights(self, ville_depart, ville_arrivee, date)
-        print("test",flights)
+        print("test len fly",len(flights))
+
+
         # REMPLIR TOUT LES CHOIX DANS LA CLASSE ET LES AFFICHER
 
-        if not flights:
+        if(flights[0][0] == 0):
             print("PAS DE VOL A CETTE DATE")
 
         else:
+            for i in range(len(flights)):
+                id_fly.append(flights[i][0])
+                print("Test id_fly ", id_fly[i])
             ## PAGE DEROULANTE
             print("LISTE DES VOLS A CETTE DATE")
-
+            CuicuiAirlinesApp.show_fly(self,id_fly)
 
             # METTRE AFFICHAGE VOL ICI
 
             # AFFICHAGE IMAGE
             self.image_display = tk.Label(initialization.cuicui)
-            self.image_display.pack()
+            #self.image_display.pack()
             self.image_display.place(x=700, y=250)
-            show_image = tk.Button(initialization.cuicui,command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
-            show_image.pack()
+            #show_image = tk.Button(initialization.cuicui,command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
+            CuicuiAirlinesApp.show_image(self, ville_arrivee)
+            #show_image.pack()
+
+    def show_fly(self,id_fly):
+        print("FLY AVAILABLE")
+        TitleRight = tk.Label(text="Fly Available", font=('Helvetica', 22, 'bold'))
+        TitleRight.place(x=75, y=200)
+
+        #pastFlights = booking(0, 0, 0, 0, 0, 0)
+        #nbrBooking = booking.findNbrBooking(pastFlights, self.CustomerID)
+        #if nbrBooking == 0:
+        #    noBooking = tk.Label(text="No previous flights booked", font=('Helvetica', 11, 'bold'))
+        #    noBooking.place(x=1010, y=350)
+        if (True == 1):
+            for i in range(len(id_fly)):
+                print("IF TRUE",id_fly[i])
+                request = f"SELECT ArrivalCity FROM flight WHERE FlightID = '{id_fly[i]} ';"
+                output = query.requestDataBase(request)
+                print("OUTPUT AFFICHAGE SCROLL",output)
+
+            scroll_canva = tk.Canvas(initialization.cuicui)
+            scroll_canva.config(highlightthickness=0, borderwidth=0,background="green")
+            scroll_canva.place(x=75, y=275, width=500, height=525)
+
+            yscrollbar = tk.Scrollbar(initialization.cuicui, orient="vertical", command=scroll_canva.yview)
+            yscrollbar.place(x=575, y=275, width=50, height=550)
+
+            scroll_canva.configure(yscrollcommand=yscrollbar.set)
+            scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
+
+            display_frame = tk.Frame(scroll_canva)
+            display_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+            scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
+
 
 
     def show_image(self,city):
+        # To remove the space
+        if " " in city:
+            city = city.replace(" ", "_")
+        city=city.lower()
         img = Image.open(f"photos/search_city/{city}.jpg")  # Assure-toi que le dossier est correctement spécifié
         #img = img.resize(500, 500)  # Redimensionnement de l'image
         photo = ImageTk.PhotoImage(img)
