@@ -160,7 +160,7 @@ class CuicuiAirlinesApp():
             scroll_canva.place(x=75, y=275, width=500, height=525)
 
             yscrollbar = tk.Scrollbar(initialization.cuicui, orient="vertical", command=scroll_canva.yview)
-            yscrollbar.place(x=575, y=275, width=50, height=550)
+            yscrollbar.place(x=575, y=275, width=15, height=550)
 
             scroll_canva.configure(yscrollcommand=yscrollbar.set)
             scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
@@ -170,6 +170,11 @@ class CuicuiAirlinesApp():
 
             scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
 
+            for i in range(100):
+                bouton = tk.Button(initialization.cuicui, text="Mon Bouton")
+                scroll_canva.create_window(75, i*40 + 50, window=bouton)  # Position du bouton dans le canevas
+
+                #scroll_canva.create_text(75, (i * 20), text="x test connard",font=('Helvetica', 10, 'bold'))
 
 
     def show_image(self,city):
