@@ -4,6 +4,7 @@ from tkcalendar import DateEntry
 from PIL import Image, ImageTk
 import query
 import initialization
+import effacer
 
 class CuicuiAirlinesApp():
     def __init__(self, FlightID, DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable):
@@ -106,6 +107,9 @@ class CuicuiAirlinesApp():
             print("Veuillez remplir tous les champs.")
             return
 
+        #effacer.effacer_page()
+
+
         print("Ville de départ:", ville_depart)
         print("Ville d'arrivée:", ville_arrivee)
         print("Date sélectionnée:", date)
@@ -143,17 +147,17 @@ class CuicuiAirlinesApp():
         TitleRight = tk.Label(text="Fly Available", font=('Helvetica', 22, 'bold'))
         TitleRight.place(x=75, y=200)
 
+        #scroll_canva = tk.Canvas(initialization.cuicui)
+
+        #for widget in scroll_canva.winfo_children():
+        #    widget.destroy()
+
         #pastFlights = booking(0, 0, 0, 0, 0, 0)
         #nbrBooking = booking.findNbrBooking(pastFlights, self.CustomerID)
         #if nbrBooking == 0:
         #    noBooking = tk.Label(text="No previous flights booked", font=('Helvetica', 11, 'bold'))
         #    noBooking.place(x=1010, y=350)
         if (True == 1):
-            for i in range(len(id_fly)):
-                print("IF TRUE",id_fly[i])
-                request = f"SELECT ArrivalCity FROM flight WHERE FlightID = '{id_fly[i]} ';"
-                output = query.requestDataBase(request)
-                print("OUTPUT AFFICHAGE SCROLL",output)
 
             scroll_canva = tk.Canvas(initialization.cuicui)
             scroll_canva.config(highlightthickness=0, borderwidth=0,background="green")
@@ -170,12 +174,42 @@ class CuicuiAirlinesApp():
 
             scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
 
-            for i in range(100):
-                bouton = tk.Button(initialization.cuicui, text="Mon Bouton")
+            boutons=[]
+
+            for i in range(len(id_fly)):
+                print("IF TRUE",id_fly[i])
+
+                request = f"SELECT DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable FROM flight WHERE FlightID = '{id_fly[i]} ';"
+                output = query.requestDataBase(request)
+
+                print("OUTPUT AFFICHAGE SCROLL", output)
+
+                bouton = tk.Button(initialization.cuicui, text=f"Mon Bouton {output}", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,id_fly[i],boutons))
+                scroll_canva.create_window(75, i*40 + 50, window=bouton)  # Position du bouton dans le canevas
+
+                boutons.append(bouton)
+
+
+    def clicked(self,numBouton,boutons):
+        # PAGE POUR ANTO
+        print("le bouton ",numBouton," est clické")
+        for button in boutons:
+            button.destroy()
+
+
+    '''
+                for i in range(100):
+                bouton = tk.Button(initialization.cuicui, text=f"Mon Bouton {i}", command=lambda num=i: CuicuiAirlinesApp.clicked(self,num))
                 scroll_canva.create_window(75, i*40 + 50, window=bouton)  # Position du bouton dans le canevas
 
                 #scroll_canva.create_text(75, (i * 20), text="x test connard",font=('Helvetica', 10, 'bold'))
+                   def clicked():
+                   on_button_click(number)
+                   bouton = tk.Button(root, text=f"Mon Bouton {number}", command=clicked)
+                   scroll_canvas.create_window(75, number * 40 + 50, window=bouton)
 
+                   
+    '''
 
     def show_image(self,city):
         # To remove the space
