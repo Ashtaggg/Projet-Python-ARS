@@ -119,7 +119,7 @@ def affichage():
     initialization.cuicui.mainloop()
 
 # Appelle la fonction d'affichage
-affichage()
+#affichage()
 
 
 

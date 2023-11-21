@@ -7,7 +7,7 @@ import choice_person
 import query
 import initialization
 import effacer
-import choice_person
+#import choice_person
 
 class CuicuiAirlinesApp():
     def __init__(self, FlightID, DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable):
@@ -25,7 +25,6 @@ class CuicuiAirlinesApp():
         canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
         canvas.place(x=0, y=0)
         canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
-        canvas.create_line(650, 220, 650, 800, width=2, fill="black")
 
         Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",bg="black")
         Cuicui.place(x=50, y=15)
@@ -33,6 +32,13 @@ class CuicuiAirlinesApp():
         titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
         titre_label.place(x=400, y=90)
 
+        # CANVAS SUPP
+
+        canva_sup = tk.Canvas(canvas)
+        canva_sup.config(highlightthickness=0, borderwidth=0)#, background="green")
+        canva_sup.place(x=75, y=220, width=1350, height=600)
+
+        canva_sup.create_line(600, 0, 600, 800, width=2, fill="black")
 
         #DEPARTURE
         aeroport_depart_label = tk.Label( text="Departure", font=("Broadway", 10))
@@ -56,8 +62,10 @@ class CuicuiAirlinesApp():
         date_select.place(x=800, y=150)
 
         #SEARCH
-        reserver_bouton = tk.Button( text="Search", font=("Broadway", 10),command=lambda: CuicuiAirlinesApp.reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select))
+        reserver_bouton = tk.Button( text="Search", font=("Broadway", 10),command=lambda: CuicuiAirlinesApp.reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup))
         reserver_bouton.place(x=950, y=150)
+
+
 
         initialization.cuicui.mainloop()
 
@@ -101,7 +109,9 @@ class CuicuiAirlinesApp():
 
         return output
 
-    def reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select):
+    def reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup):
+        for widget in canva_sup.winfo_children():
+            widget.destroy()
         id_fly=[]
         ville_depart = str(aeroport_depart_combobox.get())
         ville_arrivee = str(aeroport_arrivee_combobox.get())
@@ -114,6 +124,7 @@ class CuicuiAirlinesApp():
         #effacer.effacer_page()
 
 
+
         print("Ville de départ:", ville_depart)
         print("Ville d'arrivée:", ville_arrivee)
         print("Date sélectionnée:", date)
@@ -124,13 +135,13 @@ class CuicuiAirlinesApp():
 
 
         # REMPLIR TOUT LES CHOIX DANS LA CLASSE ET LES AFFICHER
-        TitleRight = tk.Label(text=f"                                                                                                   ", font=('Helvetica', 22, 'bold'))
-        TitleRight.place(x=75, y=200)
+        #TitleRight = tk.Label(canva_sup,text=f"                                                                                                   ", font=('Helvetica', 22, 'bold'))
+        #TitleRight.place(x=0, y=0)
 
         if(flights[0][0] == 0):
             print("PAS DE VOL A CETTE DATE")
-            TitleRight = tk.Label(text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'))
-            TitleRight.place(x=75, y=200)
+            TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'))
+            TitleRight.place(x=0, y=0)
 
         else:
             for i in range(len(flights)):
@@ -138,7 +149,7 @@ class CuicuiAirlinesApp():
                 print("Test id_fly ", id_fly[i])
             ## PAGE DEROULANTE
             print("LISTE DES VOLS A CETTE DATE")
-            CuicuiAirlinesApp.show_fly(self,id_fly)
+            CuicuiAirlinesApp.show_fly(self,id_fly,canva_sup)
 
             # METTRE AFFICHAGE VOL ICI
 
@@ -147,13 +158,13 @@ class CuicuiAirlinesApp():
             #self.image_display.pack()
             self.image_display.place(x=700, y=250)
             #show_image = tk.Button(initialization.cuicui,command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
-            CuicuiAirlinesApp.show_image(self, ville_arrivee)
+            CuicuiAirlinesApp.show_image(self, ville_arrivee,canva_sup)
             #show_image.pack()
 
-    def show_fly(self,id_fly):
+    def show_fly(self,id_fly,canva_sup):
         print("FLY AVAILABLE")
-        TitleRight = tk.Label(text="Fly Available", font=('Helvetica', 22, 'bold'))
-        TitleRight.place(x=75, y=200)
+        TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Helvetica', 22, 'bold'))
+        TitleRight.place(x=0, y=0)
 
         #scroll_canva = tk.Canvas(initialization.cuicui)
 
@@ -167,12 +178,12 @@ class CuicuiAirlinesApp():
         #    noBooking.place(x=1010, y=350)
         if (True == 1):
 
-            scroll_canva = tk.Canvas(initialization.cuicui)
+            scroll_canva = tk.Canvas(canva_sup)
             scroll_canva.config(highlightthickness=0, borderwidth=0) #,background="green")
-            scroll_canva.place(x=75, y=275, width=500, height=525)
+            scroll_canva.place(x=0, y=40, width=500, height=525)
 
-            yscrollbar = tk.Scrollbar(initialization.cuicui, orient="vertical", command=scroll_canva.yview)
-            yscrollbar.place(x=575, y=275, width=15, height=550)
+            yscrollbar = tk.Scrollbar(canva_sup, orient="vertical", command=scroll_canva.yview)
+            yscrollbar.place(x=580, y=0, width=15, height=600)
 
             scroll_canva.configure(yscrollcommand=yscrollbar.set)
             scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
@@ -189,7 +200,7 @@ class CuicuiAirlinesApp():
             for i in range(len(id_fly)):
                 print("IF TRUE",id_fly[i])
 
-                spaceY = i*60 + 40
+                spaceY = i*60 + 50
 
                 request = f"SELECT DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable FROM flight WHERE FlightID = '{id_fly[i]} ';"
                 output = query.requestDataBase(request)
@@ -197,24 +208,24 @@ class CuicuiAirlinesApp():
                 print("OUTPUT AFFICHAGE SCROLL", output)
                 fly = [str(output[0][0]),str(output[0][1]),str(output[0][2]),str(output[0][3]),str(output[0][4]),output[0][5]]
 
-                affichage_vol_label = tk.Label(text=f"Derparture City : {fly[0]} - Arrival City : {fly[1]} \n  Departure Time : {fly[2]} - Arrival Time : {fly[3]} \n Price : {fly[4]}", font=("Broadway", 8))
-                scroll_canva.create_window(200, spaceY,window=affichage_vol_label)
+                affichage_vol_label = tk.Label(canva_sup,text=f"Derparture City : {fly[0]} - Arrival City : {fly[1]} \n  Departure Time : {fly[2]} - Arrival Time : {fly[3]} \n Price : {fly[4]}", font=("Broadway", 8))
+                scroll_canva.create_window(250, spaceY,window=affichage_vol_label)
                 #affichage_vol_label.place(x=75, y=i*40 + 50)
                 print("AFFICHAGE FLY : ",fly[0])
 
 
-                bouton = tk.Button(initialization.cuicui, text=f"Reserve", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,id_fly[i],boutons))
+                bouton = tk.Button(canva_sup, text=f"Reserve", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,id_fly[i]))
                 bouton.pack(padx=20,pady=20)
-                scroll_canva.create_window(450, spaceY, window=bouton)  # Position du bouton dans le canevas
+                scroll_canva.create_window(500, spaceY, window=bouton)  # Position du bouton dans le canevas
 
                 boutons.append(bouton)
 
 
-    def clicked(self,numBouton,boutons):
+    def clicked(self,numBouton):
         # PAGE POUR ANTO
         print("le bouton ",numBouton," est clické")
         effacer.effacer_page()
-        choice_person.affichage()
+        #choice_person.affichage()
 
 
 
@@ -232,20 +243,21 @@ class CuicuiAirlinesApp():
                    
     '''
 
-    def show_image(self,city):
+    def show_image(self,city,canva_sup):
         # To remove the space
         if " " in city:
             city = city.replace(" ", "_")
         city=city.lower()
         img = Image.open(f"photos/search_city/{city}.jpg")
 
-        img = img.resize((750, 500))#, Image.ANTIALIAS)
+        img = img.resize((750, 500))#, Image.ANTIALIAS) 750 500
 
         #img = img.resize(500, 500)  # Redimensionnement de l'image
-        photo = ImageTk.PhotoImage(img)
+        self.photo = ImageTk.PhotoImage(img)
 
-        self.image_display.configure(image=photo)
-        self.image_display.image = photo
+        canva_sup.create_image(610, 25, anchor=tk.NW, image=self.photo)
+        #self.image_display.configure(image=photo)
+        #self.image_display.image = photo
 
 
 
