@@ -2,9 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 from PIL import Image, ImageTk
+
+import choice_person
 import query
 import initialization
 import effacer
+import choice_person
 
 class CuicuiAirlinesApp():
     def __init__(self, FlightID, DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable):
@@ -93,6 +96,7 @@ class CuicuiAirlinesApp():
 
             elif(int(result) == 0):
                 print("No fly from ",departure_city," for ", arrival_city," the ",date)
+
         print(" <---------- RESULT ---------->",output)
 
         return output
@@ -120,9 +124,13 @@ class CuicuiAirlinesApp():
 
 
         # REMPLIR TOUT LES CHOIX DANS LA CLASSE ET LES AFFICHER
+        TitleRight = tk.Label(text=f"                                                                                                   ", font=('Helvetica', 22, 'bold'))
+        TitleRight.place(x=75, y=200)
 
         if(flights[0][0] == 0):
             print("PAS DE VOL A CETTE DATE")
+            TitleRight = tk.Label(text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'))
+            TitleRight.place(x=75, y=200)
 
         else:
             for i in range(len(flights)):
@@ -160,7 +168,7 @@ class CuicuiAirlinesApp():
         if (True == 1):
 
             scroll_canva = tk.Canvas(initialization.cuicui)
-            scroll_canva.config(highlightthickness=0, borderwidth=0,background="green")
+            scroll_canva.config(highlightthickness=0, borderwidth=0) #,background="green")
             scroll_canva.place(x=75, y=275, width=500, height=525)
 
             yscrollbar = tk.Scrollbar(initialization.cuicui, orient="vertical", command=scroll_canva.yview)
@@ -176,16 +184,28 @@ class CuicuiAirlinesApp():
 
             boutons=[]
 
+
+
             for i in range(len(id_fly)):
                 print("IF TRUE",id_fly[i])
+
+                spaceY = i*60 + 40
 
                 request = f"SELECT DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable FROM flight WHERE FlightID = '{id_fly[i]} ';"
                 output = query.requestDataBase(request)
 
                 print("OUTPUT AFFICHAGE SCROLL", output)
+                fly = [str(output[0][0]),str(output[0][1]),str(output[0][2]),str(output[0][3]),str(output[0][4]),output[0][5]]
 
-                bouton = tk.Button(initialization.cuicui, text=f"Mon Bouton {output}", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,id_fly[i],boutons))
-                scroll_canva.create_window(75, i*40 + 50, window=bouton)  # Position du bouton dans le canevas
+                affichage_vol_label = tk.Label(text=f"Derparture City : {fly[0]} - Arrival City : {fly[1]} \n  Departure Time : {fly[2]} - Arrival Time : {fly[3]} \n Price : {fly[4]}", font=("Broadway", 8))
+                scroll_canva.create_window(200, spaceY,window=affichage_vol_label)
+                #affichage_vol_label.place(x=75, y=i*40 + 50)
+                print("AFFICHAGE FLY : ",fly[0])
+
+
+                bouton = tk.Button(initialization.cuicui, text=f"Reserve", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,id_fly[i],boutons))
+                bouton.pack(padx=20,pady=20)
+                scroll_canva.create_window(450, spaceY, window=bouton)  # Position du bouton dans le canevas
 
                 boutons.append(bouton)
 
@@ -193,8 +213,9 @@ class CuicuiAirlinesApp():
     def clicked(self,numBouton,boutons):
         # PAGE POUR ANTO
         print("le bouton ",numBouton," est clické")
-        for button in boutons:
-            button.destroy()
+        effacer.effacer_page()
+        choice_person.affichage()
+
 
 
     '''
@@ -216,12 +237,16 @@ class CuicuiAirlinesApp():
         if " " in city:
             city = city.replace(" ", "_")
         city=city.lower()
-        img = Image.open(f"photos/search_city/{city}.jpg")  # Assure-toi que le dossier est correctement spécifié
+        img = Image.open(f"photos/search_city/{city}.jpg")
+
+        img = img.resize((750, 500))#, Image.ANTIALIAS)
+
         #img = img.resize(500, 500)  # Redimensionnement de l'image
         photo = ImageTk.PhotoImage(img)
 
         self.image_display.configure(image=photo)
-        self.image_display.image = photo  # Garde une référence à l'image pour l'affichage
+        self.image_display.image = photo
+
 
 
 

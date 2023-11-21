@@ -68,27 +68,28 @@ def open_payment_window(main_window, passenger_list):
     main_window.withdraw()  # Masque la fenêtre principale
     pay.process_payment(main_window, passenger_list)  # Appelle la fonction de paiement
 
-# Crée la fenêtre principale
-initialization.cuicui.title("Welcome Page")
+def affichage():
+    # Crée la fenêtre principale
+    initialization.cuicui.title("Welcome Page")
 
-# Frame pour le header
-header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
-header_frame.pack(pady=20)
+    # Frame pour le header
+    header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
+    header_frame.pack(pady=20)
 
-# Label pour le titre
-titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
-titre_label.pack(pady=20)
+    # Label pour le titre
+    titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
+    titre_label.pack(pady=20)
 
-# Frame pour le contenu
-content_frame = tk.Frame(initialization.cuicui)
-content_frame.pack()
+    # Frame pour le contenu
+    content_frame = tk.Frame(initialization.cuicui)
+    content_frame.pack()
 
-# Bouton pour obtenir le nombre de passagers et leurs catégories
-passenger_button = tk.Button(content_frame, text="Choisir le nombre de passagers", font=("Broadway", 12), command=lambda: choose_ticket_type(get_passenger_details()))
-passenger_button.pack(pady=10)
+    # Bouton pour obtenir le nombre de passagers et leurs catégories
+    passenger_button = tk.Button(content_frame, text="Choisir le nombre de passagers", font=("Broadway", 12), command=lambda: choose_ticket_type(get_passenger_details()))
+    passenger_button.pack(pady=10)
 
-# Lance la boucle principale
-initialization.cuicui.mainloop()
+    # Lance la boucle principale
+    initialization.cuicui.mainloop()
 
 
 
