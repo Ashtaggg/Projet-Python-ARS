@@ -135,7 +135,7 @@ def register_page():
     bg = "black",
     fg = "white",
     font = ('Helvetica', 10, 'bold'),
-    command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, 0, verify))
+    command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, "./photos/profil_picture/photo_profil.png", verify))
     signup.place(x=740, y=y0+530)
 
 
