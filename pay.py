@@ -9,20 +9,20 @@ def process_payment(main_window, passenger_list):
     payment_page = tk.Toplevel(main_window)
     payment_page.title("Processus de Paiement")
 
-    payment_label = tk.Label(payment_page, text="Veuillez saisir les informations de paiement :", font=("Broadway", 14))
+    payment_label = tk.Label(payment_page, text="Veuillez saisir les informations de paiement :", font=("Helvetica", 13,"bold"))
     payment_label.pack()
 
-    card_label = tk.Label(payment_page, text="Numéro de carte :", font=("Broadway", 12))
+    card_label = tk.Label(payment_page, text="Numéro de carte :", font=("Helvetica", 11,"bold"))
     card_entry = tk.Entry(payment_page, show="*")
     card_label.pack()
     card_entry.pack()
 
-    expiry_label = tk.Label(payment_page, text="Date d'expiration (MM/YY) :", font=("Broadway", 12))
+    expiry_label = tk.Label(payment_page, text="Date d'expiration (MM/YY) :", font=("Helvetica", 11,"bold"))
     expiry_entry = tk.Entry(payment_page)
     expiry_label.pack()
     expiry_entry.pack()
 
-    cvv_label = tk.Label(payment_page, text="CVV :", font=("Broadway", 12))
+    cvv_label = tk.Label(payment_page, text="CVV :", font=("Helvetica", 11,"bold"))
     cvv_entry = tk.Entry(payment_page, show="*")
     cvv_label.pack()
     cvv_entry.pack()
@@ -39,7 +39,7 @@ def process_payment(main_window, passenger_list):
         else:
             messagebox.showerror("Erreur de paiement", "Veuillez vérifier vos informations de paiement.")
 
-    pay_button = tk.Button(payment_page, text="Payer", font=("Broadway", 14), command=validate_payment)
+    pay_button = tk.Button(payment_page, text="Payer", font=("Helvetica", 12,"bold"), command=validate_payment)
     pay_button.pack()
 
 # Nouvelle fonction calculate_price

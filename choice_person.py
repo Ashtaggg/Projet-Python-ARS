@@ -2,11 +2,11 @@
 
 import tkinter as tk
 from tkinter import simpledialog, messagebox
+from tkinter import ttk
 
 import initialization
-import pay  # Importe le module pay.py
+import pay
 
-# Fonction pour obtenir le nombre de passagers et leurs catégories
 def get_passenger_details():
     passenger_count = simpledialog.askinteger("Nombre de passagers", "Entrez le nombre de passagers:")
     print(f"Demande pour {passenger_count} passagers.")
@@ -14,36 +14,73 @@ def get_passenger_details():
     passenger_list = []
 
     for passenger_number in range(1, passenger_count + 1):
+        passenger_details = {}
+
+        # Catégorie du membre
+        member_type_var = tk.StringVar()
+
+        member_question_label = tk.Label(initialization.cuicui, text=f"Passager {passenger_number} : Choisissez le type de membre", font=("Helvetica", 10,"bold"))
+        member_question_label.pack(pady=5)
+
+        member_type_combobox = ttk.Combobox(initialization.cuicui, textvariable=member_type_var, values=['Senior', 'Regular', 'Children'], state="readonly")
+        member_type_combobox.set("Sélectionnez le type de membre")
+        member_type_combobox.pack(pady=5)
+
+        member_label = tk.Label(initialization.cuicui, text="", font=("Helvetica", 9,"bold"))
+        member_label.pack(pady=5)
+
+        def update_member_label(*args):
+            member_label.config(text=f"Type de membre pour le passager {passenger_number} : {member_type_var.get().capitalize()}")
+
+        member_type_var.trace_add("write", update_member_label)
+
         while True:
-            member_type = tk.simpledialog.askstring("Type de membre", f"Passager {passenger_number} : Êtes-vous un senior, un client régulier ou un enfant?")
-            if member_type.lower() in ['senior', 'regular', 'children']:
+            initialization.cuicui.wait_variable(member_type_var)
+            selected_member_type = member_type_var.get().lower()
+
+            if selected_member_type in ['senior', 'regular', 'children']:
+                passenger_details['passenger_number'] = passenger_number
+                passenger_details['member_type'] = selected_member_type
                 break
             else:
-                tk.messagebox.showerror("Erreur", "Veuillez entrer un type de membre valide (senior, regular, children).")
+                tk.messagebox.showerror("Erreur", "Veuillez choisir un type de membre valide.")
 
-        passenger_list.append({
-            'passenger_number': passenger_number,
-            'member_type': member_type
-        })
+        # Classe du billet
+        ticket_types = ['Economy', 'Premium', 'Business']
+        ticket_type_var = tk.StringVar()
 
-    return passenger_list
+        ticket_question_label = tk.Label(initialization.cuicui, text=f"Passager {passenger_number} : Choisissez le type de billet", font=("Helvetica", 10,"bold"))
+        ticket_question_label.pack(pady=5)
 
-# Fonction pour choisir le type de billet après avoir sélectionné les passagers et leurs catégories
-def choose_ticket_type(passenger_list):
-    ticket_types = ['Economy', 'Premium', 'Business']
+        ticket_type_combobox = ttk.Combobox(initialization.cuicui, textvariable=ticket_type_var, values=ticket_types, state="readonly")
+        ticket_type_combobox.set("Sélectionnez le type de billet")
+        ticket_type_combobox.pack(pady=5)
 
-    for passenger_details in passenger_list:
+        ticket_label = tk.Label(initialization.cuicui, text="", font=("Helvetica", 9, "bold"))
+        ticket_label.pack(pady=5)
+
+        def update_ticket_label(*args):
+            ticket_label.config(text=f"Type de billet pour le passager {passenger_number} : {ticket_type_var.get().capitalize()}")
+
+        ticket_type_var.trace_add("write", update_ticket_label)
+
         while True:
-            ticket_type = tk.simpledialog.askstring("Type de billet", f"Passager {passenger_details['passenger_number']} : Choisissez le type de billet (Economy, Premium, Business):")
-            if ticket_type.capitalize() in ticket_types:
-                passenger_details['ticket_type'] = ticket_type.capitalize()
+            initialization.cuicui.wait_variable(ticket_type_var)
+            selected_ticket_type = ticket_type_var.get().capitalize()
+
+            if selected_ticket_type in ticket_types:
+                passenger_details['ticket_type'] = selected_ticket_type
                 break
             else:
                 tk.messagebox.showerror("Erreur", "Veuillez choisir un type de billet valide.")
 
+        passenger_list.append(passenger_details)
+
+    return passenger_list
+
+def choose_ticket_type(passenger_list):
     show_summary(passenger_list)
 
-# Fonction pour afficher un récapitulatif des demandes
 def show_summary(passenger_list):
     summary = "Récapitulatif des demandes :\n\n"
 
@@ -52,44 +89,39 @@ def show_summary(passenger_list):
         summary += f"   Type de membre : {passenger_details['member_type']}\n"
         summary += f"   Type de billet : {passenger_details['ticket_type']}\n\n"
 
-    total_price = pay.calculate_price(passenger_list)  # Calcul du prix total en utilisant pay.py
-
+    total_price = pay.calculate_price(passenger_list)
     summary += f"Prix total : {total_price} euros\n"
 
-    # Bouton modifié pour afficher "Payer" et appeler la fonction open_payment_window
-    payment_button = tk.Button(initialization.cuicui, text="Payer", font=("Broadway", 12), command=lambda: open_payment_window(initialization.cuicui, passenger_list))
+    payment_button = tk.Button(initialization.cuicui, text="Payer", font=("Helvetica", 12,"bold"), command=lambda: open_payment_window(initialization.cuicui, passenger_list))
     payment_button.pack(pady=10)
 
-    # Affiche le récapitulatif
     result = messagebox.askokcancel("Récapitulatif des demandes", summary)
 
-# Fonction pour ouvrir la fenêtre de paiement
 def open_payment_window(main_window, passenger_list):
-    main_window.withdraw()  # Masque la fenêtre principale
-    pay.process_payment(main_window, passenger_list)  # Appelle la fonction de paiement
+    main_window.withdraw()
+    pay.process_payment(main_window, passenger_list)
 
 def affichage():
-    # Crée la fenêtre principale
     initialization.cuicui.title("Welcome Page")
 
-    # Frame pour le header
     header_frame = tk.Frame(initialization.cuicui, highlightbackground="black", highlightthickness=5)
     header_frame.pack(pady=20)
 
-    # Label pour le titre
-    titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
+    titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Helvetica", 30, "bold"))
     titre_label.pack(pady=20)
 
-    # Frame pour le contenu
     content_frame = tk.Frame(initialization.cuicui)
     content_frame.pack()
 
-    # Bouton pour obtenir le nombre de passagers et leurs catégories
-    passenger_button = tk.Button(content_frame, text="Choisir le nombre de passagers", font=("Broadway", 12), command=lambda: choose_ticket_type(get_passenger_details()))
+    passenger_button = tk.Button(content_frame, text="Choisir le nombre de passagers", font=("Helvetica", 12,"bold"), command=lambda: choose_ticket_type(get_passenger_details()))
     passenger_button.pack(pady=10)
 
-    # Lance la boucle principale
     initialization.cuicui.mainloop()
+
+# Appelle la fonction d'affichage
+affichage()
+
+
 
 
 
