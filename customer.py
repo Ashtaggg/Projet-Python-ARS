@@ -1,9 +1,11 @@
 import tkinter as tk
+from tkinter import filedialog
 import initialization
 from PIL import Image, ImageTk
 from tkcalendar import DateEntry
-from tkinter import simpledialog
+from datetime import datetime
 import query
+import re
 
 
 class flight():
@@ -102,7 +104,7 @@ class booking():
 
 
 class customer():
-    def __init__(self, CustomerID, FirstName, LastName, Email, BirthDate, Password, Type, MembershipNumber):
+    def __init__(self, CustomerID, FirstName, LastName, Email, BirthDate, Password, Type, PhotoProfil):
         self.CustomerID = CustomerID
         self.FirstName = FirstName
         self.LastName = LastName
@@ -110,7 +112,7 @@ class customer():
         self.BirthDate = BirthDate
         self.Password = Password
         self.Type = Type
-        self.MembershipNumber = MembershipNumber
+        self.PhotoProfil = PhotoProfil
 
     def pastFlights(self, canvas, image):
         TitleRight = tk.Label(text="Past flights", font=('Helvetica', 22, 'bold'))
@@ -143,11 +145,30 @@ class customer():
             for i in range(nbrBooking):
                 booking.pastBookingShow(pastFlights, output[i][0], i, image, scroll_canva)
 
-    def verify_submit(DepartureCity, ArrivalCity, DepartureDay, DepartureHours, DepartureMin, ArrivalDay, ArrivalHours,
-                      ArrivalMin, TicketPrice, SeatsAvailable):
+
+    def verify_submit(DepartureCity, ArrivalCity, DepartureDay, DepartureHours, DepartureMin, ArrivalDay, ArrivalHours, ArrivalMin, TicketPrice, SeatsAvailable, verify):
         DepartureTime = str(DepartureDay) + " " + str(DepartureHours) + ":" + str(DepartureMin) + ":00"
         ArrivalTime = str(ArrivalDay) + " " + str(ArrivalHours) + ":" + str(ArrivalMin) + ":00"
-        print("Départ", DepartureTime, "Arrival", ArrivalTime)
+
+        date_now = datetime.now()
+        date_departure = datetime.strptime(DepartureTime, "%Y-%m-%d %H:%M:%S")
+        date_arrival = datetime.strptime(ArrivalTime, "%Y-%m-%d %H:%M:%S")
+
+        if DepartureCity == "" or ArrivalCity == "" or DepartureDay == "" or DepartureHours == "" or DepartureMin == "" or ArrivalDay == "" or ArrivalHours == "" or ArrivalMin == "" or TicketPrice == "" or SeatsAvailable == "":
+            verify.config(text="Please complete all the fields")
+        elif DepartureCity == ArrivalCity:
+            verify.config(text="You cannot have the same departure and arrival city")
+        elif date_now > date_departure or date_arrival < date_departure:
+            verify.config(text="Dates are not possible")
+        else:
+            verify.config(text="")
+            request = "INSERT INTO `flight` (`DepartureCity`, `ArrivalCity`, `DepartureTime`, `ArrivalTime`, `TicketPrice`, `SeatsAvailable`) VALUES('" + str(DepartureCity) + "', '" + str(ArrivalCity) + "', '" + str(DepartureTime) + "', '" + str(ArrivalTime) + "', '" + str(TicketPrice) + "', '" + str(SeatsAvailable) + "');"
+            query.requestDataBase(request)
+
+
+
+
+
 
     def createFlights(self):
         TitleRight = tk.Label(text="Create Flights", font=('Helvetica', 20, 'bold'))
@@ -259,16 +280,23 @@ class customer():
 
         Submit = tk.Button(
             initialization.cuicui,
-            text="Sign up",
+            text="Submit",
             bg="black",
             fg="white",
             font=('Helvetica', 10, 'bold'),
             command=lambda: customer.verify_submit(DepartureCity.get(), ArrivalCity.get(), DepartureDay.get(),
                                                    DepartureHours.get()[:2], DepartureMin.get(), ArrivalDay.get(),
                                                    ArrivalHours.get()[:2], ArrivalMin.get(), TicketPrice.get(),
-                                                   SeatsAvailable.get()))
+                                                   SeatsAvailable.get(), verify))
 
-        Submit.place(x=1100, y=550)
+        Submit.place(x=1060, y=550)
+
+
+        verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'))
+        verify.place(x=1130, y=552)
+
+
+
 
     def adminOrNot(self, canvas, image2):
         request = "SELECT Type FROM Customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
@@ -277,6 +305,95 @@ class customer():
             customer.pastFlights(self, canvas, image2)
         elif output[0][0] == 1:
             customer.createFlights(self)
+
+
+
+    def changeModif(self, tag, new):
+        if tag == "FirstName":
+            request = "UPDATE `customer` SET `FirstName` = '" + str(new) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
+        elif tag == "Name":
+            request = "UPDATE `customer` SET `LastName` = '" + str(new) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
+        elif tag == "Email":
+            request = "UPDATE `customer` SET `Email` = '" + str(new) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
+        elif tag == "Birth":
+            request = "UPDATE `customer` SET `BirthDate` = '" + str(new) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
+        output = query.requestDataBase(request)
+
+
+        if tag == "FirstName":
+            request = "SELECT FirstName FROM customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
+            self.FirstName = output[0][0]
+        elif tag == "Name":
+            request = "SELECT LastName FROM customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
+            self.LastName = output[0][0]
+        elif tag == "Email":
+            request = "SELECT Email FROM customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
+            self.Email = output[0][0]
+        elif tag == "Birth":
+            request = "SELECT BirthDate FROM customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
+            self.BirthDate = output[0][0]
+
+
+        for widget in initialization.cuicui.winfo_children():
+            widget.destroy()
+        customer.customer_page(self)
+
+
+    def modifProfil(self, tag):
+        y0 = 125
+        modif = tk.Frame(initialization.cuicui)
+        valid = tk.Button(
+        text = "OK",
+        bg = "black",
+        fg = "white",
+        font = ('Helvetica' , 10, 'bold'),
+        command = lambda: customer.changeModif(self, tag, modif.get()))
+        
+        if tag == "FirstName":
+            modif.place(x=170, y=y0 + 410)
+            valid.place(x=390, y=y0 + 410)
+            modif = tk.Entry(modif, fg="black", bg="white", width=35)
+        elif tag == "Name":
+            modif.place(x=170, y=y0 + 450)
+            valid.place(x=390, y=y0 + 450)
+            modif = tk.Entry(modif, fg="black", bg="white", width=35)
+        elif tag == "Birth":
+            modif.place(x=170, y=y0 + 488)
+            valid.place(x=390, y=y0 + 490)
+            modif = DateEntry(modif, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=27, font = ('Helvetica' , 10, 'bold'), dayfield=('entry', 1))
+        elif tag == "Email":
+            modif.place(x=170, y=y0 + 530)
+            valid.place(x=390, y=y0 + 530)
+            modif = tk.Entry(modif, fg="black", bg="white", width=35)
+
+        modif.pack(ipady=5)
+
+
+    def modifPhoto(self, tag):
+        fichier = filedialog.askopenfilename(title="Choisir un fichier")
+        if fichier:
+            pattern = re.compile("/photos/(.+)")
+            fichier = pattern.search(fichier)
+            fichier = fichier.group(0)
+            fichier = "." + str(fichier)
+
+            request = "UPDATE `customer` SET `PhotoProfil` = '" + str(fichier) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
+
+            request = "SELECT PhotoProfil FROM customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
+            output = query.requestDataBase(request)
+            self.PhotoProfil = output[0][0]
+
+
+            for widget in initialization.cuicui.winfo_children():
+                widget.destroy()
+            customer.customer_page(self)
+
+
 
     def customer_page(self):
         y0 = 125
@@ -290,10 +407,11 @@ class customer():
                           bg="black")
         Cuicui.place(x=50, y=15)
 
-        image = Image.open("./photos/photo_profil.png")
+        image = Image.open(self.PhotoProfil)
         image = image.resize((200, 200))
         image = ImageTk.PhotoImage(image)
-        canvas.create_image(170, 200, anchor=tk.NW, image=image)
+        canvas.create_image(170, 200, anchor=tk.NW, image=image, tags="image")
+        canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": customer.modifPhoto(self, tag))
 
         Title = tk.Label(text="Account", font=('Helvetica', 30, 'bold'))
         Title.place(x=700, y=y0 - 25)
@@ -304,19 +422,44 @@ class customer():
         firstname = tk.Label(text=self.FirstName, font=('Helvetica', 12, 'bold'))
         firstname.place(x=170, y=y0 + 410)
 
+        imageModifFirstName = Image.open("./photos/customer/modif.png")
+        imageModifFirstName = imageModifFirstName.resize((16, 16))
+        imageModifFirstName = ImageTk.PhotoImage(imageModifFirstName)
+        canvas.create_image(500, y0 + 413, anchor=tk.NW, image=imageModifFirstName, tags="imageModifFirstName")
+        canvas.tag_bind("imageModifFirstName", "<Button-1>", lambda event, tag="FirstName": customer.modifProfil(self, tag))
+
         name = tk.Label(text=self.LastName, font=('Helvetica', 12, 'bold'))
         name.place(x=170, y=y0 + 450)
 
-        email = tk.Label(text=self.Email, font=('Helvetica', 12, 'bold'))
-        email.place(x=170, y=y0 + 490)
+        imageModifName = Image.open("./photos/customer/modif.png")
+        imageModifName = imageModifName.resize((16, 16))
+        imageModifName = ImageTk.PhotoImage(imageModifName)
+        canvas.create_image(500, y0 + 453, anchor=tk.NW, image=imageModifName, tags="imageModifName")
+        canvas.tag_bind("imageModifName", "<Button-1>", lambda event, tag="Name": customer.modifProfil(self, tag))
 
         BirthDate = tk.Label(text="Date of birth :", font=('Helvetica', 10, 'bold'))
-        BirthDate.place(x=170, y=y0 + 532)
+        BirthDate.place(x=170, y=y0 + 491)
 
         birthDate = tk.Label(text=self.BirthDate, font=('Helvetica', 12, 'bold'))
-        birthDate.place(x=265, y=y0 + 530)
+        birthDate.place(x=265, y=y0 + 490)
+    
+        imageModifBirth = Image.open("./photos/customer/modif.png")
+        imageModifBirth = imageModifBirth.resize((16, 16))
+        imageModifBirth = ImageTk.PhotoImage(imageModifBirth)
+        canvas.create_image(500, y0 + 493, anchor=tk.NW, image=imageModifBirth, tags="imageModifBirth")
+        canvas.tag_bind("imageModifBirth", "<Button-1>", lambda event, tag="Birth": customer.modifProfil(self, tag))
 
-        image2 = Image.open("./photos/photo_profil.png")
+        email = tk.Label(text=self.Email, font=('Helvetica', 12, 'bold'))
+        email.place(x=170, y=y0 + 530)
+
+        imageModifEmail = Image.open("./photos/customer/modif.png")
+        imageModifEmail = imageModifEmail.resize((16, 16))
+        imageModifEmail = ImageTk.PhotoImage(imageModifEmail)
+        canvas.create_image(500, y0 + 533, anchor=tk.NW, image=imageModifEmail, tags="imageModifEmail")
+        canvas.tag_bind("imageModifEmail", "<Button-1>", lambda event, tag="Email": customer.modifProfil(self, tag))
+
+
+        image2 = Image.open("./photos/profil_picture/photo_profil.png")
         image2 = image2.resize((20, 20))
         image2 = ImageTk.PhotoImage(image2)
 

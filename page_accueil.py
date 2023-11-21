@@ -255,7 +255,7 @@ class CuicuiAirlinesApp():
         #img = img.resize(500, 500)  # Redimensionnement de l'image
         self.photo = ImageTk.PhotoImage(img)
 
-        canva_sup.create_image(610, 25, anchor=tk.NW, image=self.photo)
+        canva_sup.create_image(610git , 25, anchor=tk.NW, image=self.photo)
         #self.image_display.configure(image=photo)
         #self.image_display.image = photo
 
