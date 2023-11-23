@@ -1,6 +1,6 @@
 import tkinter as tk
-from initialization import cuicui
+import initialization
 
 def effacer_page():
-    for widget in cuicui.winfo_children():
+    for widget in initialization.cuicui.winfo_children():
         widget.destroy()

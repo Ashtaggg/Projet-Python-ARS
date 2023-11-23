@@ -99,8 +99,7 @@ class booking():
         scroll_canva.create_text(650, (i * 150) + 105, text=str(self.TotalAmount * self.NumberOfTickets) + " €",
                                  font=('Helvetica', 10, 'bold'))
 
-        if i != 0:
-            scroll_canva.create_line(75, (i * 150) + 0, 800, (i * 150) + 0, width=1, fill="black")
+        scroll_canva.create_rectangle(100, (i * 150) + 10, 775, (i * 150) + 130)
 
 
 class customer():
@@ -210,7 +209,7 @@ class customer():
 
         DepartureHours = tk.ttk.Combobox(DepartureHours_frame, width=8, values=(
         "00h", "01h", "02h", "03h", "04h", "05h", "06h", "07h", "08h", "09h", "10h", "11h", "12h", "13h", "14h", "15h",
-        "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"))
+        "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"), state="readonly")
         DepartureHours.pack(ipady=5)
 
         departureMin = tk.Label(text="Minutes :", font=('Helvetica', 10, 'bold'))
@@ -223,7 +222,7 @@ class customer():
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
         "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35",
         "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53",
-        "54", "55", "56", "57", "58", "59"))
+        "54", "55", "56", "57", "58", "59"), state="readonly")
         DepartureMin.pack(ipady=5)
 
         arrivalDay = tk.Label(text="Arrival Day :", font=('Helvetica', 10, 'bold'))
@@ -244,7 +243,7 @@ class customer():
 
         ArrivalHours = tk.ttk.Combobox(ArrivalHours_frame, width=8, values=(
         "00h", "01h", "02h", "03h", "04h", "05h", "06h", "07h", "08h", "09h", "10h", "11h", "12h", "13h", "14h", "15h",
-        "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"))
+        "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"), state="readonly")
         ArrivalHours.pack(ipady=5)
 
         arrivalMin = tk.Label(text="Minutes :", font=('Helvetica', 10, 'bold'))
@@ -257,7 +256,7 @@ class customer():
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
         "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35",
         "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53",
-        "54", "55", "56", "57", "58", "59"))
+        "54", "55", "56", "57", "58", "59"), state="readonly")
         ArrivalMin.pack(ipady=5)
 
         ticketPrice = tk.Label(text="Ticket Price :", font=('Helvetica', 10, 'bold'))
