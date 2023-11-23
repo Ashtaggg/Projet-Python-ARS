@@ -7,7 +7,7 @@ import choice_person
 import query
 import initialization
 import effacer
-#import choice_person
+import choice_person
 
 class CuicuiAirlinesApp():
     def __init__(self, FlightID, DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable):
@@ -225,6 +225,7 @@ class CuicuiAirlinesApp():
         # PAGE POUR ANTO
         print("le bouton ",numBouton," est clické")
         effacer.effacer_page()
+        choice_person.flight.debut(numBouton)
         #choice_person.affichage()
 
 
@@ -255,7 +256,7 @@ class CuicuiAirlinesApp():
         #img = img.resize(500, 500)  # Redimensionnement de l'image
         self.photo = ImageTk.PhotoImage(img)
 
-        canva_sup.create_image(610git , 25, anchor=tk.NW, image=self.photo)
+        canva_sup.create_image(610 , 25, anchor=tk.NW, image=self.photo)
         #self.image_display.configure(image=photo)
         #self.image_display.image = photo
 
