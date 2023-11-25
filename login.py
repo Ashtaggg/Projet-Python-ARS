@@ -79,7 +79,7 @@ def verify_login(Email, Password, verify):
             completeMember(Email, Password)
 
             #page_reservation.FlightReservationApp(initialization.cuicui)
-            if(initialization.member.Type == 0):
+            if(initialization.member.Type == 0):    
                 customer.customer.customer_page(initialization.member)
             if(initialization.member.Type == 1):
                 customer.customer.customer_page(initialization.member)

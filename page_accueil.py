@@ -35,7 +35,7 @@ class CuicuiAirlinesApp():
         # CANVAS SUPP
 
         canva_sup = tk.Canvas(canvas)
-        canva_sup.config(highlightthickness=0, borderwidth=0)#, background="green")
+        canva_sup.config(highlightthickness=0, borderwidth=0, background="green")#
         canva_sup.place(x=75, y=220, width=1350, height=600)
 
         canva_sup.create_line(600, 0, 600, 800, width=2, fill="black")
@@ -46,13 +46,13 @@ class CuicuiAirlinesApp():
         cities = CuicuiAirlinesApp.get_cities(self)
         print("TEST 2 cities ",cities)
 
-        aeroport_depart_combobox = ttk.Combobox( values=cities)
+        aeroport_depart_combobox = ttk.Combobox(values=cities, state="readonly")
         aeroport_depart_combobox.place(x=300, y=150)
 
         #ARRIVAL
         aeroport_arrivee_label = tk.Label( text="Arrival", font=("Broadway", 10))
         aeroport_arrivee_label.place(x=450, y=150)
-        aeroport_arrivee_combobox = ttk.Combobox( values=cities)
+        aeroport_arrivee_combobox = ttk.Combobox(values=cities, state="readonly")
         aeroport_arrivee_combobox.place(x=550, y=150)
 
         #DATE
@@ -154,9 +154,9 @@ class CuicuiAirlinesApp():
             # METTRE AFFICHAGE VOL ICI
 
             # AFFICHAGE IMAGE
-            self.image_display = tk.Label(initialization.cuicui)
+            #self.image_display = tk.Label(initialization.cuicui)
             #self.image_display.pack()
-            self.image_display.place(x=700, y=250)
+            #self.image_display.place(x=700, y=250)
             #show_image = tk.Button(initialization.cuicui,command=CuicuiAirlinesApp.show_image(self,ville_arrivee))
             CuicuiAirlinesApp.show_image(self, ville_arrivee,canva_sup)
             #show_image.pack()
@@ -249,9 +249,10 @@ class CuicuiAirlinesApp():
         if " " in city:
             city = city.replace(" ", "_")
         city=city.lower()
+
         img = Image.open(f"photos/search_city/{city}.jpg")
 
-        img = img.resize((750, 500))#, Image.ANTIALIAS) 750 500
+        img = img.resize((750, 500),Image.LANCZOS)#, Image.ANTIALIAS) 750 500
 
         #img = img.resize(500, 500)  # Redimensionnement de l'image
         self.photo = ImageTk.PhotoImage(img)
@@ -281,6 +282,5 @@ class CuicuiAirlinesApp():
             print("RAS.")
 
 if __name__ == "__main__":
-    #app = ( )
-    CuicuiAirlinesApp.welcome_page(initialization.cuicui)
-    #initialization.cuicui.mainloop()
+    pass
+    #CuicuiAirlinesApp.welcome_page(initialization.cuicui)
