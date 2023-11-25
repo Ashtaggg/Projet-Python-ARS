@@ -7,6 +7,7 @@ from datetime import datetime
 import query
 import statistiques
 import re
+import page_accueil
 
 
 class flight():
@@ -482,6 +483,11 @@ class customer():
 
         Title = tk.Label(text="Account", font=('Helvetica', 30, 'bold'))
         Title.place(x=700, y=y0 - 25)
+
+        if initialization.lastPage == "page_accueil":
+            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnTo.place(x=50, y=100)
+            returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
 
         TitleLeft = tk.Label(text="General informations", font=('Helvetica', 20, 'bold'))
         TitleLeft.place(x=170, y=y0 + 320)

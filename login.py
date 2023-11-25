@@ -5,7 +5,8 @@ import effacer
 import register
 import query
 import customer
-import page_reservation
+import page_accueil
+
 
 
 def go_register(temp):
@@ -71,8 +72,9 @@ def verify_login(Email, Password, verify):
             effacer.effacer_page()
             completeMember(Email, Password)
 
-            # page_reservation.FlightReservationApp(initialization.cuicui)
-            customer.customer.customer_page(initialization.member)
+            initialization.login = 1
+            page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
+            #customer.customer.customer_page(initialization.member)
 
 
         else:
@@ -92,6 +94,11 @@ def login_page():
 
     Title = tk.Label(text="Login", font=('Helvetica', 30, 'bold'))
     Title.place(x=710, y=y0 + 25)
+
+    if initialization.lastPage == "page_accueil":
+        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+        returnTo.place(x=50, y=100)
+        returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
 
     Register = tk.Label(text="Not Registered ? Register", font=('Helvetica', 12, 'bold'))
     Register.place(x=665, y=y0 + 100)

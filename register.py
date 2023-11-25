@@ -6,6 +6,7 @@ import effacer
 import login
 import query
 import customer
+import page_accueil
 
 
 
@@ -43,6 +44,7 @@ def verify_register(Firstname, Name, Email, BirthDate, Password, Type, PhotoProf
         verify.config(text="")
         request = "INSERT INTO `customer` (`FirstName`, `LastName`, `Email`, `BirthDate`, `Password`, `Type`, `PhotoProfil`) VALUES('" + str(Firstname) + "', '" + str(Name) + "', '" + str(Email) + "', '" + str(BirthDate) + "', '" + str(Password) + "', '" + str(Type) + "', '" + str(PhotoProfil) + "');"
         query.requestDataBase(request)
+        go_login(0)
 
 
 
@@ -60,6 +62,11 @@ def register_page():
 
     Title = tk.Label(text = "Create new account",font = ('Helvetica' , 30, 'bold'))
     Title.place(x=570, y=y0+25)
+
+    if initialization.lastPage == "page_accueil":
+        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+        returnTo.place(x=50, y=100)
+        returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
 
     Login = tk.Label(text = "Already Registered ? Login",font = ('Helvetica' , 12, 'bold'))
     Login.place(x=665, y=y0+100)
