@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 from tkcalendar import DateEntry
 from datetime import datetime
 import query
+import statistiques
 import re
 
 
@@ -114,35 +115,41 @@ class customer():
         self.PhotoProfil = PhotoProfil
 
     def pastFlights(self, canvas, image):
-        TitleRight = tk.Label(text="Past flights", font=('Helvetica', 22, 'bold'))
-        TitleRight.place(x=1030, y=200)
+        TitleRight = tk.Label(text="Past flights", font=('Helvetica', 20, 'bold'))
+        TitleRight.place(x=1015, y=205)
 
         pastFlights = booking(0, 0, 0, 0, 0, 0)
         nbrBooking = booking.findNbrBooking(pastFlights, self.CustomerID)
+
+        scroll_canva = tk.Canvas(canvas)
+        scroll_canva.config(highlightthickness=0, borderwidth=0)
+        scroll_canva.place(x=652, y=275, width=869, height=525)
+
+        yscrollbar = tk.Scrollbar(canvas, orient="vertical", command=scroll_canva.yview)
+        yscrollbar.place(x=1521, y=275, width=15, height=550)
+
+        scroll_canva.configure(yscrollcommand=yscrollbar.set)
+        scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
+
+        display_frame = tk.Frame(scroll_canva)
+        display_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+        scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
+
         if nbrBooking == 0:
-            noBooking = tk.Label(text="No previous flights booked", font=('Helvetica', 11, 'bold'))
-            noBooking.place(x=1010, y=350)
+            noBooking = tk.Label(scroll_canva, text="No previous flights booked", font=('Helvetica', 11, 'bold'))
+            noBooking.place(x=345, y=75)
         else:
             request = "SELECT BookingID FROM booking WHERE CustomerID = '" + str(self.CustomerID) + "';"
             output = query.requestDataBase(request)
 
-            scroll_canva = tk.Canvas(canvas)
-            scroll_canva.config(highlightthickness=0, borderwidth=0)
-            scroll_canva.place(x=652, y=275, width=869, height=525)
-
-            yscrollbar = tk.Scrollbar(canvas, orient="vertical", command=scroll_canva.yview)
-            yscrollbar.place(x=1521, y=275, width=15, height=550)
-
-            scroll_canva.configure(yscrollcommand=yscrollbar.set)
-            scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
-
-            display_frame = tk.Frame(scroll_canva)
-            display_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-            scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
-
             for i in range(nbrBooking):
                 booking.pastBookingShow(pastFlights, output[i][0], i, image, scroll_canva)
+            
+        if self.Type == 1:
+            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnAdmin.place(x=700, y=200)
+            returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
 
 
     def verify_submit(DepartureCity, ArrivalCity, DepartureDay, DepartureHours, DepartureMin, ArrivalDay, ArrivalHours, ArrivalMin, TicketPrice, SeatsAvailable, verify):
@@ -169,54 +176,65 @@ class customer():
 
 
 
-    def createFlights(self):
+    def createFlights(self, canvas, image):
         TitleRight = tk.Label(text="Create Flights", font=('Helvetica', 20, 'bold'))
-        TitleRight.place(x=985, y=225)
+        TitleRight.place(x=990, y=205)
 
-        departureCity = tk.Label(text="Departure City :", font=('Helvetica', 10, 'bold'))
-        departureCity.place(x=725, y=300)
+        x0 = 652
+        y0 = 275
 
-        DepartureCity_frame = tk.Frame(initialization.cuicui)
-        DepartureCity_frame.place(x=725, y=320)
+        scroll_canva = tk.Canvas(canvas)
+        scroll_canva.place(x=652, y=275, width=869, height=525)
+
+        if self.Type == 1:
+                returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+                returnAdmin.place(x=700, y=200)
+                returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
+
+        departureCity = tk.Label(scroll_canva, text="Departure City :", font=('Helvetica', 10, 'bold'))
+        departureCity.place(x=725-x0, y=300-y0)
+
+        DepartureCity_frame = tk.Frame(scroll_canva)
+        DepartureCity_frame.place(x=725-x0, y=320-y0)
 
         DepartureCity = tk.Entry(DepartureCity_frame, fg="black", bg="white", width=50)
         DepartureCity.pack(ipady=5)
 
-        arrivalCity = tk.Label(text="Arrival City :", font=('Helvetica', 10, 'bold'))
-        arrivalCity.place(x=1150, y=300)
+        arrivalCity = tk.Label(scroll_canva, text="Arrival City :", font=('Helvetica', 10, 'bold'))
+        arrivalCity.place(x=1150-x0, y=300-y0)
 
-        ArrivalCity_frame = tk.Frame(initialization.cuicui)
-        ArrivalCity_frame.place(x=1150, y=320)
+        ArrivalCity_frame = tk.Frame(scroll_canva)
+        ArrivalCity_frame.place(x=1150-x0, y=320-y0)
 
         ArrivalCity = tk.Entry(ArrivalCity_frame, fg="black", bg="white", width=50)
         ArrivalCity.pack(ipady=5)
 
-        departureDay = tk.Label(text="Departure Day :", font=('Helvetica', 10, 'bold'))
-        departureDay.place(x=725, y=370)
+        departureDay = tk.Label(scroll_canva, text="Departure Day :", font=('Helvetica', 10, 'bold'))
+        departureDay.place(x=725-x0, y=370-y0)
 
-        DepartureDay_frame = tk.Frame(initialization.cuicui)
-        DepartureDay_frame.place(x=725, y=390)
+        DepartureDay_frame = tk.Frame(scroll_canva)
+        DepartureDay_frame.place(x=725-x0, y=390-y0)
 
         DepartureDay = DateEntry(DepartureDay_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=18,
                                  font=('Helvetica', 10, 'bold'))
         DepartureDay.pack(ipady=5)
 
-        departureHours = tk.Label(text="Hours :", font=('Helvetica', 10, 'bold'))
-        departureHours.place(x=880, y=370)
+        departureHours = tk.Label(scroll_canva, text="Hours :", font=('Helvetica', 10, 'bold'))
+        departureHours.place(x=880-x0, y=370-y0)
 
-        DepartureHours_frame = tk.Frame(initialization.cuicui)
-        DepartureHours_frame.place(x=880, y=390)
+        DepartureHours_frame = tk.Frame(scroll_canva)
+        DepartureHours_frame.place(x=880-x0, y=390-y0)
 
         DepartureHours = tk.ttk.Combobox(DepartureHours_frame, width=8, values=(
         "00h", "01h", "02h", "03h", "04h", "05h", "06h", "07h", "08h", "09h", "10h", "11h", "12h", "13h", "14h", "15h",
         "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"), state="readonly")
         DepartureHours.pack(ipady=5)
 
-        departureMin = tk.Label(text="Minutes :", font=('Helvetica', 10, 'bold'))
-        departureMin.place(x=958, y=370)
+        departureMin = tk.Label(scroll_canva, text="Minutes :", font=('Helvetica', 10, 'bold'))
+        departureMin.place(x=958-x0, y=370-y0)
 
-        DepartureMin_frame = tk.Frame(initialization.cuicui)
-        DepartureMin_frame.place(x=958, y=390)
+        DepartureMin_frame = tk.Frame(scroll_canva)
+        DepartureMin_frame.place(x=958-x0, y=390-y0)
 
         DepartureMin = tk.ttk.Combobox(DepartureMin_frame, width=8, values=(
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
@@ -225,32 +243,32 @@ class customer():
         "54", "55", "56", "57", "58", "59"), state="readonly")
         DepartureMin.pack(ipady=5)
 
-        arrivalDay = tk.Label(text="Arrival Day :", font=('Helvetica', 10, 'bold'))
-        arrivalDay.place(x=1150, y=370)
+        arrivalDay = tk.Label(scroll_canva, text="Arrival Day :", font=('Helvetica', 10, 'bold'))
+        arrivalDay.place(x=1150-x0, y=370-y0)
 
-        ArrivalDay_frame = tk.Frame(initialization.cuicui)
-        ArrivalDay_frame.place(x=1150, y=390)
+        ArrivalDay_frame = tk.Frame(scroll_canva)
+        ArrivalDay_frame.place(x=1150-x0, y=390-y0)
 
         ArrivalDay = DateEntry(ArrivalDay_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=18,
                                font=('Helvetica', 10, 'bold'))
         ArrivalDay.pack(ipady=5)
 
-        arrivalHours = tk.Label(text="Hours :", font=('Helvetica', 10, 'bold'))
-        arrivalHours.place(x=1305, y=370)
+        arrivalHours = tk.Label(scroll_canva, text="Hours :", font=('Helvetica', 10, 'bold'))
+        arrivalHours.place(x=1305-x0, y=370-y0)
 
-        ArrivalHours_frame = tk.Frame(initialization.cuicui)
-        ArrivalHours_frame.place(x=1305, y=390)
+        ArrivalHours_frame = tk.Frame(scroll_canva)
+        ArrivalHours_frame.place(x=1305-x0, y=390-y0)
 
         ArrivalHours = tk.ttk.Combobox(ArrivalHours_frame, width=8, values=(
         "00h", "01h", "02h", "03h", "04h", "05h", "06h", "07h", "08h", "09h", "10h", "11h", "12h", "13h", "14h", "15h",
         "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"), state="readonly")
         ArrivalHours.pack(ipady=5)
 
-        arrivalMin = tk.Label(text="Minutes :", font=('Helvetica', 10, 'bold'))
-        arrivalMin.place(x=1383, y=370)
+        arrivalMin = tk.Label(scroll_canva, text="Minutes :", font=('Helvetica', 10, 'bold'))
+        arrivalMin.place(x=1383-x0, y=370-y0)
 
-        ArrivalMin_frame = tk.Frame(initialization.cuicui)
-        ArrivalMin_frame.place(x=1383, y=390)
+        ArrivalMin_frame = tk.Frame(scroll_canva)
+        ArrivalMin_frame.place(x=1383-x0, y=390-y0)
 
         ArrivalMin = tk.ttk.Combobox(ArrivalMin_frame, width=8, values=(
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
@@ -259,26 +277,26 @@ class customer():
         "54", "55", "56", "57", "58", "59"), state="readonly")
         ArrivalMin.pack(ipady=5)
 
-        ticketPrice = tk.Label(text="Ticket Price :", font=('Helvetica', 10, 'bold'))
-        ticketPrice.place(x=725, y=450)
+        ticketPrice = tk.Label(scroll_canva, text="Ticket Price :", font=('Helvetica', 10, 'bold'))
+        ticketPrice.place(x=725-x0, y=450-y0)
 
-        TicketPrice_frame = tk.Frame(initialization.cuicui)
-        TicketPrice_frame.place(x=725, y=470)
+        TicketPrice_frame = tk.Frame(scroll_canva)
+        TicketPrice_frame.place(x=725-x0, y=470-y0)
 
         TicketPrice = tk.Entry(TicketPrice_frame, fg="black", bg="white", width=50)
         TicketPrice.pack(ipady=5)
 
-        seatsAvailable = tk.Label(text="Seats Available :", font=('Helvetica', 10, 'bold'))
-        seatsAvailable.place(x=1150, y=450)
+        seatsAvailable = tk.Label(scroll_canva, text="Seats Available :", font=('Helvetica', 10, 'bold'))
+        seatsAvailable.place(x=1150-x0, y=450-y0)
 
-        SeatsAvailable_frame = tk.Frame(initialization.cuicui)
-        SeatsAvailable_frame.place(x=1150, y=470)
+        SeatsAvailable_frame = tk.Frame(scroll_canva)
+        SeatsAvailable_frame.place(x=1150-x0, y=470-y0)
 
         SeatsAvailable = tk.Entry(SeatsAvailable_frame, fg="black", bg="white", width=50)
         SeatsAvailable.pack(ipady=5)
 
         Submit = tk.Button(
-            initialization.cuicui,
+            scroll_canva,
             text="Submit",
             bg="black",
             fg="white",
@@ -288,13 +306,32 @@ class customer():
                                                    ArrivalHours.get()[:2], ArrivalMin.get(), TicketPrice.get(),
                                                    SeatsAvailable.get(), verify))
 
-        Submit.place(x=1060, y=550)
+        Submit.place(x=1060-x0, y=550-y0)
+
+        verify = tk.Label(scroll_canva, text = "",font = ('Helvetica' , 10, 'bold'))
+        verify.place(x=1130-x0, y=552-y0)
+
+    
+    def returnAdmin(self, canvas, image2, scroll_canva, TitleRight, returnAdmin):
+        scroll_canva.delete("all")
+        scroll_canva.destroy()
+        
+        TitleRight.destroy()
+        returnAdmin.destroy()
+
+        customer.adminOrNot(self, canvas, image2)
 
 
-        verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'))
-        verify.place(x=1130, y=552)
 
-
+    def adminTools(self, canvas, image2, bouton, bouton_canva):
+        bouton_canva.delete("all")
+        bouton_canva.destroy()
+        if bouton == 1:
+            customer.pastFlights(self, canvas, image2)
+        elif bouton == 2:
+            customer.createFlights(self, canvas, image2)
+        elif bouton == 3:
+            statistiques.stat_page(self)
 
 
     def adminOrNot(self, canvas, image2):
@@ -303,7 +340,38 @@ class customer():
         if output[0][0] == 0:
             customer.pastFlights(self, canvas, image2)
         elif output[0][0] == 1:
-            customer.createFlights(self)
+            
+            bouton_canva = tk.Canvas(canvas)
+            bouton_canva.place(x=652, y=200, width=869, height=525)
+
+            bouton_canva.create_text(440, 25, text="Admin Tools ", font=('Helvetica', 20, 'bold'))
+
+            PastFlight = tk.Button(
+            bouton_canva,
+            text="Past Flight",
+            bg="black",
+            fg="white",
+            font=('Helvetica', 10, 'bold'),
+            command=lambda: customer.adminTools(self, canvas, image2, 1, bouton_canva))
+            PastFlight.place(x=395, y=150)
+
+            CreateFlight = tk.Button(
+            bouton_canva,
+            text="Create Flight",
+            bg="black",
+            fg="white",
+            font=('Helvetica', 10, 'bold'),
+            command=lambda: customer.adminTools(self, canvas, image2, 2, bouton_canva))
+            CreateFlight.place(x=389, y=200)
+
+            Statistiques = tk.Button(
+            bouton_canva,
+            text="Statistiques",
+            bg="black",
+            fg="white",
+            font=('Helvetica', 10, 'bold'),
+            command=lambda: customer.adminTools(self, canvas, image2, 3, bouton_canva))
+            Statistiques.place(x=393, y=250)
 
 
 

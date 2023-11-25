@@ -1,54 +1,71 @@
-# pay.py
-
 import tkinter as tk
 from tkinter import simpledialog, messagebox
-
 import initialization
+import effacer
+
+
+
 
 def process_payment(main_window, passenger_list):
-    payment_page = tk.Toplevel(main_window)
-    payment_page.title("Processus de Paiement")
+    effacer.effacer_page()
+    canvas = tk.Canvas(initialization.cuicui, width=1600, height=1000)
+    canvas.place(x=0, y=0)
+    canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
+    #canvas.create_line(775, 220, 775, 700, width=2, fill="black")
 
-    payment_label = tk.Label(payment_page, text="Veuillez saisir les informations de paiement :", font=("Helvetica", 13,"bold"))
-    payment_label.pack()
+    Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white", bg="black")
+    Cuicui.place(x=50, y=15)
 
-    card_label = tk.Label(payment_page, text="Numéro de carte :", font=("Helvetica", 11,"bold"))
-    card_entry = tk.Entry(payment_page, show="*")
-    card_label.pack()
-    card_entry.pack()
+    #payment_page = tk.Toplevel(main_window)
+    #payment_page.title("Payment Process")
 
-    expiry_label = tk.Label(payment_page, text="Date d'expiration (MM/YY) :", font=("Helvetica", 11,"bold"))
-    expiry_entry = tk.Entry(payment_page)
-    expiry_label.pack()
-    expiry_entry.pack()
+    payment_label = tk.Label(text="Payment Information", font=("Helvetica", 25, "bold"))
+    payment_label.place(x=600,y=175)
+    #payment_label.pack()
 
-    cvv_label = tk.Label(payment_page, text="CVV :", font=("Helvetica", 11,"bold"))
-    cvv_entry = tk.Entry(payment_page, show="*")
-    cvv_label.pack()
-    cvv_entry.pack()
+    card_label = tk.Label(canvas, text="Card Number", font=("Helvetica", 11, "bold"))
+    card_label.place(x=710,y=225)
+    card_entry = tk.Entry(canvas, show="*")
+    card_entry.place(x=700,y=250)
+   # card_label.pack()
+   # card_entry.pack()
 
-    def validate_payment():
-        card_number = card_entry.get()
-        expiry_date = expiry_entry.get()
-        cvv = cvv_entry.get()
+    expiry_label = tk.Label(canvas, text="Expiration Date (MM/YY)", font=("Helvetica", 11, "bold"))
+    expiry_label.place(x=675,y=275)
+    expiry_entry = tk.Entry(canvas)
+    expiry_entry.place(x=700,y=300)
+   # expiry_label.pack()
+    #expiry_entry.pack()
 
-        if len(card_number) == 16 and len(expiry_date) == 5 and len(cvv) == 3:
-            messagebox.showinfo("Paiement réussi", "Votre paiement a été traité avec succès. Merci!")
-            payment_page.destroy()
-            main_window.deiconify()  # Redonne la visibilité à la fenêtre principale
-        else:
-            messagebox.showerror("Erreur de paiement", "Veuillez vérifier vos informations de paiement.")
+    cvv_label = tk.Label(canvas, text="CVV", font=("Helvetica", 11, "bold"))
+    cvv_label.place(x=740,y=325)
+    cvv_entry = tk.Entry(canvas, show="*")
+    cvv_entry.place(x=700,y=350)
 
-    pay_button = tk.Button(payment_page, text="Payer", font=("Helvetica", 12,"bold"), command=validate_payment)
-    pay_button.pack()
+   # cvv_label.pack()
+   # cvv_entry.pack()
+    pay_button = tk.Button(canvas, text="Pay", font=("Helvetica", 12, "bold"),command=lambda: validate_payment(card_entry.get(),expiry_entry.get(),cvv_entry.get(),canvas))
+    pay_button.place(x=735,y=400)
+    #pay_button.pack()
 
-# Nouvelle fonction calculate_price
+ 
+def validate_payment(card_entry,expiry_entry,cvv_entry,canvas):
+    card_number = card_entry
+    expiry_date = expiry_entry
+    cvv = cvv_entry
+
+    if len(card_number) == 16 and len(expiry_date) == 5 and len(cvv) == 3:
+        messagebox.showinfo("Payment Successful", "Your payment has been processed successfully. Thank you!")
+        canvas.destroy()
+        #main_window.deiconify()
+    else:
+        messagebox.showerror("Payment Error", "Please check your payment information.")
+
+
+
 def calculate_price(passenger_list):
-    # Prix par classe
     class_prices = {'Economy': 100, 'Premium': 200, 'Business': 300}
-
-    # Coefficients par âge
-    age_coefficients = {'children': 0.5, 'regular': 1, 'senior': 0.8}
+    age_coefficients = {'Children': 0.5, 'Regular': 1, 'Senior': 0.8}
 
     total_price = 0
 
@@ -59,6 +76,7 @@ def calculate_price(passenger_list):
 
     return total_price
 
-# Appel de la fonction principale
 if __name__ == "__main__":
-    pass  # Ajoutez ici d'autres fonctionnalités ou tests si nécessaire
+   # CuicuiAirlinesApp.validdation_page(initialization.cuicui)
+   #process_payment()
+    pass  # Vous pouvez ajouter d'autres fonctionnalités ou tests si nécessaire
