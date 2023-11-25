@@ -62,12 +62,11 @@ class flight():
     def validationPassenger(self, passagers, verify):
         fieldsCompleted = all(passager['member_type'] is not None and passager['ticket_type'] is not None for passager in passagers)
         if fieldsCompleted:
-            fieldsSelected = all( passager['member_type'] != "Select Member Type" and passager['ticket_type'] != "Select ticket class" for passager in passagers)
+            fieldsSelected = all(passager['member_type'] != "Select Member Type" and passager['ticket_type'] != "Select ticket class" for passager in passagers)
             if fieldsSelected:
-                print("tout est ok, on peut aller sur la page de paiment")
-                #On appel le pay.py
-                #Avec dedans à gauche, le recap de Anthonyavec toutes les infos
-                #Et à droite, les informations de paiment
+                total_price = pay.calculate_price(passagers)
+                messagebox.showinfo("Total Price", f"The total price is {total_price} €.")
+                pay.process_payment(initialization.cuicui, passagers)
             else:
                 verify.config(text="Please complete all the fields")
         else:
