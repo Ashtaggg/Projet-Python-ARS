@@ -38,6 +38,7 @@ def chargement():
 
     #page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
 
+'''
 def print_chargement(canvas,cities):
     canvas.create_rectangle(198, 598, 1367, 652, outline='black', fill='blue')
     canvas.update()
@@ -50,20 +51,51 @@ def print_chargement(canvas,cities):
             print("I = ",i)
             show_image(canvas,int(i))
             #canvas.update()
+            #canvas.update()
             if(i%10 == 0):
                 city = random.choice(cities)
                 print("CITY BEFORE SHOW IMAGE",city)
                 #photo = (
                 show_image_loading(canvas,city)
-
             canvas.update()
         #initialization.cuicui.update_idletasks()
-
-
         time.sleep(0.05)
-
     print("Chargement terminé!")
+    '''
 
+def print_chargement(canvas,cities):
+    canvas.create_rectangle(198, 598, 1367, 652, outline='black', fill='blue')
+    canvas.update()
+    photo_city = show_image_loading(canvas, "paris")
+    photo_green = show_image(canvas, 0)
+    x = 200
+
+    for i in range(1, 101):
+        city = random.choice(cities)
+        print(f"Chargement... [{i}%]")
+        loading = tk.Label( text=f"Loading... [{i}%]", font=("Helvetica", 32))
+        loading.place(x=200,y=300)
+        time.sleep(0.05)
+        if (i % 5 == 0):
+            print("I = ", i)
+            photo_green = show_image(canvas, int(i))
+            x = 200 + 60*(i/5)
+            print("X == ",x)
+        if (i % 10 == 0):
+            print("CITY : ",city)
+            photo_city = show_image_loading(canvas, city)
+        # POUR LA BARRE DE CHARGEMENT
+        canvas.create_image(x, 600, anchor=tk.NW, image=photo_green)
+        canvas.pack()
+        canvas.image = photo_green
+        # POUR LA CITY
+        canvas.create_image(710, 225, anchor=tk.NW, image=photo_city)
+        canvas.pack()
+        canvas.image = photo_city
+
+        canvas.update()
+
+    page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
 
 def show_image(canvas,i):
 
@@ -76,9 +108,7 @@ def show_image(canvas,i):
     img = img.resize((25, 50), Image.LANCZOS)  # , Image.ANTIALIAS) 750 500
 
     photo = ImageTk.PhotoImage(img)
-    canvas.create_image(140 + 60*i, 600, anchor=tk.NW, image=photo)
-    canvas.pack()
-    canvas.image = photo
+    return photo
     #photo = ImageTk.PhotoImage(img)
     #print(photo)
     #canvas.create_image(100, 100, anchor=tk.NW, image=photo)
@@ -93,11 +123,9 @@ def show_image_loading(canvas,city):
 
     # img = img.resize(500, 500)  # Redimensionnement de l'image
     photo = ImageTk.PhotoImage(img)
-    canvas.create_image(710, 225, anchor=tk.NW, image=photo)
-    canvas.pack()
-    canvas.image = photo
 
-    #return photo
+
+    return photo
 
 
 
