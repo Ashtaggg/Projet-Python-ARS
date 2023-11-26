@@ -23,7 +23,7 @@ class CuicuiAirlinesApp():
         self.SeatsAvailable = SeatsAvailable
 
 
-    def connection():
+    def connection(self):
         initialization.lastPage = "page_accueil"
         if initialization.login == 0:
             login.login_page()
@@ -49,7 +49,7 @@ class CuicuiAirlinesApp():
         imageCustomer = imageCustomer.resize((60, 60))
         imageCustomer = ImageTk.PhotoImage(imageCustomer)
         canvas.create_image(1420, 10, anchor=tk.NW, image=imageCustomer, tags="image")
-        canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": CuicuiAirlinesApp.connection())
+        canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": CuicuiAirlinesApp.connection(self))
 
         # CANVAS SUPP
 
@@ -99,32 +99,36 @@ class CuicuiAirlinesApp():
         return cities
 
     def get_flights(self, departure_city, arrival_city, date):
-        #print(date[:10])
-        #print("We are counting the number of fly from ",departure_city," to ",arrival_city," at the date ",date)
-        request = f"SELECT COUNT(*) FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
+        print(date[:10])
+        print("We are counting the number of fly from ",departure_city," to ",arrival_city," at the date ",date[:10])
+        status = 0
+        print("DATE ",date[:10])
+        #request = f"SELECT COUNT(*) FROM flight WHERE LEFT(DepartureTime,10) ='{date[:10]}';"
+        request = f"SELECT COUNT(*) FROM flight WHERE ((DepartureCity ='{departure_city}') AND (ArrivalCity = '{arrival_city}') AND (LEFT(DepartureTime,10) ='{date[:10]}'));"
         output = query.requestDataBase(request)
         result = output[0][0]
+        print("OUTPUT 1 REQUETE ",request," AVANT IF",output,"ET EN 00",output[0][0])
         if(int(result) >= 1):
-            #print("Fly is existing")
+            print("Fly is existing")
             request = f"SELECT FlightID FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}' AND LEFT(DepartureTime,10) ='{date[:10]}';"
             output = query.requestDataBase(request)
+            status = 1
         elif (int(result) == 0):
-            #print("Fly is not existing at this date ")
-            #print("We are counting the number of fly from ", departure_city, " to ", arrival_city)
-            request = f"SELECT COUNT(*) FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}';"
+            print("Fly is not existing at this date ")
+            print("We are counting the number of fly from ", departure_city, " to ", arrival_city)
+            request = f"SELECT COUNT(*) FROM flight WHERE DepartureCity ='{departure_city}' AND ArrivalCity = '{arrival_city}' AND LEFT(DepartureTime,10) >='{date[:10]}';"
             output = query.requestDataBase(request)
             result = output[0][0]
-
             if(int(result) >= 1):
-                #print("Fly existing")
-                request = f"SELECT FlightID FROM flight WHERE DepartureCity = '{departure_city}' AND ArrivalCity = '{arrival_city}';"
+                print("Fly existing")
+                request = f"SELECT FlightID FROM flight WHERE DepartureCity = '{departure_city}' AND ArrivalCity = '{arrival_city}' AND LEFT(DepartureTime,10) >='{date[:10]}';"
                 output = query.requestDataBase(request)
 
 
-            #elif(int(result) == 0):
-                #print("No fly from ",departure_city," for ", arrival_city," the ",date)
+            elif(int(result) == 0):
+                print("No fly from ",departure_city," for ", arrival_city," the ",date)
 
-        #print(" <---------- RESULT ---------->",output)
+        print(" <---------- RESULT ---------->",output)
 
         return output
 
@@ -144,13 +148,13 @@ class CuicuiAirlinesApp():
 
 
 
-        #print("Ville de départ:", ville_depart)
-        #print("Ville d'arrivée:", ville_arrivee)
-        #print("Date sélectionnée:", date)
+        print("Ville de départ:", ville_depart)
+        print("Ville d'arrivée:", ville_arrivee)
+        print("Date sélectionnée:", date)
 
         # Récupérez les vols en fonction des sélections de l'utilisateur
         flights = CuicuiAirlinesApp.get_flights(self, ville_depart, ville_arrivee, date)
-        #print("test len fly",len(flights))
+        print("test len fly",len(flights))
 
 
         # REMPLIR TOUT LES CHOIX DANS LA CLASSE ET LES AFFICHER
@@ -158,7 +162,7 @@ class CuicuiAirlinesApp():
         #TitleRight.place(x=0, y=0)
 
         if(flights[0][0] == 0):
-            #print("PAS DE VOL A CETTE DATE")
+            print("PAS DE VOL A CETTE DATE")
             TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'))
             TitleRight.place(x=0, y=0)
 
