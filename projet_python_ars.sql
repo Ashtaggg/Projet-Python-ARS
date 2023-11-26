@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 16 nov. 2023 à 13:51
+-- Généré le : dim. 26 nov. 2023 à 12:46
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `booking` (
   PRIMARY KEY (`BookingID`),
   KEY `CustomerID` (`CustomerID`),
   KEY `FlightID` (`FlightID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `booking`
@@ -60,7 +60,12 @@ CREATE TABLE IF NOT EXISTS `booking` (
 
 INSERT INTO `booking` (`BookingID`, `CustomerID`, `FlightID`, `NumberOfTickets`, `TotalAmount`, `Timestamp`) VALUES
 (1, 3, 64, 1, '110.00', '2023-11-09 13:21:45'),
-(3, 3, 65, 2, '90.00', '2023-11-09 13:55:31');
+(3, 3, 65, 2, '90.00', '2023-11-09 13:55:31'),
+(4, 3, 66, 3, '260.00', '2023-11-16 14:00:04'),
+(5, 3, 67, 4, '240.00', '2023-11-16 14:00:04'),
+(6, 3, 66, 3, '260.00', '2023-11-16 14:00:47'),
+(7, 3, 67, 4, '240.00', '2023-11-16 14:00:47'),
+(8, 3, 68, 5, '230.00', '2023-11-16 14:00:47');
 
 -- --------------------------------------------------------
 
@@ -79,16 +84,16 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `Type` int NOT NULL COMMENT '0 -> Member\r\n1 -> Admin',
   `PhotoProfil` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT 'chemin vers la photo de profil',
   PRIMARY KEY (`CustomerID`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `customer`
 --
 
 INSERT INTO `customer` (`CustomerID`, `FirstName`, `LastName`, `Email`, `BirthDate`, `Password`, `Type`, `PhotoProfil`) VALUES
-(3, 'Alexis', 'RAYNAL', 'alexis.raynal@edu.ece.fr', '2003-10-01', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, '0'),
-(4, 'Quentin', 'RICHARD', 'quentin.richard@edu.ece.fr', '0000-00-00', 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481', 1, '0'),
-(5, 'Anthony', 'SABBAGH', 'anthony.sabbagh@edu.ece.fr', '0000-00-00', '53ed5a8fd89da4f9e6a3c18138c9f6af39d4ea33c8f4650f0f9d849d0651ce64', 1, '0');
+(3, 'Alexis', 'RAYNAL', 'alexis.raynal@edu.ece.fr', '2003-10-01', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, './photos/profil_picture/photo_profil.png'),
+(4, 'Quentin', 'RICHARD', 'quentin.richard@edu.ece.fr', '0000-00-00', 'cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481', 1, './photos/profil_picture/photo_profil.png'),
+(5, 'Anthony', 'SABBAGH', 'anthony.sabbagh@edu.ece.fr', '0000-00-00', '53ed5a8fd89da4f9e6a3c18138c9f6af39d4ea33c8f4650f0f9d849d0651ce64', 1, './photos/profil_picture/photo_profil.png');
 
 -- --------------------------------------------------------
 
@@ -137,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `flight` (
   `TicketPrice` decimal(10,2) NOT NULL,
   `SeatsAvailable` int NOT NULL,
   PRIMARY KEY (`FlightID`)
-) ENGINE=MyISAM AUTO_INCREMENT=192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `flight`
@@ -334,7 +339,9 @@ INSERT INTO `flight` (`FlightID`, `DepartureCity`, `ArrivalCity`, `DepartureTime
 (188, 'London', 'Prague', '2023-11-30 13:50:42', '2023-11-30 21:50:42', '290.00', 90),
 (189, 'Madrid', 'Berlin', '2023-11-30 13:50:42', '2023-11-30 23:50:42', '260.00', 80),
 (190, 'Berlin', 'Barcelona', '2023-11-30 13:50:42', '2023-12-01 01:50:42', '340.00', 110),
-(191, 'Vienna', 'Amsterdam', '2023-11-30 13:50:42', '2023-12-01 03:50:42', '310.00', 100);
+(191, 'Vienna', 'Amsterdam', '2023-11-30 13:50:42', '2023-12-01 03:50:42', '310.00', 100),
+(192, 'Roubaix', 'Tourcoing', '2023-11-30 15:08:00', '2023-11-30 15:09:00', '10000.00', 2),
+(193, 'Moncul', 'Sucy-en-Brie', '2025-11-20 15:08:00', '2025-11-20 18:16:00', '700.00', 140);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
