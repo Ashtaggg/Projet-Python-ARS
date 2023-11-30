@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 import initialization
 import query
 import pay
+import page_accueil
 
 # Define a class 'flight' to encapsulate flight-related functionality
 class flight():
@@ -175,6 +176,11 @@ class flight():
 
         Title = tk.Label(text="Validation", font=('Helvetica', 30, 'bold'))
         Title.place(x=680, y=100)
+
+        if initialization.lastPage == "page_accueil":
+            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnTo.place(x=50, y=100)
+            returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
 
         flight.completeFlight(self)
         flight.displayFlight(self, canvas)

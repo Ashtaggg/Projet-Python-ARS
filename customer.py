@@ -4,6 +4,8 @@ import initialization
 from PIL import Image, ImageTk
 from tkcalendar import DateEntry
 from datetime import datetime
+import base64
+import io
 import query
 import statistiques
 import re
@@ -449,7 +451,13 @@ class customer():
             fichier = fichier.group(0)
             fichier = "." + str(fichier)
 
-            request = "UPDATE `customer` SET `PhotoProfil` = '" + str(fichier) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
+            image = Image.open(fichier)
+            image = image.resize((200, 200))
+            with open(fichier, "rb") as image_file:
+                image_data = image_file.read()
+            PhotoProfil = base64.b64encode(image_data).decode('utf-8')
+
+            request = "UPDATE `customer` SET `PhotoProfil` = '" + str(PhotoProfil) + "' WHERE `CustomerID` = '" + str(self.CustomerID) + "';"
             output = query.requestDataBase(request)
 
             request = "SELECT PhotoProfil FROM customer WHERE CustomerID = '" + str(self.CustomerID) + "';"
@@ -475,11 +483,14 @@ class customer():
                           bg="black")
         Cuicui.place(x=50, y=15)
 
-        image = Image.open(self.PhotoProfil)
+        image = base64.b64decode(self.PhotoProfil)
+        image = io.BytesIO(image)
+        image = Image.open(image)
         image = image.resize((200, 200))
         image = ImageTk.PhotoImage(image)
         canvas.create_image(170, 200, anchor=tk.NW, image=image, tags="image")
         canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": customer.modifPhoto(self, tag))
+
 
         Title = tk.Label(text="Account", font=('Helvetica', 30, 'bold'))
         Title.place(x=700, y=y0 - 25)

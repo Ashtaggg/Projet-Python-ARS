@@ -2,6 +2,8 @@ import hashlib
 import initialization
 import tkinter as tk
 from tkcalendar import DateEntry
+from PIL import Image, ImageTk
+import base64
 import effacer
 import login
 import query
@@ -31,6 +33,15 @@ def toggle_password_visibility(password, passwordButton):
 
 
 def verify_register(Firstname, Name, Email, BirthDate, Password, Type, PhotoProfil, verify):
+
+    
+    chemin_image = "./photos/profil_picture/photo_profil.png"
+    image = Image.open(chemin_image)
+    image = image.resize((200, 200))
+    with open(chemin_image, "rb") as image_file:
+        image_data = image_file.read()
+    PhotoProfil = base64.b64encode(image_data).decode('utf-8')
+
 
     request = "SELECT COUNT(*) FROM customer WHERE Email = '" + str(Email) + "';"
 
@@ -142,7 +153,7 @@ def register_page():
     bg = "black",
     fg = "white",
     font = ('Helvetica', 10, 'bold'),
-    command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, "./photos/profil_picture/photo_profil.png", verify))
+    command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, 0, verify))
     signup.place(x=740, y=y0+530)
 
 

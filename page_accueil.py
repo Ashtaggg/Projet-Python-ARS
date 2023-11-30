@@ -188,6 +188,7 @@ class CuicuiAirlinesApp():
 
     def clicked(self,numBouton):
         effacer.effacer_page()
+        initialization.lastPage = "page_accueil"
         choice_person.flight.debut(numBouton)
 
 
