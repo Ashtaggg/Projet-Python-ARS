@@ -17,7 +17,7 @@ def loading_screen():
     initialization.cuicui.title("Loading Page")  # Creation of the page
 
     # Creation of the canvas on which all the element will be displayed
-    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080,bg="#9B9B9B")
+    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080,bg=initialization.bg_color)
     canvas.pack()
     # Coordinates  on which the top left corner of the canvas is
     canvas.place(x=0, y=0)
@@ -30,7 +30,7 @@ def loading_screen():
     cuicui.place(x=50, y=15)
 
     # Creation of the title text
-    tittle_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30))
+    tittle_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 30),bg=initialization.bg_color)
     # Coordinates of the title text
     tittle_label.place(x=400, y=90)
     # List of the cities which have image to print on the loading screen
@@ -66,7 +66,7 @@ def print_loading(canvas, cities):
         # Selection of a random city in the list of cities
         city = random.choice(cities)
         # Display of the loading percentage
-        loading = tk.Label(text=f"Loading... [{i}%]", font=("Helvetica", 32))
+        loading = tk.Label(text=f"Loading... [{i}%]", font=("Helvetica", 32),bg=initialization.bg_color)
         # Coordinate of the loading percentage
         loading.place(x=200, y=300)
         # A pause between each iteration
