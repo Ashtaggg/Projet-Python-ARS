@@ -5,7 +5,20 @@ import effacer
 import page_chargement
 import choice_person
 
-def process_payment(main_window, passenger_list):
+
+def displayFlight(flight, canvas):
+    y0 = 75
+
+    canvas.create_text(250, y0 + 190, text=flight.DepartureCity + "  >  " + flight.ArrivalCity, font=('Helvetica', 14, 'bold'))
+    canvas.create_text(275, y0 + 230, text=str(flight.DepartureTime)[:16], font=('Helvetica', 10, 'bold'))
+    canvas.create_text(400, y0 + 230, text=flight.DepartureCity, font=('Helvetica', 10, 'bold'))
+    canvas.create_text(275, y0 + 250, text=str(flight.ArrivalTime)[:16], font=('Helvetica', 10, 'bold'))
+    canvas.create_text(400, y0 + 250, text=flight.ArrivalCity, font=('Helvetica', 10, 'bold'))
+
+    canvas.create_rectangle(100, y0 + 160, 500, y0 + 280)
+
+
+def process_payment(main_window, passenger_list, flight):
     effacer.effacer_page()
     canvas = tk.Canvas(initialization.cuicui, width=1600, height=1000)
     canvas.place(x=0, y=0)
@@ -14,16 +27,23 @@ def process_payment(main_window, passenger_list):
     Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white", bg="black")
     Cuicui.place(x=50, y=15)
 
+    if initialization.lastPage == "choice_person":
+        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+        returnTo.place(x=50, y=100)
+        returnTo.bind("<Button-1>", lambda event=None:choice_person.flight.debut(initialization.FlightID))
+
     # Affichage du résumé des choix des passagers à gauche de l'écran
     summary_label = tk.Label(canvas, text="Passenger Summary", font=("Helvetica", 20, "bold"))
-    summary_label.place(x=50, y=100)
+    summary_label.place(x=150, y=400)
 
     total_price = 0
 
+    displayFlight(flight, canvas)
+
     for i, passenger_details in enumerate(passenger_list, start=1):
-        summary_text = f" -- > Passenger {i}: {passenger_details['ticket_type']} - {passenger_details['member_type']}"
+        summary_text = f"   -   Passenger {i}: {passenger_details['ticket_type']} - {passenger_details['member_type']}"
         summary_entry = tk.Label(canvas, text=summary_text, font=("Helvetica", 12, "bold"))
-        summary_entry.place(x=50, y=150 + i * 30)
+        summary_entry.place(x=150, y=450 + i * 30)
 
         # Calcul du prix pour chaque passager et ajout au prix total
         class_prices = {'Economy': 100, 'Premium': 200, 'Business': 300}
@@ -31,10 +51,12 @@ def process_payment(main_window, passenger_list):
         class_price = class_prices.get(passenger_details['ticket_type'], 0)
         age_coefficient = age_coefficients.get(passenger_details['member_type'], 1)
         total_price += class_price * age_coefficient
+    
+    canvas.create_rectangle(100, 380, 500, 500 + len(passenger_list)*75)
 
     # Affichage du prix total en dessous du résumé des passagers
     total_price_label = tk.Label(canvas, text=f"Total Price: {total_price}€", font=("Helvetica", 15, "bold"))
-    total_price_label.place(x=50, y=150 + (i + 1) * 30 + 20)
+    total_price_label.place(x=150, y=450 + (i + 1) * 30 + 20)
 
     payment_label = tk.Label(text="Payment Information", font=("Helvetica", 25, "bold"))
     payment_label.place(x=600, y=175)

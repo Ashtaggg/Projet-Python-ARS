@@ -7,6 +7,7 @@ import query
 import customer
 import page_accueil
 import choice_person
+import pay
 
 
 
@@ -80,6 +81,8 @@ def verify_login(Email, Password, verify):
             elif initialization.lastPage == "choice_person":
                 initialization.lastPage = "page_accueil"
                 choice_person.flight.debut(initialization.FlightID)
+            elif initialization.lastPage == "pay":
+                initialization.lastPage = "choice_person"
             else:
                 page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
 
