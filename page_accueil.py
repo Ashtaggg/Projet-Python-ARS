@@ -31,14 +31,14 @@ class CuicuiAirlinesApp():
     def welcome_page(self):
         initialization.cuicui.title("Booking page")
 
-        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080,bg=initialization.bg_color)
         canvas.place(x=0, y=0)
         canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
 
         Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",bg="black")
         Cuicui.place(x=50, y=15)
 
-        titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 20))
+        titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 20),bg=initialization.bg_color)
         titre_label.place(x=550, y=90)
 
         imageCustomer = Image.open("./photos/profil_picture/photo_profil_inverse.png")
@@ -50,13 +50,13 @@ class CuicuiAirlinesApp():
         # CANVAS SUPP
 
         canva_sup = tk.Canvas(canvas)
-        canva_sup.config(highlightthickness=0, borderwidth=0)#
+        canva_sup.config(highlightthickness=0, borderwidth=0,bg=initialization.bg_color)
         canva_sup.place(x=75, y=220, width=1350, height=600)
 
         canva_sup.create_line(600, 0, 600, 800, width=2, fill="black")
 
         #DEPARTURE
-        aeroport_depart_label = tk.Label( text="Departure", font=("Broadway", 10))
+        aeroport_depart_label = tk.Label( text="Departure", font=("Broadway", 10),bg=initialization.bg_color)
         aeroport_depart_label.place(x=200, y=150)
         cities = CuicuiAirlinesApp.get_cities(self)
 
@@ -64,19 +64,19 @@ class CuicuiAirlinesApp():
         aeroport_depart_combobox.place(x=300, y=150)
 
         #ARRIVAL
-        aeroport_arrivee_label = tk.Label( text="Arrival", font=("Broadway", 10))
+        aeroport_arrivee_label = tk.Label( text="Arrival", font=("Broadway", 10),bg=initialization.bg_color)
         aeroport_arrivee_label.place(x=450, y=150)
         aeroport_arrivee_combobox = ttk.Combobox(values=cities, state="readonly")
         aeroport_arrivee_combobox.place(x=550, y=150)
 
         #DATE
-        date_label = tk.Label( text="Date", font=("Broadway", 10))
+        date_label = tk.Label( text="Date", font=("Broadway", 10),bg=initialization.bg_color)
         date_label.place(x=750, y=150)
         date_select = DateEntry( date_pattern="yyyy-mm-dd", fg="black", bg="white", width=10,font=('Broadway', 10, 'bold'))
         date_select.place(x=800, y=150)
 
         #SEARCH
-        reserver_bouton = tk.Button( text="Search", font=("Broadway", 10),command=lambda: CuicuiAirlinesApp.reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup))
+        reserver_bouton = tk.Button( text="Search", font=("Broadway", 10),command=lambda: CuicuiAirlinesApp.reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup),bg=initialization.bg_color)
         reserver_bouton.place(x=950, y=150)
 
         initialization.cuicui.mainloop()
@@ -132,7 +132,7 @@ class CuicuiAirlinesApp():
 
         if(state == 1): #flights[0][0]
             print("PAS DE VOL A CETTE DATE")
-            TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'))
+            TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'),bg=initialization.bg_color)
             TitleRight.place(x=0, y=0)
 
 
@@ -145,16 +145,16 @@ class CuicuiAirlinesApp():
 
     def show_fly(self,id_fly,canva_sup,state):
         if (state == 0):
-            TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Helvetica', 22, 'bold'))
+            TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Helvetica', 22, 'bold'),bg=initialization.bg_color)
             TitleRight.place(x=0, y=0)
 
         if (True == 1):
 
             scroll_canva = tk.Canvas(canva_sup)
-            scroll_canva.config(highlightthickness=0, borderwidth=0) #,background="green")
+            scroll_canva.config(highlightthickness=0, borderwidth=0,bg=initialization.bg_color,background=initialization.bg_color) #,background="green")
             scroll_canva.place(x=0, y=40, width=500, height=525)
 
-            yscrollbar = tk.Scrollbar(canva_sup, orient="vertical", command=scroll_canva.yview)
+            yscrollbar = tk.Scrollbar(canva_sup, orient="vertical", command=scroll_canva.yview,background=initialization.bg_color)
             yscrollbar.place(x=580, y=0, width=15, height=600)
 
             scroll_canva.configure(yscrollcommand=yscrollbar.set)
@@ -184,7 +184,7 @@ class CuicuiAirlinesApp():
                 scroll_canva.create_rectangle(5, (i * 150) + 10, 495, (i * 150) + 130)
 
 
-                bouton = tk.Button(canva_sup, text=f"Reserve", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,num))
+                bouton = tk.Button(canva_sup, text=f"Reserve", command=lambda num=id_fly[i]: CuicuiAirlinesApp.clicked(self,num),bg=initialization.bg_color)
                 bouton.pack(padx=20,pady=20)
                 scroll_canva.create_window(450, (i * 150) + 100, window=bouton)  # Position du bouton dans le canevas
 
