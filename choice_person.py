@@ -1,3 +1,4 @@
+# Import necessary libraries and modules
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 from tkinter import ttk
@@ -6,8 +7,9 @@ import initialization
 import query
 import pay
 
-
+# Define a class 'flight' to encapsulate flight-related functionality
 class flight():
+    # Constructor to initialize Flight object with basic details
     def __init__(self, FlightID, DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable):
         self.FlightID = FlightID
         self.DepartureCity = DepartureCity
@@ -17,8 +19,9 @@ class flight():
         self.TicketPrice = TicketPrice
         self.SeatsAvailable = SeatsAvailable
 
+    # Method to fetch complete flight details from the database
     def completeFlight(self):
-
+        # Queries to retrieve details from the database
         request = "SELECT DepartureCity FROM flight WHERE FlightID = '" + str(self.FlightID) + "';"
         output = query.requestDataBase(request)
         self.DepartureCity = output[0][0]
@@ -43,7 +46,7 @@ class flight():
         output = query.requestDataBase(request)
         self.SeatsAvailable = output[0][0]
 
-    
+    # Method to display flight information on a canvas
     def displayFlight(self, canvas):
         y0 = 75
 
@@ -57,8 +60,7 @@ class flight():
 
         canvas.create_rectangle(100, y0 + 160, 700, y0 + 280)
 
-
-
+    # Method to validate passenger information
     def validationPassenger(self, passagers, verify):
         fieldsCompleted = all(passager['member_type'] is not None and passager['ticket_type'] is not None for passager in passagers)
         if fieldsCompleted:
@@ -72,17 +74,14 @@ class flight():
         else:
             verify.config(text="Please complete all the fields")
 
-
-
-
+    # Method to modify passenger information
     def modifPassenger2(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag, member_type, ticket_type):
         passagers[int(tag)-1]['member_type'] = member_type
         passagers[int(tag)-1]['ticket_type'] = ticket_type
 
         flight.displayPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva)
 
-
-
+    # Method to initiate passenger modification
     def modifPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag):
         modiPassenger_canva.create_text(300, 50, text="Passenger " + str(tag) + " :", font=('Helvetica', 14, 'bold'))
 
@@ -94,27 +93,23 @@ class flight():
         ticket_type_combobox.set("Select ticket class")
         ticket_type_combobox.place(x=350, y=80)
 
-        
-
-
         valid = tk.Button(
         modiPassenger_canva,
-        text = "Valid",
-        bg = "black",
-        fg = "white",
-        font = ('Helvetica' , 10, 'bold'),
-        command = lambda: flight.modifPassenger2(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag, member_type_combobox.get(), ticket_type_combobox.get()))
-        valid.place(x = 275, y = 110)
+        text="Valid",
+        bg="black",
+        fg="white",
+        font=('Helvetica', 10, 'bold'),
+        command=lambda: flight.modifPassenger2(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag, member_type_combobox.get(), ticket_type_combobox.get()))
+        valid.place(x=275, y=110)
 
-
-
+    # Method to display passenger information on a canvas
     def displayPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva):
         scroll_canva.delete("all")
         modiPassenger_canva.delete("all")
         for widget in modiPassenger_canva.winfo_children():
             widget.destroy()
 
-        for i in range (int(number)):
+        for i in range(int(number)):
             scroll_canva.create_text(340, (i * 150) + 20, text="Passenger " + str(i + 1) + " :", font=('Helvetica', 14, 'bold'))
 
             scroll_canva.create_text(150, (i * 150) + 70, text="Member type :", font=('Helvetica', 10, 'bold'))
@@ -123,15 +118,12 @@ class flight():
             scroll_canva.create_text(250, (i * 150) + 70, text=f"{passagers[i]['member_type']}", font=('Helvetica', 10, 'bold'))
             scroll_canva.create_text(250, (i * 150) + 90, text=f"{passagers[i]['ticket_type']}", font=('Helvetica', 10, 'bold'))
 
-
             scroll_canva.create_image(525, (i * 150) + 75, anchor=tk.NW, image=imageModif, tags=f"modif_{i}")
             scroll_canva.tag_bind(f"modif_{i}", "<Button-1>", lambda event, tag=str(i+1): flight.modifPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag))
 
             scroll_canva.create_rectangle(50, (i * 150), 600, (i * 150) + 110)
 
-
-
-
+    # Method to select passenger details and display them
     def selectPassengerDetails(self, canvas, number, imageModif):
         scroll_canva = tk.Canvas(canvas)
         scroll_canva.config(highlightthickness=0, borderwidth=0)
@@ -148,10 +140,8 @@ class flight():
 
         scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
 
-
         modiPassenger_canva = tk.Canvas(canvas)
         modiPassenger_canva.place(x=100, y=550, width=600, height=200)
-
 
         passagers = []
 
@@ -159,26 +149,21 @@ class flight():
             passager_details = {"member_type": None, "ticket_type": None}
             passagers.append(passager_details)
 
-        
         valid = tk.Button(
-        canvas,
-        text = "Valid",
-        bg = "black",
-        fg = "white",
-        font = ('Helvetica' , 10, 'bold'),
-        command = lambda: flight.validationPassenger(self, passagers, verify))
-        valid.place(x = 1135, y = 785)
+            canvas,
+            text="Valid",
+            bg="black",
+            fg="white",
+            font=('Helvetica', 10, 'bold'),
+            command=lambda: flight.validationPassenger(self, passagers, verify))
+        valid.place(x=1135, y=785)
 
-        verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'))
+        verify = tk.Label(text="", font=('Helvetica', 10, 'bold'))
         verify.place(x=1185, y=787)
 
-
         flight.displayPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva)
-        
 
-        
-
-
+    # Method to set up the validation page UI
     def validdation_page(self):
         canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
         canvas.place(x=0, y=0)
@@ -191,18 +176,16 @@ class flight():
         Title = tk.Label(text="Validation", font=('Helvetica', 30, 'bold'))
         Title.place(x=680, y=100)
 
-
         flight.completeFlight(self)
         flight.displayFlight(self, canvas)
 
         number = tk.Label(text="Select the number of passengers:", font=('Helvetica', 16, 'bold'))
         number.place(x=225, y=450)
 
-
         spinbox_frame = tk.Frame(canvas)
         spinbox_frame.place(x=310, y=500)
 
-        spinbox = tk.Spinbox(spinbox_frame, from_ = 0, to = self.SeatsAvailable, increment=1, state="readonly")
+        spinbox = tk.Spinbox(spinbox_frame, from_=0, to=self.SeatsAvailable, increment=1, state="readonly")
         spinbox.pack(ipady=5)
 
         imageModif = Image.open("./photos/customer/modif.png")
@@ -210,26 +193,24 @@ class flight():
         imageModif = ImageTk.PhotoImage(imageModif)
 
         valid = tk.Button(
-        text = "OK",
-        bg = "black",
-        fg = "white",
-        font = ('Helvetica' , 10, 'bold'),
-        command = lambda: flight.selectPassengerDetails(self, canvas, spinbox.get(), imageModif))
-        valid.place(x = 450, y = 500)
-
+            text="OK",
+            bg="black",
+            fg="white",
+            font=('Helvetica', 10, 'bold'),
+            command=lambda: flight.selectPassengerDetails(self, canvas, spinbox.get(), imageModif))
+        valid.place(x=450, y=500)
 
         initialization.cuicui.mainloop()
-    
 
-
-    def debut(FlightID):
+    # Class method to initialize and start the application with a given FlightID
+    @classmethod
+    def debut(cls, FlightID):
         Flight = flight(FlightID, 0, 0, 0, 0, 0, 0)
         flight.validdation_page(Flight)
 
-
-
-
+# Entry point of the program
 if __name__ == "__main__":
+    # Start the application with a specific FlightID
     flight.debut(64)
 
 
