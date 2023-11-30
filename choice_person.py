@@ -4,6 +4,8 @@ from tkinter import simpledialog, messagebox
 from tkinter import ttk
 from PIL import Image, ImageTk
 import initialization
+import login
+import customer
 import query
 import pay
 import page_accueil
@@ -163,6 +165,14 @@ class flight():
         verify.place(x=1185, y=787)
 
         flight.displayPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva)
+    
+    def connection(self):
+        initialization.lastPage = "choice_person"
+        initialization.FlightID = self.FlightID
+        if initialization.login == 0:
+            login.login_page()
+        elif initialization.login == 1:
+            customer.customer.customer_page(initialization.member)
 
     # Method to set up the validation page UI
     def validdation_page(self):
@@ -176,6 +186,12 @@ class flight():
 
         Title = tk.Label(text="Validation", font=('Helvetica', 30, 'bold'))
         Title.place(x=680, y=100)
+
+        imageCustomer = Image.open("./photos/profil_picture/photo_profil_inverse.png")
+        imageCustomer = imageCustomer.resize((60, 60))
+        imageCustomer = ImageTk.PhotoImage(imageCustomer)
+        canvas.create_image(1420, 10, anchor=tk.NW, image=imageCustomer, tags="image")
+        canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": flight.connection(self))
 
         if initialization.lastPage == "page_accueil":
             returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
@@ -209,8 +225,7 @@ class flight():
         initialization.cuicui.mainloop()
 
     # Class method to initialize and start the application with a given FlightID
-    @classmethod
-    def debut(cls, FlightID):
+    def debut(FlightID):
         Flight = flight(FlightID, 0, 0, 0, 0, 0, 0)
         flight.validdation_page(Flight)
 
