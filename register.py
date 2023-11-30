@@ -9,6 +9,7 @@ import login
 import query
 import customer
 import page_accueil
+import choice_person
 
 
 
@@ -78,6 +79,10 @@ def register_page():
         returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
         returnTo.place(x=50, y=100)
         returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
+    elif initialization.lastPage == "choice_person":
+        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+        returnTo.place(x=50, y=100)
+        returnTo.bind("<Button-1>", lambda event=None:choice_person.flight.debut(initialization.FlightID))
 
     Login = tk.Label(text = "Already Registered ? Login",font = ('Helvetica' , 12, 'bold'))
     Login.place(x=665, y=y0+100)

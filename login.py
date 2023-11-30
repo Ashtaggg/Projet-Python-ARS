@@ -6,6 +6,7 @@ import register
 import query
 import customer
 import page_accueil
+import choice_person
 
 
 
@@ -73,8 +74,14 @@ def verify_login(Email, Password, verify):
             completeMember(Email, Password)
 
             initialization.login = 1
-            page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
             #customer.customer.customer_page(initialization.member)
+            if initialization.lastPage == "page_accueil":
+                page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
+            elif initialization.lastPage == "choice_person":
+                initialization.lastPage = "page_accueil"
+                choice_person.flight.debut(initialization.FlightID)
+            else:
+                page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
 
 
         else:
@@ -99,6 +106,11 @@ def login_page():
         returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
         returnTo.place(x=50, y=100)
         returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
+    elif initialization.lastPage == "choice_person":
+        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+        returnTo.place(x=50, y=100)
+        returnTo.bind("<Button-1>", lambda event=None:choice_person.flight.debut(initialization.FlightID))
+    
 
     Register = tk.Label(text="Not Registered ? Register", font=('Helvetica', 12, 'bold'))
     Register.place(x=665, y=y0 + 100)

@@ -10,6 +10,7 @@ import query
 import statistiques
 import re
 import page_accueil
+import choice_person
 
 
 class flight():
@@ -499,6 +500,10 @@ class customer():
             returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
             returnTo.place(x=50, y=100)
             returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
+        elif initialization.lastPage == "choice_person":
+            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnTo.place(x=50, y=100)
+            returnTo.bind("<Button-1>", lambda event=None:choice_person.flight.debut(initialization.FlightID))
 
         TitleLeft = tk.Label(text="General informations", font=('Helvetica', 20, 'bold'))
         TitleLeft.place(x=170, y=y0 + 320)
