@@ -17,7 +17,7 @@ def loading_screen():
     initialization.cuicui.title("Loading Page")  # Creation of the page
 
     # Creation of the canvas on which all the element will be displayed
-    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080,bg="#9B9B9B")
     canvas.pack()
     # Coordinates  on which the top left corner of the canvas is
     canvas.place(x=0, y=0)
