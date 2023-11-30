@@ -93,18 +93,18 @@ class flight():
     def modifPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag):
         modiPassenger_canva.create_text(300, 50, text="Passenger " + str(tag) + " :", font=('Helvetica', 14, 'bold'))
 
-        member_type_combobox = ttk.Combobox(modiPassenger_canva, values=['Senior', 'Regular', 'Children'], state="readonly", width=25)
+        member_type_combobox = ttk.Combobox(modiPassenger_canva, values=['Senior', 'Regular', 'Children'], state="readonly", width=25,background=initialization.bg_color)
         member_type_combobox.set("Select Member Type")
         member_type_combobox.place(x=75, y=80)
 
-        ticket_type_combobox = ttk.Combobox(modiPassenger_canva, values=['Economy', 'Premium', 'Business'], state="readonly", width=25)
+        ticket_type_combobox = ttk.Combobox(modiPassenger_canva, values=['Economy', 'Premium', 'Business'], state="readonly", width=25,background=initialization.bg_color)
         ticket_type_combobox.set("Select ticket class")
         ticket_type_combobox.place(x=350, y=80)
 
         valid = tk.Button(
         modiPassenger_canva,
         text="Valid",
-        bg="black",
+        background=initialization.bg_color,
         fg="white",
         font=('Helvetica', 10, 'bold'),
         command=lambda: flight.modifPassenger2(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag, member_type_combobox.get(), ticket_type_combobox.get()))
@@ -133,7 +133,7 @@ class flight():
 
     # Method to select passenger details and display them
     def selectPassengerDetails(self, canvas, number, imageModif):
-        scroll_canva = tk.Canvas(canvas)
+        scroll_canva = tk.Canvas(canvas,bg=initialization.bg_color)
         scroll_canva.config(highlightthickness=0, borderwidth=0)
         scroll_canva.place(x=825, y=220, width=650, height=550)
 
@@ -148,7 +148,7 @@ class flight():
 
         scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
 
-        modiPassenger_canva = tk.Canvas(canvas)
+        modiPassenger_canva = tk.Canvas(canvas,bg=initialization.bg_color)
         modiPassenger_canva.place(x=100, y=550, width=600, height=200)
 
         passagers = []
@@ -160,13 +160,13 @@ class flight():
         valid = tk.Button(
             canvas,
             text="Valid",
-            bg="black",
+            bg=initialization.bg_color,
             fg="white",
             font=('Helvetica', 10, 'bold'),
             command=lambda: flight.validationPassenger(self, passagers, verify))
         valid.place(x=1135, y=785)
 
-        verify = tk.Label(text="", font=('Helvetica', 10, 'bold'))
+        verify = tk.Label(text="", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         verify.place(x=1185, y=787)
 
         flight.displayPassenger(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva)
@@ -181,7 +181,7 @@ class flight():
 
     # Method to set up the validation page UI
     def validdation_page(self):
-        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080,bg=initialization.bg_color)
         canvas.place(x=0, y=0)
         canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
         canvas.create_line(775, 220, 775, 700, width=2, fill="black")
@@ -189,7 +189,7 @@ class flight():
         Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white", bg="black")
         Cuicui.place(x=50, y=15)
 
-        Title = tk.Label(text="Validation", font=('Helvetica', 30, 'bold'))
+        Title = tk.Label(text="Validation", font=('Helvetica', 30, 'bold'),bg=initialization.bg_color)
         Title.place(x=680, y=100)
 
         imageCustomer = Image.open("./photos/profil_picture/photo_profil_inverse.png")
@@ -199,20 +199,20 @@ class flight():
         canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": flight.connection(self))
 
         if initialization.lastPage == "page_accueil":
-            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
             returnTo.place(x=50, y=100)
             returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
 
         flight.completeFlight(self)
         flight.displayFlight(self, canvas)
 
-        number = tk.Label(text="Select the number of passengers:", font=('Helvetica', 16, 'bold'))
+        number = tk.Label(text="Select the number of passengers:", font=('Helvetica', 16, 'bold'),bg=initialization.bg_color)
         number.place(x=225, y=450)
 
         spinbox_frame = tk.Frame(canvas)
         spinbox_frame.place(x=310, y=500)
 
-        spinbox = tk.Spinbox(spinbox_frame, from_=0, to=self.SeatsAvailable, increment=1, state="readonly")
+        spinbox = tk.Spinbox(spinbox_frame, from_=0, to=self.SeatsAvailable, increment=1, state="readonly",bg=initialization.bg_color)
         spinbox.pack(ipady=5)
 
         imageModif = Image.open("./photos/customer/modif.png")
@@ -221,7 +221,7 @@ class flight():
 
         valid = tk.Button(
             text="OK",
-            bg="black",
+            bg=initialization.bg_color,
             fg="white",
             font=('Helvetica', 10, 'bold'),
             command=lambda: flight.selectPassengerDetails(self, canvas, spinbox.get(), imageModif))
