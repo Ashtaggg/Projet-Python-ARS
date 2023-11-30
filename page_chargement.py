@@ -51,14 +51,15 @@ def print_loading(canvas, cities):
     :return: nothing
     """
     # Creation of the bar of the loading screen
-    canvas.create_rectangle(198, 598, 1367, 652, outline='black', fill='blue')
+    canvas.create_rectangle(198, 598, 1367, 652, outline='black', fill='black')
     canvas.update()
     # Display of the first picture (with the function show_image_loading)
     photo_city = show_image_loading("paris")
     # Display of the first green rectangle (with the function show_image)
-    photo_green = show_image(0)
+    photo_green = show_image()
     # Initialisation of the variable x
-    x = 200
+
+    list_green_rectangle = []
 
     # Loop with 99 iteration
     for i in range(1, 100):
@@ -73,18 +74,23 @@ def print_loading(canvas, cities):
         # if the "i" is a multiple of 5
         if i % 5 == 0:
             # Call of the function photo_green for the next rectangle
-            photo_green = show_image(int(i))
-            # Increase of the x coordinate
-            x = 200 + 60 * (i / 5)
+            photo_green = show_image()
+
+            list_green_rectangle.append(photo_green)
         # if the "i" is a multiple of 10
         if i % 10 == 0:
             # Call of the function photo_green for the next photo
             photo_city = show_image_loading(city)
 
+        x = 140
         # Display of the next green rectangle
-        canvas.create_image(x, 600, anchor=tk.NW, image=photo_green)
-        canvas.pack()
-        canvas.image = photo_green
+        for j in range(len(list_green_rectangle)):
+            # Increase of the x coordinate
+            x = 140 + 60 * (i / 5)
+            canvas.create_image(x, 600, anchor=tk.NW, image=photo_green)
+            canvas.pack()
+            canvas.image = photo_green
+
         # Display of the next photo
         canvas.create_image(710, 225, anchor=tk.NW, image=photo_city)
         canvas.pack()
@@ -97,16 +103,14 @@ def print_loading(canvas, cities):
     page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
 
 
-def show_image(i):
+def show_image():
     """
     This function return the correct green rectangle needed
-    :param i: variable "i" from the loop
     :return: green rectangle
     """
     # We divide "i" by 5
-    i = int(i / 5)
     # Opening of the green rectangle image
-    img = Image.open(f"photos/other_photos/green_rectangles/green_rectangle_{i}.png")
+    img = Image.open(f"photos/other_photos/green_rectangles/green_rectangle_0.png")
     # Resize of the image
     img = img.resize((25, 50), Image.LANCZOS)
     photo = ImageTk.PhotoImage(img)

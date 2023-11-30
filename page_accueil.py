@@ -91,6 +91,7 @@ class CuicuiAirlinesApp():
         return cities
 
     def get_flights(self, departure_city, arrival_city, date):
+        no_fly = 0
         print(date[:10])
         request = f"SELECT COUNT(*) FROM flight WHERE ((DepartureCity ='{departure_city}') AND (ArrivalCity = '{arrival_city}') AND (LEFT(DepartureTime,10) ='{date[:10]}'));"
         output = query.requestDataBase(request)
@@ -108,10 +109,13 @@ class CuicuiAirlinesApp():
 
 
             elif(int(result) == 0):
+                no_fly = 1
+                request = f"SELECT FlightID FROM flight WHERE DepartureCity = '{departure_city}' AND LEFT(DepartureTime,10) >='{date[:10]}';"
+                output = query.requestDataBase(request)
                 print("No fly from ",departure_city," for ", arrival_city," the ",date)
 
+        return no_fly,output
 
-        return output
 
     def reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup):
         for widget in canva_sup.winfo_children():
@@ -124,24 +128,25 @@ class CuicuiAirlinesApp():
         if not ville_depart or not ville_arrivee:
             return
 
-        flights = CuicuiAirlinesApp.get_flights(self, ville_depart, ville_arrivee, date)
+        state,flights = CuicuiAirlinesApp.get_flights(self, ville_depart, ville_arrivee, date)
 
-        if(flights[0][0] == 0):
+        if(state == 1): #flights[0][0]
             print("PAS DE VOL A CETTE DATE")
             TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'))
             TitleRight.place(x=0, y=0)
 
-        else:
-            for i in range(len(flights)):
-                id_fly.append(flights[i][0])
 
-            CuicuiAirlinesApp.show_fly(self,id_fly,canva_sup)
+        for i in range(len(flights)):
+            id_fly.append(flights[i][0])
 
-            CuicuiAirlinesApp.show_image(self, ville_arrivee,canva_sup)
+        CuicuiAirlinesApp.show_fly(self,id_fly,canva_sup,state)
 
-    def show_fly(self,id_fly,canva_sup):
-        TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Helvetica', 22, 'bold'))
-        TitleRight.place(x=0, y=0)
+        CuicuiAirlinesApp.show_image(self, ville_arrivee,canva_sup)
+
+    def show_fly(self,id_fly,canva_sup,state):
+        if (state == 0):
+            TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Helvetica', 22, 'bold'))
+            TitleRight.place(x=0, y=0)
 
         if (True == 1):
 
