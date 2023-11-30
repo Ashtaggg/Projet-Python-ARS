@@ -70,8 +70,13 @@ class flight():
             fieldsSelected = all(passager['member_type'] != "Select Member Type" and passager['ticket_type'] != "Select ticket class" for passager in passagers)
             if fieldsSelected:
                 total_price = pay.calculate_price(passagers)
-                messagebox.showinfo("Total Price", f"The total price is {total_price} €.")
-                pay.process_payment(initialization.cuicui, passagers)
+                #messagebox.showinfo("Total Price", f"The total price is {total_price} €.")
+                if initialization.login == 0:
+                    initialization.lastPage = "choice_person"
+                    
+                elif initialization.login == 1:
+                    initialization.lastPage = "choice_person"
+                    pay.process_payment(initialization.cuicui, passagers, self)
             else:
                 verify.config(text="Please complete all the fields")
         else:
