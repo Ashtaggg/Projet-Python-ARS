@@ -111,7 +111,7 @@ def calculate_price(passenger_list):
 
     for passenger_details in passenger_list:
         class_price = class_prices.get(passenger_details['ticket_type'], 0)
-        age_coefficient = age_coefficients.get(passenger_details['member_type'], 1)  
+        age_coefficient = age_coefficients.get(passenger_details['member_type'], 1)
         total_price += class_price * age_coefficient
 
     return total_price
