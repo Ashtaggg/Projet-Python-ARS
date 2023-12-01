@@ -125,7 +125,7 @@ class customer():
         pastFlights = booking(0, 0, 0, 0, 0, 0)
         nbrBooking = booking.findNbrBooking(pastFlights, self.CustomerID)
 
-        scroll_canva = tk.Canvas(canvas)
+        scroll_canva = tk.Canvas(canvas, bg=initialization.bg_color)
         scroll_canva.config(highlightthickness=0, borderwidth=0)
         scroll_canva.place(x=652, y=275, width=869, height=525)
 
@@ -187,7 +187,7 @@ class customer():
         x0 = 652
         y0 = 275
 
-        scroll_canva = tk.Canvas(canvas)
+        scroll_canva = tk.Canvas(canvas, bg=initialization.bg_color)
         scroll_canva.place(x=652, y=275, width=869, height=525)
 
         if self.Type == 1:
@@ -345,7 +345,7 @@ class customer():
             customer.pastFlights(self, canvas, image2)
         elif output[0][0] == 1:
             
-            bouton_canva = tk.Canvas(canvas)
+            bouton_canva = tk.Canvas(canvas, bg=initialization.bg_color, borderwidth=0)
             bouton_canva.place(x=652, y=200, width=869, height=525)
 
             bouton_canva.create_text(440, 25, text="Admin Tools ", font=('Helvetica', 20, 'bold'))
@@ -475,7 +475,7 @@ class customer():
     def customer_page(self):
         y0 = 125
 
-        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+        canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080, bg=initialization.bg_color)
         canvas.place(x=0, y=0)
         canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
         canvas.create_line(650, 220, 650, 700, width=2, fill="black")
