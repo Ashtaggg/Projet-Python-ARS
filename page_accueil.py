@@ -38,7 +38,7 @@ class CuicuiAirlinesApp():
         Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font=('Helvetica', 30, 'bold'), fg="white",bg="black")
         Cuicui.place(x=50, y=15)
 
-        titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Helvetica", 20),bg=initialization.bg_color)
+        titre_label = tk.Label(initialization.cuicui, text="Welcome on Cuicui Airlines", font=("Broadway", 20),bg=initialization.bg_color)
         titre_label.place(x=550, y=90)
 
         imageCustomer = Image.open("./photos/profil_picture/photo_profil_inverse.png")
@@ -56,7 +56,7 @@ class CuicuiAirlinesApp():
         canva_sup.create_line(600, 0, 600, 800, width=2, fill="black")
 
         #DEPARTURE
-        aeroport_depart_label = tk.Label( text="Departure", font=("Helvetica", 10),bg=initialization.bg_color)
+        aeroport_depart_label = tk.Label( text="Departure", font=("Broadway", 10),bg=initialization.bg_color)
         aeroport_depart_label.place(x=200, y=150)
         cities = CuicuiAirlinesApp.get_cities(self)
 
@@ -64,19 +64,19 @@ class CuicuiAirlinesApp():
         aeroport_depart_combobox.place(x=300, y=150)
 
         #ARRIVAL
-        aeroport_arrivee_label = tk.Label( text="Arrival", font=("Helvetica", 10),bg=initialization.bg_color)
+        aeroport_arrivee_label = tk.Label( text="Arrival", font=("Broadway", 10),bg=initialization.bg_color)
         aeroport_arrivee_label.place(x=450, y=150)
         aeroport_arrivee_combobox = ttk.Combobox(values=cities, state="readonly")
         aeroport_arrivee_combobox.place(x=550, y=150)
 
         #DATE
-        date_label = tk.Label( text="Date", font=("Helvetica", 10),bg=initialization.bg_color)
+        date_label = tk.Label( text="Date", font=("Broadway", 10),bg=initialization.bg_color)
         date_label.place(x=750, y=150)
-        date_select = DateEntry( date_pattern="yyyy-mm-dd", fg="black", bg="white", width=10,font=('Helvetica', 10, 'bold'))
+        date_select = DateEntry( date_pattern="yyyy-mm-dd", fg="black", bg="white", width=10,font=('Broadway', 10, 'bold'))
         date_select.place(x=800, y=150)
 
         #SEARCH
-        reserver_bouton = tk.Button( text="Search", font=("Helvetica", 10),command=lambda: CuicuiAirlinesApp.booking_fly(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup),bg=initialization.bg_color)
+        reserver_bouton = tk.Button( text="Search", font=("Broadway", 10),command=lambda: CuicuiAirlinesApp.booking_fly(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup),bg=initialization.bg_color)
         reserver_bouton.place(x=950, y=150)
 
         initialization.cuicui.mainloop()
@@ -132,7 +132,7 @@ class CuicuiAirlinesApp():
 
         if(state == 1): #flights[0][0]
             print("PAS DE VOL A CETTE DATE")
-            TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Helvetica', 22, 'bold'),bg=initialization.bg_color)
+            TitleRight = tk.Label(canva_sup,text=f"No Fly Available from {ville_depart} to {ville_arrivee}", font=('Broadway', 22, 'bold'),bg=initialization.bg_color)
             TitleRight.place(x=0, y=0)
 
 
@@ -145,7 +145,7 @@ class CuicuiAirlinesApp():
 
     def show_fly(self,id_fly,canva_sup,state):
         if (state == 0):
-            TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Helvetica', 22, 'bold'),bg=initialization.bg_color)
+            TitleRight = tk.Label(canva_sup,text="Fly Available", font=('Broadway', 22, 'bold'),bg=initialization.bg_color)
             TitleRight.place(x=0, y=0)
 
         if (True == 1):
