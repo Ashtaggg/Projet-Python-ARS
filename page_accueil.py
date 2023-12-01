@@ -76,7 +76,7 @@ class CuicuiAirlinesApp():
         date_select.place(x=800, y=150)
 
         #SEARCH
-        reserver_bouton = tk.Button( text="Search", font=("Helvetica", 10),command=lambda: CuicuiAirlinesApp.reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup),bg=initialization.bg_color)
+        reserver_bouton = tk.Button( text="Search", font=("Helvetica", 10),command=lambda: CuicuiAirlinesApp.booking_fly(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup),bg=initialization.bg_color)
         reserver_bouton.place(x=950, y=150)
 
         initialization.cuicui.mainloop()
@@ -117,7 +117,7 @@ class CuicuiAirlinesApp():
         return no_fly,output
 
 
-    def reserver_vol(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup):
+    def booking_fly(self,aeroport_depart_combobox,aeroport_arrivee_combobox,date_select,canva_sup):
         for widget in canva_sup.winfo_children():
             widget.destroy()
         id_fly=[]
@@ -155,7 +155,7 @@ class CuicuiAirlinesApp():
             scroll_canva.place(x=0, y=40, width=500, height=525)
 
             yscrollbar = tk.Scrollbar(canva_sup, orient="vertical", command=scroll_canva.yview,background=initialization.bg_color)
-            yscrollbar.place(x=580, y=0, width=15, height=600)
+            yscrollbar.place(x=580, y=50, width=15, height=550)
 
             scroll_canva.configure(yscrollcommand=yscrollbar.set)
             scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
@@ -176,7 +176,7 @@ class CuicuiAirlinesApp():
 
                 fly = [str(output[0][0]),str(output[0][1]),str(output[0][2]),str(output[0][3]),str(output[0][4]),output[0][5]]
 
-                scroll_canva.create_text(100, (i * 150) + 40, text=fly[0] + "  >  " + fly[1], font=('Helvetica', 14, 'bold'))
+                scroll_canva.create_text(140, (i * 150) + 40, text=fly[0] + "  >  " + fly[1], font=('Helvetica', 14, 'bold'))
                 scroll_canva.create_text(125, (i * 150) + 80, text=str(fly[2])[:16], font=('Helvetica', 10, 'bold'))
                 scroll_canva.create_text(250, (i * 150) + 80, text=fly[0], font=('Helvetica', 10, 'bold'))
                 scroll_canva.create_text(125, (i * 150) + 100, text=str(fly[3])[:16], font=('Helvetica', 10, 'bold'))
