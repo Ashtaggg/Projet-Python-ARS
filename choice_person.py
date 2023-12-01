@@ -73,7 +73,7 @@ class flight():
                 #messagebox.showinfo("Total Price", f"The total price is {total_price} €.")
                 if initialization.login == 0:
                     initialization.lastPage = "choice_person"
-                    verify.config(text="You have to login for pay")
+                    verify.config(text="You must be logged in to pay")
                 elif initialization.login == 1:
                     initialization.lastPage = "choice_person"
                     pay.process_payment(initialization.cuicui, passagers, self)
