@@ -154,7 +154,7 @@ def login_page():
         command=lambda: verify_login(email.get(), hashlib.sha256(password.get().encode()).hexdigest(), verify))
     login.place(x=740, y=y0 + 320)
 
-    verify = tk.Label(text="", font=('Helvetica', 10, 'bold'))
+    verify = tk.Label(text="", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
     verify.place(x=810, y=y0 + 322)
 
     initialization.cuicui.mainloop()

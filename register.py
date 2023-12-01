@@ -65,18 +65,18 @@ def verify_register(Firstname, Name, Email, BirthDate, Password, Type, PhotoProf
 def register_page():
     y0 = 125
 
-    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080)
+    canvas = tk.Canvas(initialization.cuicui, width=1920, height=1080,bg=initialization.bg_color)
     canvas.place(x=0, y=0)
     canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
 
     Cuicui = tk.Label(initialization.cuicui, text="Cuicui Airline", font = ('Helvetica' , 30, 'bold'), fg="white", bg="black")
     Cuicui.place(x=50, y=15)
 
-    Title = tk.Label(text = "Create new account",font = ('Helvetica' , 30, 'bold'))
+    Title = tk.Label(text = "Create new account",font = ('Helvetica' , 30, 'bold'),bg=initialization.bg_color)
     Title.place(x=570, y=y0+25)
 
     if initialization.lastPage == "page_accueil":
-        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+        returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
         returnTo.place(x=50, y=100)
         returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
     elif initialization.lastPage == "choice_person":
@@ -84,56 +84,56 @@ def register_page():
         returnTo.place(x=50, y=100)
         returnTo.bind("<Button-1>", lambda event=None:choice_person.flight.debut(initialization.FlightID))
 
-    Login = tk.Label(text = "Already Registered ? Login",font = ('Helvetica' , 12, 'bold'))
+    Login = tk.Label(text = "Already Registered ? Login",font = ('Helvetica' , 12, 'bold'),bg=initialization.bg_color)
     Login.place(x=665, y=y0+100)
     Login.bind("<Button-1>", go_login)
     
 
-    Firstname = tk.Label(text = "Firstname :",font = ('Helvetica' , 10, 'bold'))
+    Firstname = tk.Label(text = "Firstname :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     Firstname.place(x=610, y=y0+180)
 
     firstname_frame = tk.Frame(initialization.cuicui)
     firstname_frame.place(x=610, y=y0+200)
 
-    firstname = tk.Entry(firstname_frame, fg="black", bg="white", width=50)
+    firstname = tk.Entry(firstname_frame, fg="black", bg=initialization.bg_color, width=50)
     firstname.pack(ipady=5)
 
 
 
-    Name = tk.Label(text = "Name :",font = ('Helvetica' , 10, 'bold'))
+    Name = tk.Label(text = "Name :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     Name.place(x=610, y=y0+250)
 
     name_frame = tk.Frame(initialization.cuicui)
     name_frame.place(x=610, y=y0+270)
 
-    name = tk.Entry(name_frame, fg="black", bg="white", width=50)
+    name = tk.Entry(name_frame, fg="black", width=50,bg=initialization.bg_color)
     name.pack(ipady=5)
 
 
 
-    Email = tk.Label(text = "Email :",font = ('Helvetica' , 10, 'bold'))
+    Email = tk.Label(text = "Email :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     Email.place(x=610, y=y0+320)
 
     email_frame = tk.Frame(initialization.cuicui)
     email_frame.place(x=610, y=y0+340)
 
-    email = tk.Entry(email_frame, fg="black", bg="white", width=50)
+    email = tk.Entry(email_frame, fg="black", width=50,bg=initialization.bg_color)
     email.pack(ipady=5)
 
 
 
-    Password = tk.Label(text="Password :", font = ('Helvetica' , 10, 'bold'))
+    Password = tk.Label(text="Password :", font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     Password.place(x=610, y=y0+390)
 
     password_frame = tk.Frame(initialization.cuicui)
     password_frame.place(x=610, y=y0+410)
 
-    password = tk.Entry(password_frame, fg="black", bg="white", width=50, show="*")
+    password = tk.Entry(password_frame, fg="black", width=50, show="*",bg=initialization.bg_color)
     password.pack(ipady=5)
     
     passwordButton = tk.Button(
         text = "Show",
-        bg = "white",
+        bg=initialization.bg_color,
         fg = "black",
         font = ('Helvetica' , 10, 'bold'),
         command = lambda: toggle_password_visibility(password, passwordButton))
@@ -141,13 +141,13 @@ def register_page():
     
 
 
-    Date = tk.Label(text = "Date of birth :",font = ('Helvetica' , 10, 'bold'))
+    Date = tk.Label(text = "Date of birth :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     Date.place(x=610, y=y0+460)
 
     date_frame = tk.Frame(initialization.cuicui)
     date_frame.place(x=610, y=y0+480)
 
-    date = DateEntry(date_frame, date_pattern="yyyy-mm-dd", fg="black", bg="white", width=40, font = ('Helvetica' , 10, 'bold'))
+    date = DateEntry(date_frame, date_pattern="yyyy-mm-dd", fg="black", width=40, font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     date.pack(ipady=5)
 
 
@@ -155,14 +155,14 @@ def register_page():
     signup = tk.Button(
     initialization.cuicui,
     text  ="Sign up",
-    bg = "black",
-    fg = "white",
+    bg=initialization.bg_color,
+    fg = "black",
     font = ('Helvetica', 10, 'bold'),
     command = lambda: verify_register(firstname.get(), name.get(), email.get(), date.get(), hashlib.sha256(password.get().encode()).hexdigest(), 0, 0, verify))
     signup.place(x=740, y=y0+530)
 
 
-    verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'))
+    verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
     verify.place(x=810, y=y0+532)
 
 
