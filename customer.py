@@ -101,7 +101,7 @@ class booking():
 
         scroll_canva.create_text(655, (i * 150) + 75, text="x" + str(self.NumberOfTickets),
                                  font=('Helvetica', 10, 'bold'))
-        scroll_canva.create_text(650, (i * 150) + 105, text=str(self.TotalAmount * self.NumberOfTickets) + " €",
+        scroll_canva.create_text(650, (i * 150) + 105, text=str(self.TotalAmount) + " €",
                                  font=('Helvetica', 10, 'bold'))
 
         scroll_canva.create_rectangle(100, (i * 150) + 10, 775, (i * 150) + 130)

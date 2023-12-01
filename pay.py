@@ -4,6 +4,7 @@ import initialization
 import effacer
 import page_chargement
 import choice_person
+import query
 
 
 def displayFlight(flight, canvas):
@@ -77,17 +78,25 @@ def process_payment(main_window, passenger_list, flight):
     cvv_entry.place(x=700, y=350)
 
     pay_button = tk.Button(canvas, text="Pay", font=("Helvetica", 12, "bold"),
-                           command=lambda: validate_payment(card_entry.get(), expiry_entry.get(), cvv_entry.get(), canvas),bg=initialization.bg_color)
+                           command=lambda: validate_payment(card_entry.get(), expiry_entry.get(), cvv_entry.get(), canvas, flight, len(passenger_list), total_price),bg=initialization.bg_color)
     pay_button.place(x=735, y=400)
 
-def validate_payment(card_entry, expiry_entry, cvv_entry, canvas):
+def validate_payment(card_entry, expiry_entry, cvv_entry, canvas, flight, nbr, total_price):
     card_number = card_entry
     expiry_date = expiry_entry
     cvv = cvv_entry
 
+    print(total_price)
+
     if len(card_number) == 16 and len(expiry_date) == 5 and len(cvv) == 3:
         messagebox.showinfo("Payment Successful", "Your payment has been processed successfully. Thank you!")
         canvas.destroy()
+
+        request = "INSERT INTO `booking` (`CustomerID`, `FlightID`, `NumberOfTickets`, `TotalAmount`) VALUES ('" + str(initialization.member.CustomerID) + "', '" + str(flight.FlightID) + "', '" + str(nbr) + "', '" + str(total_price) + "');"
+        output = query.requestDataBase(request)
+
+        request = "UPDATE `flight` SET `SeatsAvailable` = '" + str(flight.SeatsAvailable - nbr) + "' WHERE `FlightID` = '" + str(flight.FlightID) + "';"
+        output = query.requestDataBase(request)
 
         # Add the following lines to open page_accueil.py
         page_chargement.loading_screen()  # Open page_accueil.py using the Python interpreter
