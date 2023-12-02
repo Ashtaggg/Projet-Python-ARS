@@ -56,6 +56,8 @@ class flight():
 
         scroll_canva.create_text(400, (i * 150) + 100, text=self.ArrivalCity, font=('Helvetica', 10, 'bold'))
 
+    
+
 
 class booking():
     def __init__(self, BookingID, CustomerID, FlightID, NumberOfTickets, TotalAmount, Timestamp):
@@ -191,9 +193,9 @@ class customer():
         scroll_canva.place(x=652, y=275, width=869, height=525)
 
         if self.Type == 1:
-                returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
-                returnAdmin.place(x=700, y=200)
-                returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
+            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnAdmin.place(x=700, y=200)
+            returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
 
         departureCity = tk.Label(scroll_canva, text="Departure City :", font=('Helvetica', 10, 'bold'))
         departureCity.place(x=725-x0, y=300-y0)
@@ -314,6 +316,203 @@ class customer():
 
         verify = tk.Label(scroll_canva, text = "",font = ('Helvetica' , 10, 'bold'))
         verify.place(x=1130-x0, y=552-y0)
+    
+
+
+    def verify_modif(self, canvas, verify, FlightID, DepartureCity, ArrivalCity, DepartureDay, ArrivalDay, DepartureHours, ArrivalHours, TicketPrice, SeatsAvailable):
+        DepartureTime = str(DepartureDay) + " " + str(DepartureHours) + ":00"
+        ArrivalTime = str(ArrivalDay) + " " + str(ArrivalHours) + ":00"
+
+        date_departure = datetime.strptime(DepartureTime, "%Y-%m-%d %H:%M:%S")
+        date_arrival = datetime.strptime(ArrivalTime, "%Y-%m-%d %H:%M:%S")
+
+
+        if DepartureCity == "" or ArrivalCity == "" or DepartureDay == "" or DepartureHours == "" or ArrivalDay == "" or ArrivalHours == "" or TicketPrice == "" or SeatsAvailable == "":
+            verify.config(text="Please complete all the fields")
+        elif DepartureCity == ArrivalCity:
+            verify.config(text="You cannot have the same departure and arrival city")
+        elif date_arrival < date_departure:
+            verify.config(text="Dates are not possible")
+        else:
+            verify.config(text="")
+            request = "UPDATE `flight` SET `DepartureCity` = '" + str(DepartureCity) + "', `ArrivalCity` = '" + str(ArrivalCity) + "', `DepartureTime` = '" + str(DepartureTime) + "', `ArrivalTime` = '" + str(ArrivalTime) + "', `TicketPrice` = '" + str(TicketPrice) + "', `SeatsAvailable` = '" + str(SeatsAvailable) + "' WHERE `FlightID` = '" + str(FlightID) + "';"
+            query.requestDataBase(request)
+
+
+
+
+    def modifFlight(self, canvas, num, scroll_canva, image, TitleRight):
+        scroll_canva.delete("all")
+        scroll_canva.destroy()
+
+        request = "SELECT DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable FROM flight WHERE FlightID = '" + str(num) + "';"
+        output = query.requestDataBase(request)
+
+        DepartureDayDate = str(output[0][2])[:10]
+        DepartureHourDate = str(output[0][2])[11:16]
+
+        ArrivalDayDate = str(output[0][3])[:10]
+        ArrivalHourDate = str(output[0][3])[11:16]
+
+
+
+        DepartureCity = tk.Label(text = "Departure City :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        DepartureCity.place(x=800, y=300)
+
+        departureCity_frame = tk.Frame(initialization.cuicui)
+        departureCity_frame.place(x=800, y=320)
+
+        departureCity = tk.Entry(departureCity_frame, fg="black", width=30,bg=initialization.bg_color)
+        departureCity.insert(0, output[0][0])
+        departureCity.pack(ipady=5)
+
+
+        ArrivalCity = tk.Label(text = "Arrival City :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        ArrivalCity.place(x=1200, y=300)
+
+        arrivalCity_frame = tk.Frame(initialization.cuicui)
+        arrivalCity_frame.place(x=1200, y=320)
+
+        arrivalCity = tk.Entry(arrivalCity_frame, fg="black", width=30,bg=initialization.bg_color)
+        arrivalCity.insert(0, output[0][1])
+        arrivalCity.pack(ipady=5)
+
+
+        DepartureDay = tk.Label(text = "Departure Time :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        DepartureDay.place(x=800, y=400)
+
+        departureDay_frame = tk.Frame(initialization.cuicui)
+        departureDay_frame.place(x=800, y=420)
+
+        departureDay = DateEntry(departureDay_frame, date_pattern="yyyy-mm-dd", fg="black", width=23, font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        departureDay.delete(0, tk.END)
+        departureDay.insert(0, DepartureDayDate)
+        departureDay.pack(ipady=5)
+
+
+        ArrivalDay = tk.Label(text = "Arrival Time :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        ArrivalDay.place(x=1200, y=400)
+
+        arrivalDay_frame = tk.Frame(initialization.cuicui)
+        arrivalDay_frame.place(x=1200, y=420)
+
+        arrivalDay = DateEntry(arrivalDay_frame, date_pattern="yyyy-mm-dd", fg="black", width=23, font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        arrivalDay.delete(0, tk.END)
+        arrivalDay.insert(0, ArrivalDayDate)
+        arrivalDay.pack(ipady=5)
+
+
+        DepartureHour = tk.Label(text = "Departure Hour :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        DepartureHour.place(x=800, y=500)
+
+        departureHour_frame = tk.Frame(initialization.cuicui)
+        departureHour_frame.place(x=800, y=520)
+
+        departureHour = tk.Entry(departureHour_frame, fg="black", width=30,bg=initialization.bg_color)
+        departureHour.insert(0, DepartureHourDate)
+        departureHour.pack(ipady=5)
+
+        ArrivalHour = tk.Label(text = "Arival Hour :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        ArrivalHour.place(x=1200, y=500)
+
+        arrivalHour_frame = tk.Frame(initialization.cuicui)
+        arrivalHour_frame.place(x=1200, y=520)
+
+        arrivalHour = tk.Entry(arrivalHour_frame, fg="black", width=30,bg=initialization.bg_color)
+        arrivalHour.insert(0, ArrivalHourDate)
+        arrivalHour.pack(ipady=5)
+
+
+        TicketPrice = tk.Label(text = "Ticket Price :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        TicketPrice.place(x=800, y=600)
+
+        ticketPrice_frame = tk.Frame(initialization.cuicui)
+        ticketPrice_frame.place(x=800, y=620)
+
+        ticketPrice = tk.Entry(ticketPrice_frame, fg="black", width=30,bg=initialization.bg_color)
+        ticketPrice.insert(0, output[0][4])
+        ticketPrice.pack(ipady=5)
+
+        SeatsAvailable = tk.Label(text = "Seats Available :",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        SeatsAvailable.place(x=1200, y=600)
+
+        seatsAvailable_frame = tk.Frame(initialization.cuicui)
+        seatsAvailable_frame.place(x=1200, y=620)
+
+        seatsAvailable = tk.Entry(seatsAvailable_frame, fg="black", width=30,bg=initialization.bg_color)
+        seatsAvailable.insert(0, output[0][5])
+        seatsAvailable.pack(ipady=5)
+
+        verifyButton = tk.Button(
+        initialization.cuicui,
+        text  ="OK",
+        bg=initialization.bg_color,
+        fg = "black",
+        font = ('Helvetica', 10, 'bold'),
+        command = lambda: customer.verify_modif(self, canvas, verify, num, departureCity.get(), arrivalCity.get(), departureDay.get(), arrivalDay.get(), departureHour.get(), arrivalHour.get(), ticketPrice.get(), seatsAvailable.get()))
+        verifyButton.place(x=1100, y=700)
+
+
+        verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        verify.place(x=1140, y=702)
+
+        
+
+
+
+    def manageFlights(self, canvas, image):
+        TitleRight = tk.Label(text = "Manage Flights",font = ('Helvetica' , 20, 'bold'),bg=initialization.bg_color)
+        TitleRight.place(x=1000, y=200)
+
+        if self.Type == 1:
+            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnAdmin.place(x=700, y=200)
+            returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
+
+        request = "SELECT FlightID FROM flight WHERE DepartureTime > NOW();"
+        output = query.requestDataBase(request)
+        
+        id_fly = output
+
+        scroll_canva = tk.Canvas(canvas, bg=initialization.bg_color)
+        scroll_canva.config(highlightthickness=0, borderwidth=0)
+        scroll_canva.place(x=652, y=275, width=869, height=525)
+
+        yscrollbar = tk.Scrollbar(canvas, orient="vertical", command=scroll_canva.yview)
+        yscrollbar.place(x=1521, y=275, width=15, height=550)
+
+        scroll_canva.configure(yscrollcommand=yscrollbar.set)
+        scroll_canva.bind('<Configure>', lambda e: scroll_canva.configure(scrollregion=scroll_canva.bbox("all")))
+
+        display_frame = tk.Frame(scroll_canva)
+        display_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+        scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
+
+        boutons=[]
+
+        for i in range(len(id_fly)):
+            request = f"SELECT DepartureCity, ArrivalCity, DepartureTime, ArrivalTime, TicketPrice, SeatsAvailable FROM flight WHERE FlightID = '{id_fly[i][0]} ';"
+            output = query.requestDataBase(request)
+
+            fly = [str(output[0][0]),str(output[0][1]),str(output[0][2]),str(output[0][3]),str(output[0][4]),output[0][5]]
+
+            scroll_canva.create_text(240, (i * 150) + 40, text=fly[0] + "  >  " + fly[1], font=('Helvetica', 14, 'bold'))
+            scroll_canva.create_text(325, (i * 150) + 80, text=str(fly[2])[:16], font=('Helvetica', 10, 'bold'))
+            scroll_canva.create_text(450, (i * 150) + 80, text=fly[0], font=('Helvetica', 10, 'bold'))
+            scroll_canva.create_text(325, (i * 150) + 100, text=str(fly[3])[:16], font=('Helvetica', 10, 'bold'))
+            scroll_canva.create_text(450, (i * 150) + 100, text=fly[1], font=('Helvetica', 10, 'bold'))
+            scroll_canva.create_rectangle(105, (i * 150) + 10, 795, (i * 150) + 130)
+
+
+            bouton = tk.Button(canvas, text=f"Manage", command=lambda num=id_fly[i][0]: customer.modifFlight(self, canvas ,num, scroll_canva, image, TitleRight),bg=initialization.bg_color)
+            bouton.pack(padx=20,pady=20)
+            scroll_canva.create_window(650, (i * 150) + 100, window=bouton)  # Position du bouton dans le canevas
+
+            boutons.append(bouton)
+
+
+
 
     
     def returnAdmin(self, canvas, image2, scroll_canva, TitleRight, returnAdmin):
@@ -335,6 +534,8 @@ class customer():
         elif bouton == 2:
             customer.createFlights(self, canvas, image2)
         elif bouton == 3:
+            customer.manageFlights(self, canvas, image2)
+        elif bouton == 4:
             statistiques.stat_page(self)
 
 
@@ -368,14 +569,23 @@ class customer():
             command=lambda: customer.adminTools(self, canvas, image2, 2, bouton_canva))
             CreateFlight.place(x=389, y=200)
 
+            ManageFlight = tk.Button(
+            bouton_canva,
+            text="Manage Flight",
+            bg="black",
+            fg="white",
+            font=('Helvetica', 10, 'bold'),
+            command=lambda: customer.adminTools(self, canvas, image2, 3, bouton_canva))
+            ManageFlight.place(x=385, y=250)
+
             Statistiques = tk.Button(
             bouton_canva,
             text="Statistiques",
             bg="black",
             fg="white",
             font=('Helvetica', 10, 'bold'),
-            command=lambda: customer.adminTools(self, canvas, image2, 3, bouton_canva))
-            Statistiques.place(x=393, y=250)
+            command=lambda: customer.adminTools(self, canvas, image2, 4, bouton_canva))
+            Statistiques.place(x=393, y=300)
 
 
 
@@ -470,7 +680,9 @@ class customer():
                 widget.destroy()
             customer.customer_page(self)
 
-
+    def logout(self):
+        initialization.login = 0
+        page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui)
 
     def customer_page(self):
         y0 = 125
@@ -551,6 +763,15 @@ class customer():
         image2 = Image.open("./photos/profil_picture/photo_profil.png")
         image2 = image2.resize((20, 20))
         image2 = ImageTk.PhotoImage(image2)
+
+        logout = tk.Button(
+        initialization.cuicui,
+        text  ="Log Out",
+        bg="black",
+        fg = "white",
+        font = ('Helvetica', 10, 'bold'),
+        command = lambda: customer.logout(self))
+        logout.place(x=170, y=750)
 
         customer.adminOrNot(self, canvas, image2)
 
