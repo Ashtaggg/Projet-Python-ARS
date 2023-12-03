@@ -121,7 +121,7 @@ class customer():
         self.PhotoProfil = PhotoProfil
 
     def pastFlights(self, canvas, image):
-        TitleRight = tk.Label(text="Past flights", font=('Helvetica', 20, 'bold'))
+        TitleRight = tk.Label(text="Past flights", font=('Helvetica', 20, 'bold'),bg=initialization.bg_color)
         TitleRight.place(x=1015, y=205)
 
         pastFlights = booking(0, 0, 0, 0, 0, 0)
@@ -143,7 +143,7 @@ class customer():
         scroll_canva.create_window((0, 0), window=display_frame, anchor="nw")
 
         if nbrBooking == 0:
-            noBooking = tk.Label(scroll_canva, text="No previous flights booked", font=('Helvetica', 11, 'bold'))
+            noBooking = tk.Label(scroll_canva, text="No previous flights booked", font=('Helvetica', 11, 'bold'),bg=initialization.bg_color)
             noBooking.place(x=345, y=75)
         else:
             request = "SELECT BookingID FROM booking WHERE CustomerID = '" + str(self.CustomerID) + "';"
@@ -153,7 +153,7 @@ class customer():
                 booking.pastBookingShow(pastFlights, output[i][0], i, image, scroll_canva)
             
         if self.Type == 1:
-            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
             returnAdmin.place(x=700, y=200)
             returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
 
@@ -183,7 +183,7 @@ class customer():
 
 
     def createFlights(self, canvas, image):
-        TitleRight = tk.Label(text="Create Flights", font=('Helvetica', 20, 'bold'))
+        TitleRight = tk.Label(text="Create Flights", font=('Helvetica', 20, 'bold'),bg=initialization.bg_color)
         TitleRight.place(x=990, y=205)
 
         x0 = 652
@@ -193,11 +193,11 @@ class customer():
         scroll_canva.place(x=652, y=275, width=869, height=525)
 
         if self.Type == 1:
-            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
             returnAdmin.place(x=700, y=200)
             returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
 
-        departureCity = tk.Label(scroll_canva, text="Departure City :", font=('Helvetica', 10, 'bold'))
+        departureCity = tk.Label(scroll_canva, text="Departure City :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         departureCity.place(x=725-x0, y=300-y0)
 
         DepartureCity_frame = tk.Frame(scroll_canva)
@@ -206,7 +206,7 @@ class customer():
         DepartureCity = tk.Entry(DepartureCity_frame, fg="black", bg="white", width=50)
         DepartureCity.pack(ipady=5)
 
-        arrivalCity = tk.Label(scroll_canva, text="Arrival City :", font=('Helvetica', 10, 'bold'))
+        arrivalCity = tk.Label(scroll_canva, text="Arrival City :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         arrivalCity.place(x=1150-x0, y=300-y0)
 
         ArrivalCity_frame = tk.Frame(scroll_canva)
@@ -215,7 +215,7 @@ class customer():
         ArrivalCity = tk.Entry(ArrivalCity_frame, fg="black", bg="white", width=50)
         ArrivalCity.pack(ipady=5)
 
-        departureDay = tk.Label(scroll_canva, text="Departure Day :", font=('Helvetica', 10, 'bold'))
+        departureDay = tk.Label(scroll_canva, text="Departure Day :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         departureDay.place(x=725-x0, y=370-y0)
 
         DepartureDay_frame = tk.Frame(scroll_canva)
@@ -225,7 +225,7 @@ class customer():
                                  font=('Helvetica', 10, 'bold'))
         DepartureDay.pack(ipady=5)
 
-        departureHours = tk.Label(scroll_canva, text="Hours :", font=('Helvetica', 10, 'bold'))
+        departureHours = tk.Label(scroll_canva, text="Hours :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         departureHours.place(x=880-x0, y=370-y0)
 
         DepartureHours_frame = tk.Frame(scroll_canva)
@@ -236,7 +236,7 @@ class customer():
         "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"), state="readonly")
         DepartureHours.pack(ipady=5)
 
-        departureMin = tk.Label(scroll_canva, text="Minutes :", font=('Helvetica', 10, 'bold'))
+        departureMin = tk.Label(scroll_canva, text="Minutes :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         departureMin.place(x=958-x0, y=370-y0)
 
         DepartureMin_frame = tk.Frame(scroll_canva)
@@ -249,7 +249,7 @@ class customer():
         "54", "55", "56", "57", "58", "59"), state="readonly")
         DepartureMin.pack(ipady=5)
 
-        arrivalDay = tk.Label(scroll_canva, text="Arrival Day :", font=('Helvetica', 10, 'bold'))
+        arrivalDay = tk.Label(scroll_canva, text="Arrival Day :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         arrivalDay.place(x=1150-x0, y=370-y0)
 
         ArrivalDay_frame = tk.Frame(scroll_canva)
@@ -259,7 +259,7 @@ class customer():
                                font=('Helvetica', 10, 'bold'))
         ArrivalDay.pack(ipady=5)
 
-        arrivalHours = tk.Label(scroll_canva, text="Hours :", font=('Helvetica', 10, 'bold'))
+        arrivalHours = tk.Label(scroll_canva, text="Hours :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         arrivalHours.place(x=1305-x0, y=370-y0)
 
         ArrivalHours_frame = tk.Frame(scroll_canva)
@@ -270,7 +270,7 @@ class customer():
         "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"), state="readonly")
         ArrivalHours.pack(ipady=5)
 
-        arrivalMin = tk.Label(scroll_canva, text="Minutes :", font=('Helvetica', 10, 'bold'))
+        arrivalMin = tk.Label(scroll_canva, text="Minutes :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         arrivalMin.place(x=1383-x0, y=370-y0)
 
         ArrivalMin_frame = tk.Frame(scroll_canva)
@@ -283,7 +283,7 @@ class customer():
         "54", "55", "56", "57", "58", "59"), state="readonly")
         ArrivalMin.pack(ipady=5)
 
-        ticketPrice = tk.Label(scroll_canva, text="Ticket Price :", font=('Helvetica', 10, 'bold'))
+        ticketPrice = tk.Label(scroll_canva, text="Ticket Price :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         ticketPrice.place(x=725-x0, y=450-y0)
 
         TicketPrice_frame = tk.Frame(scroll_canva)
@@ -292,7 +292,7 @@ class customer():
         TicketPrice = tk.Entry(TicketPrice_frame, fg="black", bg="white", width=50)
         TicketPrice.pack(ipady=5)
 
-        seatsAvailable = tk.Label(scroll_canva, text="Seats Available :", font=('Helvetica', 10, 'bold'))
+        seatsAvailable = tk.Label(scroll_canva, text="Seats Available :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         seatsAvailable.place(x=1150-x0, y=450-y0)
 
         SeatsAvailable_frame = tk.Frame(scroll_canva)
@@ -314,7 +314,7 @@ class customer():
 
         Submit.place(x=1060-x0, y=550-y0)
 
-        verify = tk.Label(scroll_canva, text = "",font = ('Helvetica' , 10, 'bold'))
+        verify = tk.Label(scroll_canva, text = "",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
         verify.place(x=1130-x0, y=552-y0)
     
 
@@ -465,7 +465,7 @@ class customer():
         TitleRight.place(x=1000, y=200)
 
         if self.Type == 1:
-            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnAdmin = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
             returnAdmin.place(x=700, y=200)
             returnAdmin.bind("<Button-1>", lambda event=None:customer.returnAdmin(self, canvas, image, scroll_canva, TitleRight, returnAdmin))
 
@@ -705,22 +705,22 @@ class customer():
         canvas.tag_bind("image", "<Button-1>", lambda event, tag="image": customer.modifPhoto(self, tag))
 
 
-        Title = tk.Label(text="Account", font=('Helvetica', 30, 'bold'))
+        Title = tk.Label(text="Account", font=('Helvetica', 30, 'bold'),bg=initialization.bg_color)
         Title.place(x=700, y=y0 - 25)
 
         if initialization.lastPage == "page_accueil":
-            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
             returnTo.place(x=50, y=100)
             returnTo.bind("<Button-1>", lambda event=None:page_accueil.CuicuiAirlinesApp.welcome_page(initialization.cuicui))
         elif initialization.lastPage == "choice_person":
-            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'))
+            returnTo = tk.Label(text="<",font = ('Helvetica' , 22, 'bold'),bg=initialization.bg_color)
             returnTo.place(x=50, y=100)
             returnTo.bind("<Button-1>", lambda event=None:choice_person.flight.debut(initialization.FlightID))
 
-        TitleLeft = tk.Label(text="General informations", font=('Helvetica', 20, 'bold'))
+        TitleLeft = tk.Label(text="General informations", font=('Helvetica', 20, 'bold'),bg=initialization.bg_color)
         TitleLeft.place(x=170, y=y0 + 320)
 
-        firstname = tk.Label(text=self.FirstName, font=('Helvetica', 12, 'bold'))
+        firstname = tk.Label(text=self.FirstName, font=('Helvetica', 12, 'bold'),bg=initialization.bg_color)
         firstname.place(x=170, y=y0 + 410)
 
         imageModifFirstName = Image.open("./photos/customer/modif.png")
@@ -729,7 +729,7 @@ class customer():
         canvas.create_image(500, y0 + 413, anchor=tk.NW, image=imageModifFirstName, tags="imageModifFirstName")
         canvas.tag_bind("imageModifFirstName", "<Button-1>", lambda event, tag="FirstName": customer.modifProfil(self, tag))
 
-        name = tk.Label(text=self.LastName, font=('Helvetica', 12, 'bold'))
+        name = tk.Label(text=self.LastName, font=('Helvetica', 12, 'bold'),bg=initialization.bg_color)
         name.place(x=170, y=y0 + 450)
 
         imageModifName = Image.open("./photos/customer/modif.png")
@@ -738,10 +738,10 @@ class customer():
         canvas.create_image(500, y0 + 453, anchor=tk.NW, image=imageModifName, tags="imageModifName")
         canvas.tag_bind("imageModifName", "<Button-1>", lambda event, tag="Name": customer.modifProfil(self, tag))
 
-        BirthDate = tk.Label(text="Date of birth :", font=('Helvetica', 10, 'bold'))
+        BirthDate = tk.Label(text="Date of birth :", font=('Helvetica', 10, 'bold'),bg=initialization.bg_color)
         BirthDate.place(x=170, y=y0 + 491)
 
-        birthDate = tk.Label(text=self.BirthDate, font=('Helvetica', 12, 'bold'))
+        birthDate = tk.Label(text=self.BirthDate, font=('Helvetica', 12, 'bold'),bg=initialization.bg_color)
         birthDate.place(x=265, y=y0 + 490)
     
         imageModifBirth = Image.open("./photos/customer/modif.png")
@@ -750,7 +750,7 @@ class customer():
         canvas.create_image(500, y0 + 493, anchor=tk.NW, image=imageModifBirth, tags="imageModifBirth")
         canvas.tag_bind("imageModifBirth", "<Button-1>", lambda event, tag="Birth": customer.modifProfil(self, tag))
 
-        email = tk.Label(text=self.Email, font=('Helvetica', 12, 'bold'))
+        email = tk.Label(text=self.Email, font=('Helvetica', 12, 'bold'),bg=initialization.bg_color)
         email.place(x=170, y=y0 + 530)
 
         imageModifEmail = Image.open("./photos/customer/modif.png")
