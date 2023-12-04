@@ -21,7 +21,7 @@ def displayFlight(flight, canvas):
 
 def process_payment(main_window, passenger_list, flight):
     effacer.effacer_page()
-    canvas = tk.Canvas(initialization.cuicui, width=1600, height=1000)
+    canvas = tk.Canvas(initialization.cuicui, width=1600, height=1000,background=initialization.bg_color)
     canvas.place(x=0, y=0)
     canvas.create_line(0, 0, 1920, 0, width=150, fill="black")
 
@@ -56,28 +56,28 @@ def process_payment(main_window, passenger_list, flight):
     canvas.create_rectangle(100, 380, 500, 500 + len(passenger_list)*75)
 
     # Affichage du prix total en dessous du résumé des passagers
-    total_price_label = tk.Label(canvas, text=f"Total Price: {total_price}€", font=("Helvetica", 15, "bold"),bg=initialization.bg_color)
+    total_price_label = tk.Label(canvas, text=f"Total Price: {total_price}€", font=("Helvetica", 15, "bold"),background=initialization.bg_color)
     total_price_label.place(x=150, y=450 + (i + 1) * 30 + 20)
 
-    payment_label = tk.Label(text="Payment Information", font=("Helvetica", 25, "bold"),bg=initialization.bg_color)
+    payment_label = tk.Label(text="Payment Information", font=("Helvetica", 25, "bold"),background=initialization.bg_color)
     payment_label.place(x=600, y=175)
 
-    card_label = tk.Label(canvas, text="Card Number", font=("Helvetica", 11, "bold"),bg=initialization.bg_color)
+    card_label = tk.Label(canvas, text="Card Number", font=("Helvetica", 11, "bold"),background=initialization.bg_color)
     card_label.place(x=710, y=225)
     card_entry = tk.Entry(canvas, show="*")
     card_entry.place(x=700, y=250)
 
-    expiry_label = tk.Label(canvas, text="Expiration Date (MM/YY)", font=("Helvetica", 11, "bold"),bg=initialization.bg_color)
+    expiry_label = tk.Label(canvas, text="Expiration Date (MM/YY)", font=("Helvetica", 11, "bold"),background=initialization.bg_color)
     expiry_label.place(x=675, y=275)
     expiry_entry = tk.Entry(canvas)
     expiry_entry.place(x=700, y=300)
 
-    cvv_label = tk.Label(canvas, text="CVV", font=("Helvetica", 11, "bold"),bg=initialization.bg_color)
+    cvv_label = tk.Label(canvas, text="CVV", font=("Helvetica", 11, "bold"),background=initialization.bg_color)
     cvv_label.place(x=740, y=325)
     cvv_entry = tk.Entry(canvas, show="*")
     cvv_entry.place(x=700, y=350)
 
-    pay_button = tk.Button(canvas, text="Pay", font=("Helvetica", 12, "bold"),
+    pay_button = tk.Button(canvas, text="Pay", font=("Helvetica", 12, "bold"),background=initialization.bg_color,
                            command=lambda: validate_payment(card_entry.get(), expiry_entry.get(), cvv_entry.get(), canvas, flight, len(passenger_list), total_price),bg=initialization.bg_color)
     pay_button.place(x=735, y=400)
 

@@ -105,7 +105,7 @@ class flight():
         modiPassenger_canva,
         text="Valid",
         background=initialization.bg_color,
-        fg="white",
+        fg="black",
         font=('Helvetica', 10, 'bold'),
         command=lambda: flight.modifPassenger2(self, canvas, scroll_canva, number, passagers, imageModif, modiPassenger_canva, tag, member_type_combobox.get(), ticket_type_combobox.get()))
         valid.place(x=275, y=110)
@@ -161,7 +161,7 @@ class flight():
             canvas,
             text="Valid",
             bg=initialization.bg_color,
-            fg="white",
+            fg="black",
             font=('Helvetica', 10, 'bold'),
             command=lambda: flight.validationPassenger(self, passagers, verify))
         valid.place(x=1135, y=785)
@@ -222,7 +222,7 @@ class flight():
         valid = tk.Button(
             text="OK",
             bg=initialization.bg_color,
-            fg="white",
+            fg="black",
             font=('Helvetica', 10, 'bold'),
             command=lambda: flight.selectPassengerDetails(self, canvas, spinbox.get(), imageModif))
         valid.place(x=450, y=500)
