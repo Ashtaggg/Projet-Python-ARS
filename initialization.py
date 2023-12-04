@@ -24,7 +24,7 @@ cuicui.rowconfigure(4, weight=1)
 member = customer.customer(0, 0, 0, 0, 0, 0, 0, 0)
 login = 0
 lastPage = ""
-bg_color = ("#9B9B9B")
+bg_color = ("white")
 #"#9B9B9B"
 #f0f0f0
 FlightID = 0

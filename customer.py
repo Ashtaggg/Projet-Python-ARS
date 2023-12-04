@@ -337,6 +337,7 @@ class customer():
             verify.config(text="")
             request = "UPDATE `flight` SET `DepartureCity` = '" + str(DepartureCity) + "', `ArrivalCity` = '" + str(ArrivalCity) + "', `DepartureTime` = '" + str(DepartureTime) + "', `ArrivalTime` = '" + str(ArrivalTime) + "', `TicketPrice` = '" + str(TicketPrice) + "', `SeatsAvailable` = '" + str(SeatsAvailable) + "' WHERE `FlightID` = '" + str(FlightID) + "';"
             query.requestDataBase(request)
+            customer.customer_page(self)
 
 
 
@@ -453,7 +454,7 @@ class customer():
         verifyButton.place(x=1100, y=700)
 
 
-        verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'),bg=initialization.bg_color)
+        verify = tk.Label(text = "",font = ('Helvetica' , 10, 'bold'))
         verify.place(x=1140, y=702)
 
         
